@@ -1,0 +1,119 @@
+
+***** CZ (LKAA) Airspace file **********
+***** Effective 20APR22 ****************
+***** (c) 2022 Jan Zahradka ************
+
+
+
+*This file contains all CZ SUA Dangerous Areas LKD
+* This file contains OAD (open AIS Database) data
+
+
+***********************************
+***** LKAA D (Dangerous Areas) ******
+***********************************
+
+
+*Setting colour and line of Danger (Q) airspace
+AC Q
+SP 0,2,127,0,127
+SB -1,-1,-1
+
+
+AC Q
+AN LKD1 KRALICE NAD OSLAVOU
+AH 1000 AGL
+AL 0 AGL
+V X=49:13:08 N 016:12:51 E
+DC 0.8 *NM
+
+
+AC Q
+AN LKD2 KOURIM
+AH 1000 AGL
+AL 0 AGL
+V X=50:01:01 N 014:55:55 E
+DC 0.8 *NM
+
+
+AC Q
+AN LKD3 BRECLAV
+AH 1000 AGL
+AL 0 AGL
+V X=48:46:51 N 016:56:13 E
+DC 0.8 *NM
+
+
+AC Q
+AN LKD4 SATALICE
+AH 1000 AGL
+AL 0 AGL
+V X=50:07:13 N 014:34:05 E
+DC 0.3 *NM
+
+
+AC Q
+AN LKD5 VESELI NAD LUZNICI
+AH 1000 AGL
+AL 0 AGL
+V X=49:12:35 N 014:40:57 E
+DC 0.8 *NM
+
+
+AC Q
+AN LKD6 DOLNI BOJANOVICE
+AH 1000 AGL
+AL 0 AGL
+V X=48:52:16 N 017:01:46 E
+DC 0.8 *NM
+
+
+AC Q
+AN LKD7 STRAZISTE
+AH FL 95
+AL 0 AGL
+V X=50:36:33 N 014:50:34 E
+DC 1.35 *NM
+
+
+AC Q
+AN LKD9 BRDA
+AH FL 95
+AL 0 AGL
+V X=49:44:58 N 013:54:43 E
+DC 1.5 *NM
+
+
+AC Q
+AN LKD10 DOLNI DUNAJOVICE
+AH 1000 AGL
+AL 0 AGL
+DP 48:54:07 N 16:36:44 E
+DP 48:50:20 N 16:33:18 E
+DP 48:49:24 N 16:35:39 E
+DP 48:53:11 N 16:39:05 E
+DP 48:54:07 N 16:36:44 E
+
+
+AC Q
+AN LKD11 CHLUM 126.10 118.65
+AH FL 95
+AL 0 AGL
+V X=48:52:38 N 014:04:18 E
+DC 7.0 *NM
+
+
+AC Q
+AN LKD13 MILOVANY 136.175 119.375
+AH FL 95
+AL 0 AGL
+V X=49:40:23 N 017:36:05 E
+DC 7.0 *NM
+
+
+AC Q
+AN LKD14 LESNA 126.10 118.65
+AH FL 95
+AL 0 AGL
+V X=50:18:18 N 013:08:25 E
+DC 7.0 *NM

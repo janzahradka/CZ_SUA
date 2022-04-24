@@ -1,0 +1,110 @@
+
+***** CZ (LKAA) Airspace file **********
+***** Effective 20APR22 ****************
+***** (c) 2022 Jan Zahradka ************
+
+
+
+*This file contains all CZ SUA Prohibited Areas (LKP)
+* This file contains OAD (open AIS Database) data
+
+
+**********************************
+***** LKAA P (Prohibited Areas) *****
+**********************************
+
+
+*Setting colour and line of P airspace
+AC P
+SP 0,2,255,0,0
+SB -1,-1,-1
+
+
+AC P
+AN LKP1 PRAZSKY HRAD
+AH 5000 MSL
+AL 0 AGL
+V X=50:05:27 N 014:24:02 E
+DC 0.6 *NM
+
+
+AC P
+AN LKP2 TEMELIN
+AH 5000 MSL
+AL 0 AGL
+V X=49:10:49 N 014:22:32 E
+DC 1.1 *NM
+
+
+AC P
+AN LKP4 VLASIM
+AH 5000 MSL
+AL 0 AGL
+DP 49:42:24 N 14:53:57 E
+DP 49:40:53 N 14:57:58 E
+DP 49:39:41 N 14:55:55 E
+DP 49:42:24 N 14:53:57 E
+
+
+AC P
+AN LKP5 PRCICE
+AH 5000 MSL
+AL 0 AGL
+V X=49:35:34 N 014:31:24 E
+DC 1.5 *NM
+
+
+AC P
+AN LKP6 SEMTIN
+AH 3000 MSL
+AL 0 AGL
+V X=50:04:05 N 015:42:42 E
+DC 1.15 *NM
+
+
+AC P
+AN LKP7 POLICKA
+AH 5000 MSL
+AL 0 AGL
+V X=49:40:46 N 016:16:40 E
+DC 0.8 *NM
+
+
+AC P
+AN LKP8 MOST
+AH 4000 MSL
+AL 0 AGL
+V X=50:33:48 N 013:36:12 E
+DC 1.35 *NM
+
+
+AC P
+AN LKP9 DUKOVANY
+AH 5000 MSL
+AL 0 AGL
+V X=49:05:09 N 016:08:45 E
+DC 1.1 *NM
+
+
+AC P
+AN LKP10 USTI NAD LABEM
+AH 4000 MSL
+AL 0 AGL
+V X=50:39:23 N 014:01:13 E
+DC 0.5 *NM
+
+
+AC P
+AN LKP11 NERATOVICE
+AH 2000 MSL
+AL 0 AGL
+V X=50:16:30 N 014:31:10 E
+DC 0.8 *NM
+
+
+AC P
+AN LKP12 REZ
+AH 2000 MSL
+AL 0 AGL
+V X=50:10:45 N 014:21:49 E
+DC 0.8 *NM
