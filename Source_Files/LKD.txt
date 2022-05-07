@@ -1,12 +1,11 @@
 
 ***** CZ (LKAA) Airspace file **********
-***** Effective 20APR22 ****************
+***** Effective 19MAY22 ****************
 ***** (c) 2022 Jan Zahradka ************
 
 
 
 *This file contains all CZ SUA Dangerous Areas LKD
-* This file contains OAD (open AIS Database) data
 
 
 ***********************************
@@ -74,6 +73,14 @@ AH FL 95
 AL 0 AGL
 V X=50:36:33 N 014:50:34 E
 DC 1.35 *NM
+
+
+AC Q
+AN LKD8 OTVICE
+AH 500 AGL
+AL 0 AGL
+V X=50:29:19 N 013:27:49 E
+DC 0.1 *NM
 
 
 AC Q
