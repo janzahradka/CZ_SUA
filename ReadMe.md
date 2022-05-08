@@ -1,11 +1,14 @@
 
 ***** CZ (LKAA) Airspace file **********
-***** Effective 20APR22 ****************
+***** Effective 19MAY22 ****************
 ***** (c) 2022 Jan Zahradka ************
 
 
 
 ***** Changes History *****
+* AIRAC 4/22 19MAY22 : LKD.txt added LKD8 OTVICE
+* AIRAC 4/22 19MAY22 : LKTRAGA.txt added: Kolin, Chrudim, Podhorany, Vysoke Myto, Zbraslavice
+* 24APR22: Reduced frequencies in LKTRA.txt. Only Praha Information remained
 * 20APR22: AF and AG tags added
 * 20APR22: LKFIR SECTOR removed from export
 * 20APR22: changed type of TSA from P to R
