@@ -2,11 +2,11 @@
 ***** CZ (LKAA) Airspace file **********
 ***** EFFECTIVE 19MAY22 ****************
 ***** (c) 2022 Jan Zahradka ************
+***** Last update 10MAY22 **************
 
 
+*This file contains CZ Terminal Areas (TMA) below FL95 with modified MTMA Caslav
 
-*This file contains all CZ Terminal Areas (TMA) below FL95
-* This file contains OAD (open AIS Database) data
 
 
 ******************************
@@ -671,6 +671,18 @@ V X=50:05:45 N 014:15:56 E *OKL
 V D=-
 DB 49:55:04 N 014:56:04 E, 49:57:12 N 014:57:16 E
 DP 49:44:21 N 015:27:22 E
+
+
+AC D
+AN MTMA Caslav Vychod
+AF 130.280
+AG Caslav APP / Radar
+AH FL95
+AL 0 AGL
+DP 49:41:40 N 015:27:36 E   * L point
+DP 49:42:58 N 015:30:37 E   * M point
+DP 49:46:09 N 015:50:59 E   * east point
+DP 49:36:33 N 015:39:26 E   * south point
 
 
 AC D
