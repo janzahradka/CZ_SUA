@@ -1,0 +1,14 @@
+
+***** CZ (PPV) Airspace file ***********
+***** Effective 22JUL22 ****************
+***** (c) 2022 Jan Zahradka ************
+***** Last update 01JUL22 **************
+
+
+AC O
+AN TEST ENGINE
+AF 128.905
+AH FL95
+AL GND
+V X=49:36:32 N 015:32:35 E
+DC 3 *NM
