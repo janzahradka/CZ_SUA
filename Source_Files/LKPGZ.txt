@@ -1,6 +1,6 @@
 
 ***** CZ (LKAA) Airspace file **********
-***** EFFECTIVE 19MAY22 ****************
+***** EFFECTIVE 14JUL22 ****************
 ***** (c) 2022 Jan Zahradka ************
 
 *This file contains all CZ SUA Paragliding Zones

@@ -1,11 +1,15 @@
 
 ***** CZ (LKAA) Airspace file **********
-***** Effective 19MAY22 ****************
+***** EFFECTIVE 14JUL22 ****************
 ***** (c) 2022 Jan Zahradka ************
+***** Last update 08JUL22 **************
 
 
 
 ***** Changes History *****
+
+* AIRAC 6/22 14JUL22 : new areas TRA GA LETNANY 1E and TRA GA SLANY (3, 4A, 4B, 5A, 5B, 6)
+* AIRAC 6/22 14JUL22 : correction of TRA GA KOLIN 2B lower limit
 * AIRAC 4/22 19MAY22 : LKD.txt added LKD8 OTVICE
 * AIRAC 4/22 19MAY22 : LKTRAGA.txt added: Kolin, Chrudim, Podhorany, Vysoke Myto, Zbraslavice
 * 24APR22: Reduced frequencies in LKTRA.txt. Only Praha Information remained
