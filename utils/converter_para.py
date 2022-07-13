@@ -1,9 +1,9 @@
 from unidecode import unidecode
 
-in_text = """Příbram RADIO
-118,755
+in_text = """Erpužice RADIO
+123,490
 
-ARP: 49° 43' 12" N, 14° 06' 01" E
+ARP: 49° 48' 10" N, 13° 02' 17" E
 """
 
 i = 0

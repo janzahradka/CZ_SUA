@@ -7,7 +7,7 @@
 
 
 ***** Changes History *****
-
+* 13JUL22 : added Erpuzice DROPZONE
 * AIRAC 6/22 14JUL22 : new areas TRA GA LETNANY 1E and TRA GA SLANY (3, 4A, 4B, 5A, 5B, 6)
 * AIRAC 6/22 14JUL22 : correction of TRA GA KOLIN 2B lower limit
 * AIRAC 4/22 19MAY22 : LKD.txt added LKD8 OTVICE
