@@ -11,7 +11,7 @@ output = "\n\n"
 for line in in_text.splitlines():
     if i == 0:
         output += "AC Q\n"
-        output += "AN PARA " + unidecode(line) + "\n"
+        output += "AN DROPZONE " + unidecode(line) + "\n"
     elif i == 1:
         output += "AF " + line.replace(",", ".") + "\n"
     elif i == 3:
