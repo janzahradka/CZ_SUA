@@ -1,12 +1,13 @@
 
 ***** CZ (LKAA) Airspace file **********
-***** EFFECTIVE 14JUL22 ****************
+***** EFFECTIVE 06OCT22 ****************
 ***** (c) 2022 Jan Zahradka ************
-***** Last update 08JUL22 **************
+***** Last update 04OCT22 **************
 
 
 
 ***** Changes History *****
+* 04OCT22 AIRAC 9/22 added TRA GA CHOTEBOR 1, 2;
 * 13JUL22 : added Erpuzice DROPZONE
 * AIRAC 6/22 14JUL22 : new areas TRA GA LETNANY 1E and TRA GA SLANY (3, 4A, 4B, 5A, 5B, 6)
 * AIRAC 6/22 14JUL22 : correction of TRA GA KOLIN 2B lower limit
