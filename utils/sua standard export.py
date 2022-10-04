@@ -51,20 +51,21 @@ cz_low_ce = [
 ]
 
 
-def export(effective, label, filenames):
-    with open(f'../Export/{effective}/{label}{effective}.txt', 'w') as outfile:
+def export(effective, label, filenames, path):
+    with open(f'{path}/{label}{effective}.txt', 'w') as outfile:
         for fname in filenames:
             with open("../Source_Files/"+fname, encoding='utf-8') as infile:
                 for line in infile:
                     outfile.write(line)
 
 
-effective_date = '2022-10-06'
-export_path = f'../Export/{effective_date}/'
+effective_date = '22-10-06'
+export_path = f'../Export/CZ_SUA_{effective_date}/'
 
-shutil.rmtree(export_path)
+if os.path.exists(export_path):
+    shutil.rmtree(export_path)
 os.mkdir(export_path)
-export(effective_date, label_cz_all, cz_all)
-export(effective_date, label_cz_low, cz_low)
-export(effective_date, label_cz_low_ce, cz_low_ce)
+export(effective_date, label_cz_all, cz_all, export_path)
+export(effective_date, label_cz_low, cz_low, export_path)
+export(effective_date, label_cz_low_ce, cz_low_ce, export_path)
 shutil.copy('../ReadMe.md', export_path)
