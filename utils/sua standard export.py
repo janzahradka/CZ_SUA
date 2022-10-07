@@ -60,6 +60,18 @@ def export(effective, label, filenames, path):
 
 
 effective_date = '22-10-06'
+confirmed = False
+while not confirmed:
+    answer = input(f'Effective date "{effective_date}" correct? [Y/N] ').lower()
+    if answer == "y":
+        confirmed = True
+    elif answer == "n":
+        effective_date = input("type effective date [YY-MM-DD] ")
+    else:
+        print("Wrong value - proces terminated by user. Nothing happend.")
+        quit()
+
+
 export_path = f'../Export/CZ_SUA_{effective_date}/'
 
 if os.path.exists(export_path):
