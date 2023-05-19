@@ -58,26 +58,26 @@ def export(effective, label, filenames, path):
                 for line in infile:
                     outfile.write(line)
 
+if __name__ == "__main__":
+    effective_date = '22-10-06'
+    confirmed = False
+    while not confirmed:
+        answer = input(f'Effective date "{effective_date}" correct? [Y/N] ').lower()
+        if answer == "y":
+            confirmed = True
+        elif answer == "n":
+            effective_date = input("type version date [YY-MM-DD] ")
+        else:
+            print("Wrong value - proces terminated by user. Nothing happend.")
+            quit()
 
-effective_date = '22-10-06'
-confirmed = False
-while not confirmed:
-    answer = input(f'Effective date "{effective_date}" correct? [Y/N] ').lower()
-    if answer == "y":
-        confirmed = True
-    elif answer == "n":
-        effective_date = input("type effective date [YY-MM-DD] ")
-    else:
-        print("Wrong value - proces terminated by user. Nothing happend.")
-        quit()
 
+    export_path = f'../Export/CZ_SUA_{effective_date}/'
 
-export_path = f'../Export/CZ_SUA_{effective_date}/'
-
-if os.path.exists(export_path):
-    shutil.rmtree(export_path)
-os.mkdir(export_path)
-export(effective_date, label_cz_all, cz_all, export_path)
-export(effective_date, label_cz_low, cz_low, export_path)
-export(effective_date, label_cz_low_ce, cz_low_ce, export_path)
-shutil.copy('../ReadMe.md', export_path)
+    if os.path.exists(export_path):
+        shutil.rmtree(export_path)
+    os.mkdir(export_path)
+    export(effective_date, label_cz_all, cz_all, export_path)
+    export(effective_date, label_cz_low, cz_low, export_path)
+    export(effective_date, label_cz_low_ce, cz_low_ce, export_path)
+    shutil.copy('../ReadMe.md', export_path)

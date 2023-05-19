@@ -1,0 +1,11 @@
+***** CZ (LKZB) Airspace file **********
+***** (c) 2023 Jan Zahradka ************
+***** Last update 18MAY23 **************
+
+AC O
+AN TEST ENGINE
+AF 126.630
+AH FL95
+AL GND
+V X=49:48:51 N 015:12:06 E
+DC 3 *NM
