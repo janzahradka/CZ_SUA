@@ -1,6 +1,6 @@
 ***** CZ (LKAA) Airspace file **********
-***** EFFECTIVE 06OCT22 ****************
-***** (c) 2022 Jan Zahradka ************
+***** EFFECTIVE 18MAY23 ****************
+***** (c) 2023 Jan Zahradka ************
 
 
 *This file contains all CZ SUA Temporary Segregated Areas LKTSA above FL95.

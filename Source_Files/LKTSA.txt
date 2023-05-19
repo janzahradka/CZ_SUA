@@ -1,7 +1,8 @@
 
 ***** CZ (LKAA) Airspace file **********
-***** EFFECTIVE 06OCT22 ****************
-***** (c) 2022 Jan Zahradka ************
+***** EFFECTIVE 18MAY23 ****************
+***** (c) 2023 Jan Zahradka ************
+***** Last update 18MAY23 **************
 
 
 *This file contains all CZ SUA Temporary Segregated Areas LKTSA in airspace below FL95
@@ -317,6 +318,14 @@ DP 49:32:15 N 15:22:13 E
 DP 49:39:34 N 15:22:44 E
 DP 49:43:14 N 15:31:16 E
 DP 49:46:39 N 15:31:14 E
+
+
+AC R
+AN LKTSA59 BZENEC
+AH 3500 MSL
+AL 0 AGL
+V X= 48:57:20 N 017:16:28 E
+DC 0.3 *NM
 
 
 AC R
