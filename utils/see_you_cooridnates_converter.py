@@ -16,11 +16,11 @@
 #            "493137,00N0162352,00E ",
 #            "493616,00N0162051,00E "]
 
-polygon = ["485720.75N 0171628.95E"]
+polygon = ["492652,00N0170802,00E "]
 
 command = "V X="
 for coor in polygon:
     longitude = f"{coor[0:2]}:{coor[2:4]}:{coor[4:6]} N"
-    lat = coor.rsplit(" ")[1]
+    lat = coor.rsplit("N")[1]
     latitude = f"{lat[0:3]}:{lat[3:5]}:{lat[5:7]} E"
     print(command, longitude, latitude)

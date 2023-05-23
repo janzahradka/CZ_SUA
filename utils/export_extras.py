@@ -26,7 +26,7 @@ file_set = [
     'extra files/AZ cup NOTAMS.txt',
     'extra files/AZ cup Engine Test Area.txt'
 ]
-version = '-v2'
+version = '-v3'
 export_path = f'../Export/{label}{version}/'
 
 if os.path.exists(export_path):
