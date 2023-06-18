@@ -1,10 +1,4 @@
 
-***** CZ (LKAA) Airspace file **********
-***** EFFECTIVE 18MAY23 ****************
-***** (c) 2023 Jan Zahradka ************
-***** Last update 18MAY23 **************
-
-
 *This file contains all CZ SUA Temporary Segregated Areas LKTSA in airspace below FL95
 *Single TSA areas are activated daily by AUP (Airspace Update Plan) report
 * This file contains OAD (open AIS Database) data
