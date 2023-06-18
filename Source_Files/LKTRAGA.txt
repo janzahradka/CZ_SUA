@@ -1,11 +1,4 @@
 
-***** CZ (LKAA) Airspace file **********
-***** EFFECTIVE 18MAY23 ****************
-***** (c) 2023 Jan Zahradka ************
-***** Last update 20SEP22 **************
-
-
-
 *This file contains all CZ SUA Temporary Reserved Areas General Aviation LKTRA GA
 *Individual TRA GA areas are activated daily by ATC on request of GA airfields
 
@@ -811,7 +804,7 @@ DP 50:01:10 N 016:04:51 E
 
 AC GS
 AY GSEC
-AN TRA GA VYSOKE MYTO N 130.605
+AN TRA GA VYSOKE MYTO S 130.605
 AF 130.605
 AG MYTO RADIO
 AH FL 95

@@ -1,7 +1,3 @@
-***** CZ (LKAA) Airspace file **********
-***** EFFECTIVE 18MAY23 ****************
-***** (c) 2023 Jan Zahradka ************
-
 
 *This file contains all CZ Terminal Areas (TMA) above FL95
 * This file contains OAD (open AIS Database) data

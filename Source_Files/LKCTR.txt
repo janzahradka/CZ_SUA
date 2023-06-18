@@ -1,7 +1,4 @@
 
-***** CZ (LKAA) Airspace file **********
-***** EFFECTIVE 18MAY23 ****************
-***** (c) 2023 Jan Zahradka ************
 
 
 *This file contains all CZ Control Zones (CTR) SUA

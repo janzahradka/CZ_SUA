@@ -1,0 +1,4 @@
+
+* This file contains CZ Airspace Files BELOW FL95 valid from effective date
+* It's optimised for Gliding and provides info for avoiding unintentional incidents
+* The usage of this file is free of charge

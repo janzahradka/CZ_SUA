@@ -1,9 +1,4 @@
 
-***** CZ (LKAA) Airspace file **********
-***** EFFECTIVE 18MAY23 ****************
-***** (c) 2023 Jan Zahradka ************
-***** Last update 07MAY22 **************
-
 
 
 *This file contains all CZ SUA Dangerous Areas LKD

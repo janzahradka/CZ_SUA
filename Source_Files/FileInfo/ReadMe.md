@@ -1,13 +1,16 @@
 
 ***** CZ (LKAA) Airspace file **********
-***** EFFECTIVE 18MAY23 ****************
+***** ***** EFFECTIVE 13JUL23 **************** ****************
 ***** (c) 2023 Jan Zahradka ************
-***** Last update 18MAY23 **************
+***** Last update 18JUN23 **************
 
 
 
 ***** Changes History *****
 
+* 18JUN23 AIRAC 5/23 Added Ceske Budejovice zones incl ATZ CKCS, RMZ Ceske Budejovice, TMA Ceske Budejovice
+* 18JUN23 Added regular NOTAMS
+* 18JUN23 Fix in TRA GA Vysoke Myto S name
 * 18MAY23 AIRAC 3/23 added AN LKTSA59 BZENEC;
 * 04OCT22 AIRAC 9/22 added TRA GA CHOTEBOR 1, 2;
 * 13JUL22 : added Erpuzice DROPZONE
@@ -28,13 +31,13 @@
 * AIRAC 2/21 17DEC20: added LKTRA90, LKTRA 91, LKTRA92, changes of MTMA Caslav, MTMA Namest, MTMA Pardubice,
 LKTSA22, LKTRA10, LKTRA17, LKTRA18, LKTRA73,
 LKTRA74, LKTRA78, LKTRA79
-* AIRAC 8/20 16JUL20: TRA GA Touûim 1 / TRAKVTO1, Touûim 1E / TRAKVTO1E, Touûim 1W / TRAKVTO1W, Touûim 2 / TRAKVTO2, Touûim 3 / TRAKVTO3, Touûim 4 / TRAKVTO4, Velk˝ JavornÌk / TRAMTVJ added 
-* AIRAC 6/20 21MAY20: LKTSA60 PÌsek added
+* AIRAC 8/20 16JUL20: TRA GA Tou≈æim 1 / TRAKVTO1, Tou≈æim 1E / TRAKVTO1E, Tou≈æim 1W / TRAKVTO1W, Tou≈æim 2 / TRAKVTO2, Tou≈æim 3 / TRAKVTO3, Tou≈æim 4 / TRAKVTO4, Velk√Ω Javorn√≠k / TRAMTVJ added 
+* AIRAC 6/20 21MAY20: LKTSA60 P√≠sek added
 * AIRAC 4/20: LKP13 Vrbetice cancelled, LKTSA5 Brdy cancelled, new TRAGA Kladno, new LKTSA7 Jince
 * AIRAC 2/20: TRAGA Medlanky
 * AIRAC 1/20: TRAGA Letnany, Bubovice
 * AIRAC 12/19: Introduction of TRAGA airspace class
-* AMDT 361/19: correction of coordinate of an area SECTOR »ECHY EAST; correction of lower limit of TMA I BRNO
+* AMDT 361/19: correction of coordinate of an area SECTOR ƒåECHY EAST; correction of lower limit of TMA I BRNO
 * AIRAC 2/19 28FEB19: ENR - changes of airspace: SECTOR CECHY, SECTOR MORAVA Part N and Part S replaced by SECTOR CECHY WEST, SECTOR CECHY EAST, SECTOR MORAVA; changes of CTR Turany (upper limit), TMA I BRNO, TMA V Brno, CTR Karlovy Vary, TMA I Karlovy Vary, TMA II Karlovy Vary, CTR Mosnov, TMA I Ostrava, TMA II Ostrava, TMA III Ostrava, LKTSA 2 (LKTSA2A,
 B, C); change of remarks for LKTSA1, LKTSA3, LKTSA4, LKTRA37, LKTRA57; new airspaces TMA VIII Brno, TMA III Karlovy Vary, TMA VI Ostrava, TMA VII Ostrava, LKR1, LKR2, LKR3, LKR4, LKD4, LKD11, LKD13, LKD14, LKTRA 74; airspaces LKTRA50 and RMZ Hradec Kralove cancelled; PGZ Matejov renamed to Ujezd; BRNO/Turany (LKTB) - change of airspace; Caslav (LKCV) - change of airspace; Karlovy Vary (LKKV) change of airspace; Kbely (LKKB) - change of airspace; Kunovice (LKKU) - change of airspace; OSTRAVA/Mosnov (LKMT) - change of airspace; Pardubice (LKPD) - change of airspace; PRAHA/Ruzyne (LKPR) - change of airspace; Vodochody (LKVO) - change of airspace*
 * AIRAC 2/18 01FEB18: change of upper vertical limit of LKTSA1 - LKTSA5*

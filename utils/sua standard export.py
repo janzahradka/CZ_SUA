@@ -1,8 +1,10 @@
 import os
 import shutil
 
-label_cz_all = 'CZ_all_'
+label_cz_all = 'CZ_SUA_'
 cz_all = [
+    'FileInfo/all_info.txt',
+    'FileInfo/effective_date.txt',
     'DROPZONES.txt',
     'LKCTR.txt',
     'LKD.txt',
@@ -10,17 +12,21 @@ cz_all = [
     'LKPGZ.txt',
     'LKR.txt',
     'LKR-NP.txt',
+    'LKRMZ.txt',
     'LKTMA.txt',
     'LKTMA above FL95.txt',
     'LKTRA.txt',
     'LKTRA above FL95.txt',
     'LKTRAGA.txt',
     'LKTSA.txt',
-    'LKTSA above FL95.txt'
+    'LKTSA above FL95.txt',
+    'NOTAMS.txt'
 ]
 
 label_cz_low = 'CZ_low_'
 cz_low = [
+    'FileInfo/low_info.txt',
+    'FileInfo/effective_date.txt',
     'DROPZONES.txt',
     'LKCTR.txt',
     'LKD.txt',
@@ -28,27 +34,31 @@ cz_low = [
     'LKPGZ.txt',
     'LKR.txt',
     'LKR-NP.txt',
-    'LKTMA.txt',
-    'LKTRA.txt',
-    'LKTRAGA.txt',
-    'LKTSA.txt'
-]
-
-label_cz_low_ce = 'CZ_low_plus_CE_'
-cz_low_ce = [
-    'DROPZONES.txt',
-    'LKCTR.txt',
-    'LKD.txt',
-    'LKP.txt',
-    'LKPGZ.txt',
-    'LKR.txt',
-    'LKR-NP.txt',
+    'LKRMZ.txt',
     'LKTMA.txt',
     'LKTRA.txt',
     'LKTRAGA.txt',
     'LKTSA.txt',
-    'surrounding_AS.txt'
+    'NOTAMS.txt'
 ]
+#
+# label_cz_low_ce = 'CZ_low_plus_CE_'
+# cz_low_ce = [
+#     'DROPZONES.txt',
+#     'LKCTR.txt',
+#     'LKD.txt',
+#     'LKP.txt',
+#     'LKPGZ.txt',
+#     'LKRMZ.txt',
+#     'LKR.txt',
+#     'LKR-NP.txt',
+#     'LKTMA.txt',
+#     'LKTRA.txt',
+#     'LKTRAGA.txt',
+#     'LKTSA.txt',
+#     'NOTAMS.txt',
+#     'surrounding_AS.txt'
+# ]
 
 
 def export(effective, label, filenames, path):
@@ -59,7 +69,7 @@ def export(effective, label, filenames, path):
                     outfile.write(line)
 
 if __name__ == "__main__":
-    effective_date = '23-05-18'
+    effective_date = '23-07-13'
     confirmed = False
     while not confirmed:
         answer = input(f'Effective date "{effective_date}" correct? [Y/N] ').lower()
@@ -79,5 +89,5 @@ if __name__ == "__main__":
     os.mkdir(export_path)
     export(effective_date, label_cz_all, cz_all, export_path)
     export(effective_date, label_cz_low, cz_low, export_path)
-    export(effective_date, label_cz_low_ce, cz_low_ce, export_path)
-    shutil.copy('../ReadMe.md', export_path)
+    # export(effective_date, label_cz_low_ce, cz_low_ce, export_path)
+    shutil.copy('../Source_Files/FileInfo/ReadMe.md', export_path)

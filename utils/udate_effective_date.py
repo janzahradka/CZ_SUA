@@ -8,7 +8,7 @@ def update_effective_date(ef_date):
     directory = os.listdir(directory_path)
     os.chdir(directory_path)
     for file in directory:
-        if file.endswith("ROPZONES.txt"):
+        if file.endswith(".txt"):
             with open(file, 'r') as open_file:
                 read_file = open_file.read()
                 # txt.replace("\r", "")

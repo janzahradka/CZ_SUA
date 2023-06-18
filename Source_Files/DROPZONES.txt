@@ -1,10 +1,4 @@
 
-***** CZ (LKAA) Airspace file **********
-***** EFFECTIVE 18MAY23 ****************
-***** (c) 2023 Jan Zahradka ************
-***** Last update 13JUL22 **************
-
-
 * This file contains all CZ DROPZONE airfields
 
 

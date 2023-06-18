@@ -23,7 +23,7 @@ file_set = [
     'extra files/AZ cup LKTRAGA.txt',
     'LKTSA.txt',
     'surrounding_AS.txt',
-    'extra files/AZ cup NOTAMS.txt',
+    'extra files/AZCUPNOTAMS2023.txt',
     'extra files/AZ cup Engine Test Area.txt'
 ]
 version = '-v3'
