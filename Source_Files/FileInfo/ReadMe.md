@@ -1,14 +1,14 @@
 
 ***** CZ (LKAA) Airspace file **********
-***** ***** EFFECTIVE 13JUL23 **************** ****************
+***** EFFECTIVE 13JUL23 ****************
 ***** (c) 2023 Jan Zahradka ************
 ***** Last update 18JUN23 **************
 
-
+s
 
 ***** Changes History *****
 
-* 18JUN23 AIRAC 5/23 Added Ceske Budejovice zones incl ATZ CKCS, RMZ Ceske Budejovice, TMA Ceske Budejovice
+* 18JUN23 AIRAC 5/23 Added Ceske Budejovice zones incl ATZ LKCS, RMZ Ceske Budejovice, TMA Ceske Budejovice
 * 18JUN23 Added regular NOTAMS
 * 18JUN23 Fix in TRA GA Vysoke Myto S name
 * 18MAY23 AIRAC 3/23 added AN LKTSA59 BZENEC;

@@ -1,6 +1,6 @@
 
 ***** CZ (LKAA) Airspace file **********
-***** ***** EFFECTIVE 13JUL23 **************** ****************
+***** EFFECTIVE 13JUL23 ****************
 ***** (c) 2023 Jan Zahradka ************
 ***** Last update 18JUN23 **************
 
