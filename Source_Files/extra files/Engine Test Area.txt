@@ -1,0 +1,12 @@
+***** CZ (LKHS) Airspace file **********
+***** (c) 2023 Jan Zahradka ************
+***** Last update 18MAY23 **************
+
+
+AC O
+AN TEST ENGINE
+AF 130.205
+AH FL 95
+AL 0 AGL
+V X=49:02:24 N 014:29:42 E
+DC 3 *NM

@@ -24,7 +24,7 @@ file_set = [
     'LKTSA.txt',
     'surrounding_AS.txt',
     'extra files/AZCUPNOTAMS2023.txt',
-    'extra files/AZ cup Engine Test Area.txt'
+    'extra files/Engine Test Area.txt'
 ]
 version = '-v3'
 export_path = f'../Export/{label}{version}/'

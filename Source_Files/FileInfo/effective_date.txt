@@ -1,5 +1,5 @@
-***** CZ (LKAA) Airspace file *****
+**** PMRG 2023 files SUA File *****
 ****** (c) 2023 Jan Zahradka ******
-******* Last update 18JUN23 *******
-******** EFFECTIVE 13JUL23 ********
+******* Last update 27JUN23 *******
+******** EFFECTIVE 27JUN23 ********
 
