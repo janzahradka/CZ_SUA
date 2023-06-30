@@ -1,0 +1,5 @@
+* File for PPV2023
+*
+***** CZ (LKAA) Airspace file *****
+****** (c) 2023 Jan Zahradka ******
+****** jan.zahradka@aecr.cz  ******

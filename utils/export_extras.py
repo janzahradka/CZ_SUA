@@ -9,8 +9,10 @@ def export(version, label, filenames, path):
                     outfile.write(line)
 
 
-label = 'AZCUP2023'
+label = 'PPV2023'
 file_set = [
+    'FileInfo/copyright.txt',
+    'FileInfo/effective_date.txt',
     'DROPZONES.txt',
     'LKCTR.txt',
     'LKD.txt',
@@ -18,15 +20,16 @@ file_set = [
     'LKPGZ.txt',
     'LKR.txt',
     'LKR-NP.txt',
-    'extra files/AZ cup LKTMA.txt',
+    'extra files/PPV LKTMA.txt',
     'LKTRA.txt',
-    'extra files/AZ cup LKTRAGA.txt',
+    'LKRMZ.txt',
     'LKTSA.txt',
     'surrounding_AS.txt',
     'extra files/AZCUPNOTAMS2023.txt',
-    'extra files/AZ cup Engine Test Area.txt'
+    'extra files/Engine Test Area.txt',
+    'NOTAMS.txt'
 ]
-version = '-v3'
+version = '-v1'
 export_path = f'../Export/{label}{version}/'
 
 if os.path.exists(export_path):
