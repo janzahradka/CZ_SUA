@@ -53,5 +53,6 @@ def convert_to_degrees_minutes_seconds(coord):
     return f"{degrees}° {minutes}' {seconds:.3f}\""
 
 text = "The coordinates are 12.345, -67.890, and also 45° 6' 7.89\" N, 123° 45' 67.890\" W."
+text = "The coordinates are 12.345, -67.890, and also 45° 6' 7.89\" N, 123° 45' 67.890\" W."
 coordinates = extract_coordinates(text, 'degrees_minutes_seconds')
 print(coordinates)

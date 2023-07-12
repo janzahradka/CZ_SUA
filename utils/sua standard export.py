@@ -19,7 +19,8 @@ cz_all = [
     'LKTRA.txt',
     'LKTRA above FL95.txt',
     'LKTRAGA.txt',
-    'LKTSA.txt',
+    'LKTSA all seasons.txt',
+    'LKTSA 01 SEP - 30 JUN.txt',
     'LKTSA above FL95.txt',
     'NOTAMS.txt'
 ]
@@ -40,7 +41,8 @@ cz_low = [
     'MTMA Caslav.txt',
     'LKTRA.txt',
     'LKTRAGA.txt',
-    'LKTSA.txt',
+    'LKTSA all seasons.txt',
+    'LKTSA 01 SEP - 30 JUN.txt',
     'NOTAMS.txt'
 ]
 #
@@ -58,7 +60,8 @@ cz_low = [
 #     'MTMA Caslav.txt',
 #     'LKTRA.txt',
 #     'LKTRAGA.txt',
-#     'LKTSA.txt',
+#     'LKTSA all seasons.txt',
+#     'LKTSA 01 SEP - 30 JUN.txt',
 #     'NOTAMS.txt',
 #     'surrounding_AS.txt'
 # ]

@@ -1,20 +1,4 @@
-***** CZ (LKAA) Airspace file **********
-***** Effective 30MAR17 ****************
-***** (c) 2017 Petr Koutny LKKA CZ *****
-*
-*
-*V tomto souboru jsou uvedeny CZ FIR VFR SECTORy do FL95
-*Neobsahuje sektory IFR
-*This file contains all CZ FIR VFR SECTORs up to FL95
-*Doesn't contain IFR sectors
-*
-*
-**  -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
-***** LKAA FIR SECTOR VFR *****
-**  -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
-**  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-*
-*
+
 *Setting colour and line of E airspace
 AC E
 SP 0,2,127,127,127
@@ -22,11 +6,11 @@ SB -1,-1,-1
 *
 *
 AC E
-AN FIR Praha SECTOR CECHY Part W
+AN FL90 Hranice soutezni oblasti CECHY Part W
 AF 126.100
 AG Praha Information
 AH FL95
-AL GND
+AL FL90
 DP 50:49:25 N 014:47:33 E
 DP 50:13:29 N 014:47:42 E
 DP 50:09:05 N 014:49:44 E
@@ -335,11 +319,11 @@ DP 50:49:25 N 014:47:33 E
 *
 *
 AC E
-AN FIR Praha SECTOR CECHY Part E
+AN FL90 Hranice soutezni oblasti CECHY Part E
 AF 136.175
 AG Praha Information
 AH FL95
-AL GND
+AL FL90
 DP 50:49:25 N 014:47:33 E
 *CZ-DE Border
 DP 50:49:28 N 014:48:11 E
@@ -559,11 +543,11 @@ DP 50:49:25 N 014:47:33 E
 *
 *
 AC E
-AN FIR Praha SECTOR MORAVA Part S
+AN FL90 Hranice soutezni oblasti MORAVA Part S
 AF 127.350
 AG Brno Radar
 AH FL95
-AL GND
+AL FL90
 DP 49:27:30 N 017:29:01 E
 DP 49:23:50 N 017:35:30 E
 DP 49:22:18 N 017:47:02 E
@@ -665,11 +649,11 @@ DP 49:27:30 N 017:29:01 E
 *
 *
 AC E
-AN FIR Praha SECTOR Morava Part N
+AN FL90 Hranice soutezni oblasti Morava Part N
 AF 119.375
 AG Ostrava Radar
 AH FL95
-AL GND
+AL FL90
 DP 50:01:03 N 017:47:14 E
 *CZ-PL Border
 DP 50:01:17 N 017:47:15 E
