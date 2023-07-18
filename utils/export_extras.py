@@ -9,7 +9,7 @@ def export(version, label, filenames, path):
                     outfile.write(line)
 
 
-label = 'SUA_PPV2023'
+label = 'SUA_PMCR23'
 file_set = [
     'DROPZONES.txt',
     'LKCTR.txt',
@@ -25,10 +25,10 @@ file_set = [
     'LKTSA all seasons.txt',
     'surrounding_AS.txt',
     'NOTAMS.txt',
-    'extra files/CZ-FL95 ceil.txt',
+    'extra files/CZ-FL90 ceil.txt',
     'extra files/Engine Test Area.txt'
 ]
-version = '-v2'
+version = '-v1'
 export_path = f'../Export/{label}{version}/'
 
 if os.path.exists(export_path):
