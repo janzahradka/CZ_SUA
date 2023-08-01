@@ -1,7 +1,7 @@
 import re
 
 
-def extract_coordinates(text, output_format='decimal'):
+def extract_coordinates(text, output_format='degrees_minutes_seconds'):
     # Regular expression patterns for different coordinate formats
     patterns = [
         r"(\d+\.\d+),\s*(-?\d+\.\d+)",  # Decimal degrees format: 12.345, -67.890
@@ -52,7 +52,7 @@ def convert_to_degrees_minutes_seconds(coord):
     seconds = ((coord - degrees) * 3600) % 60
     return f"{degrees}° {minutes}' {seconds:.3f}\""
 
-text = "The coordinates are 12.345, -67.890, and also 45° 6' 7.89\" N, 123° 45' 67.890\" W."
-text = "The coordinates are 12.345, -67.890, and also 45° 6' 7.89\" N, 123° 45' 67.890\" W."
+# text = "The coordinates are 12.345, -67.890, and also 45° 6' 7.89\" N, 123° 45' 67.890\" W."
+text = "The coordinates are 49.7689256N, 17.0833339E."
 coordinates = extract_coordinates(text, 'degrees_minutes_seconds')
 print(coordinates)

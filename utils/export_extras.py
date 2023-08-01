@@ -26,9 +26,10 @@ file_set = [
     'surrounding_AS.txt',
     'NOTAMS.txt',
     'extra files/CZ-FL90 ceil.txt',
-    'extra files/Engine Test Area.txt'
+    'extra files/Engine Test Area.txt',
+    'extra files/PMCR2023_NOTAMs.txt'
 ]
-version = '-v1'
+version = '-v2'
 export_path = f'../Export/{label}{version}/'
 
 if os.path.exists(export_path):
