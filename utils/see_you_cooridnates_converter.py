@@ -21,7 +21,7 @@ import re
 
 def extract_coordinates(text):
     # Regular expression pattern for the geocoordinates format
-    pattern = r"\b(\d{6},\d{2}[NS]\d{7},\d{2}[EW])\b"
+    pattern = r"\b(\d{6},\d{2}[NS]\d{7},\d{2}[EW])\b" # 501347,71N0132453,65E (PODBORANY) - PSN 501251,65N0131549,68E (PODBORANSKY ROHOZEC)
 
     coordinates = re.findall(pattern, text)
     return coordinates
