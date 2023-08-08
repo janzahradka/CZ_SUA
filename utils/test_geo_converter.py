@@ -14,6 +14,7 @@ class TestCoordinateConversion(TestCase):
         self.assertAlmostEquals(parse_various_formats('N50°16\'36" E017°51\'56"'), (50.276666666666664, 17.865555555555556))
         self.assertAlmostEqual(parse_various_formats('490246,96N0164248,91E'), (49.04637777777778, 16.71358611111111))
         self.assertAlmostEqual(parse_various_formats('49 02 40,66 N 014 09 25,97 E'), (49.04462777777778, 14.15721388888889))
+        self.assertRaises(ValueError, parse_various_formats, "empty string")
 
     def test_coords_to_dms_format(self):
         self.assertEquals(coords_to_dms_format(50.22991944444445, 13.414902777777778),('50:13:48 N 013:24:54 E'))
@@ -53,7 +54,7 @@ class TestCoordinateConversion(TestCase):
         ]
         for pair in test_pairs:
             self.assertEquals(convert_all_coordinates(pair[0]), pair[1])
-
+            self.assertRaises(ValueError, convert_all_coordinates, "empty string")
 
 if __name__ == '__main__':
     unittest.main()
