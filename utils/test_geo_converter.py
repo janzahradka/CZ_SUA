@@ -17,7 +17,7 @@ class TestCoordinateConversion(TestCase):
         self.assertRaises(ValueError, parse_various_formats, "empty string")
 
     def test_coords_to_dms_format(self):
-        self.assertEquals(coords_to_dms_format(50.22991944444445, 13.414902777777778),('50:13:48 N 013:24:54 E'))
+        self.assertEquals(coords_to_dms_format(50.22991944444445, 13.414902777777778), '50:13:48 N 013:24:54 E')
 
 
     def test_convert_all_coordinates(self):
