@@ -1,6 +1,6 @@
 * - OFM common format export
 * - -----------------------------------------------------------------------------------
-*   This file Is an export product sourced by the OAD (open AIS Database) 
+*   This file is an export product sourced by the OAD (open AIS Database)
 *   And Is coded In 'open-air'-format. Be adviced, this format holds only   
 *   laterlal and vertical definition of airspaces, and no information about ATC-unit-
 *   responsibility or timesheets. Data is subject to an open-data-commons license.
@@ -9,8 +9,7 @@
 
 * 
 *   NOTE: !Arc-definitions are inherited already and stored in acceptable resolution! 
-*   NOTE: !borders are reduced in complexity to match a 0.1 NM corrdior! 
-*   
+*
 
 
 * - -----------------------------------------------------------------------------------
@@ -20,6 +19,9 @@
 *THIS FILE IS OPTIMIZED FOR USAGE WITH THE NAVITER - SEEYOU SOFTWARE
 * - STATIC AIRSPACE DATA *
 * - -----------------------------------------------------------------------------------
+
+
+
 AC D                                 
 AY CTR
 AN CTR OBERPFAFFENHOFEN 119.555 122.105

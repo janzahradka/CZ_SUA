@@ -1,12 +1,8 @@
 
-
-*This file contains all CZ SUA Paragliding Zones
-* This file contains OAD (open AIS Database) data
-
-
-**************************************
+*****************************************
 ***** LKAA PGZ (Paragliding Zones) ******
-**************************************
+
+* This section contains all CZ SUA Paragliding Zones
 
 
 *Setting colour and line of GLIDER SECTOR airspace
@@ -130,3 +126,7 @@ AH 4000 MSL
 AL 0 AGL
 V X=49:26:18 N 014:37:17 E
 DC 1.0 *NM
+
+************ END OF SECTION *************
+***** LKAA PGZ (Paragliding Zones) ******
+*****************************************

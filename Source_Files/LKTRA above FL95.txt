@@ -1,13 +1,11 @@
 
-
-*This file contains all CZ SUA Temporary Reserved Areas LKTRA above FL95
-*Single TRA areas are activated daily by AUP (Airspace Update Plan) report
-* This file contains OAD (open AIS Database) data
-
-
-*******************************************************
+**********************************************************
 ***** LKAA TRA (Temporary Reserved Areas) above FL95 *****
-*******************************************************
+
+
+*This section contains all CZ SUA Temporary Reserved Areas LKTRA above FL95
+*Single TRA areas are activated daily by AUP (Airspace Update Plan) report
+
 
 
 *Setting colour and line of R airspace
@@ -177,3 +175,8 @@ DP 49:03:06 N 014:45:14 E
 DP 49:03:07 N 014:50:25 E
 DP 48:51:04 N 014:44:33 E
 DP 49:07:32 N 014:12:09 E
+
+
+***** LKAA TRA (Temporary Reserved Areas) above FL95 *****
+**********************************************************
+

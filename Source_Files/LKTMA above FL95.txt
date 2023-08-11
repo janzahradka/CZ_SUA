@@ -1,11 +1,8 @@
 
-*This file contains all CZ Terminal Areas (TMA) above FL95
-* This file contains OAD (open AIS Database) data
+***************************************
+********* LKAA TMA above FL95 *********
 
-
-******************************
-***** LKAA TMA above FL95 *****
-******************************
+*This section contains all CZ Terminal Areas (TMA) above FL95
 
 
 *Setting colour and line of C airspace
@@ -309,3 +306,7 @@ DP 50:34:15 N 13:44:17 E
 DP 50:34:37 N 13:45:04 E
 DP 50:34:57 N 13:45:51 E
 DP 50:35:17 N 13:46:40 E
+
+
+********* LKAA TMA above FL95 *********
+***************************************

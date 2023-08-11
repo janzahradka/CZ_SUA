@@ -1,10 +1,8 @@
 
-* This file contains CZ Radio Mandatory Zones (RMZ) and ATZ LKCS
+**********************************
+***** LKAA RMZ and ATZ LKCS ******
 
-
-******************************
-***** LKAA RMZ ***************
-******************************
+* This section contains CZ Radio Mandatory Zones (RMZ) and ATZ LKCS
 
 
 *Setting colour and line of E airspace
@@ -32,8 +30,6 @@ DP 49:01:57 N 014:07:58 E
 DP 49:02:41 N 014:09:26 E
 
 
-
-
 AC E
 AN ATZ LKCS CESKE BUDEJOVICE 135.930
 AF 135.930
@@ -50,3 +46,7 @@ DP 48:55:47 N 014:35:42 E
 DP 48:51:28 N 014:30:51 E
 DP 48:51:28 N 014:20:27 E
 DP 48:55:47 N 014:15:36 E
+
+
+***** LKAA RMZ and ATZ LKCS ******
+**********************************

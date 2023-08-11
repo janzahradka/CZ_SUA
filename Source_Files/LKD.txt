@@ -1,13 +1,8 @@
 
+*****************************************
+******* LKAA D (Dangerous Areas) ********
 
-
-*This file contains all CZ SUA Dangerous Areas LKD
-
-
-***********************************
-***** LKAA D (Dangerous Areas) ******
-***********************************
-
+*This section contains all CZ SUA Dangerous Areas LKD
 
 *Setting colour and line of Danger (Q) airspace
 AC Q
@@ -120,3 +115,6 @@ AH FL 95
 AL 0 AGL
 V X=50:18:18 N 013:08:25 E
 DC 7.0 *NM
+
+******* LKAA D (Dangerous Areas) ********
+*****************************************

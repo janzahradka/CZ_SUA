@@ -1,13 +1,9 @@
 
+**************************************************
+************** MTMA Caslav - official ************
 
-*This file contains only MTMA Caslav
-
-
-
-*Setting colour and line of C airspace
-AC C
-SP 0,2,255,0,0
-SB -1,-1,-1
+* This section contains only MTMA Caslav and it's subpart of LKMTMA section.
+* It's located in separate section for altering this area for competitions
 
 
 *Setting colour and line of D airspace

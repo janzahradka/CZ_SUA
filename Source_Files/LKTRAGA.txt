@@ -1,11 +1,10 @@
 
-*This file contains all CZ SUA Temporary Reserved Areas General Aviation LKTRA GA
+**************************************
+************* LKTRA GA ***************
+
+*This section contains all CZ SUA Temporary Reserved Areas General Aviation LKTRA GA
 *Individual TRA GA areas are activated daily by ATC on request of GA airfields
 
-
-**********************************************************
-***** LKAA TRA (Temporary Reserved Areas) below FL95 *****
-**********************************************************
 
 
 *Setting colour and line of GLIDER SECTOR airspace
@@ -915,3 +914,7 @@ DP 49:41:40 N 015:27:36 E
 V X=49:48:51 N 015:12:06 E * 3 NM LKZB
 V D=-
 DB 49:46:52 N 015:15:30 E, 49:48:57 N 015:16:41 E
+
+
+************* LKTRA GA ***************
+**************************************

@@ -1,10 +1,12 @@
 
-* This file contains all CZ DROPZONE airfields
-
-
-****************************************
+*********************************************
 ***** LKAA DROPZONES (Dangerous Areas) ******
-****************************************
+
+* This section contains areas around airfields with parachute markings.
+* There are two sizes of dropzones: 3 NM for whole-week dropzones (Pribram, Most, Klatovy, Prostejov) and 2 NM for irregular para operations.
+* It is not a part of the official LKAA definition however it is recommended to acknowledge these areas during gliding.
+* Users should avoid entering Dropzones without coordination with ATZ
+* Competitions: coordinate each competition day, only inoperative dropzones should be marked as inactive airspace for the task.
 
 *Setting colour and line of Danger (Q) airspace
 AC Q
@@ -12,6 +14,7 @@ SP 0,2,127,0,127
 SB -1,-1,-1
 
 
+****** empty template for dropzone ******
 *AC Q
 *AN DROPZONE 
 *AF 

@@ -1,13 +1,8 @@
 
+*****************************************
+*************** LKAA CTR ****************
 
-
-*This file contains all CZ Control Zones (CTR) SUA
-* This file contains OAD (open AIS Database) data
-
-
-********************
-***** LKAA CTR ******
-********************
+* This section contains all CZ Control Zones (CTR) SUA
 
 
 *Setting colour and line of CTR airspace
@@ -534,3 +529,7 @@ DP 50:14:05 N 14:34:08 E
 DP 50:10:32 N 14:32:47 E
 DP 50:13:22 N 14:14:52 E
 DP 50:17:12 N 14:16:20 E
+
+
+*************** LKAA CTR ****************
+*****************************************

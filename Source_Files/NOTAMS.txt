@@ -1,10 +1,9 @@
 
+*****************************************
+**************** NOTAMS *****************
 
-* This files contains regular NOTAMS
-
-******************************
-***** NOTAMS *****************
-******************************
+* This sections contains regulary claimed NOTAMS
+* It is not a part of the official LKAA definition. It is extra information for user of frequently declared NOTAMs
 
 
 AC R
@@ -71,3 +70,5 @@ DP  49:38:58 N 017:38:17 E
 DP  49:42:16 N 017:43:20 E
 
 
+**************** NOTAMS *****************
+*****************************************

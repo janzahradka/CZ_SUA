@@ -1,11 +1,8 @@
 
+**************************************
+******** LKAA TMA below FL95 *********
 
-*This file contains all CZ Terminal Areas (TMA) below FL95 except MTMA Caslav. MTMA caslav is located in extra file due to competitions requirements
-
-
-******************************
-***** LKAA TMA below FL95 *****
-******************************
+*This section contains all CZ Terminal Areas (TMA) below FL95 except MTMA Caslav. MTMA caslav is located in extra section due to export for competitions.
 
 
 *Setting colour and line of C airspace
@@ -2057,3 +2054,7 @@ DP 50:09:16 N 14:33:43 E
 DP 50:10:14 N 14:33:01 E
 DP 50:10:32 N 14:32:47 E
 DP 50:14:05 N 14:34:08 E
+
+
+******** LKAA TMA below FL95 *********
+**************************************

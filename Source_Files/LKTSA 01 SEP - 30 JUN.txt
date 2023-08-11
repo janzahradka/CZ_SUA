@@ -1,10 +1,11 @@
 
-*This file contains CZ SUA Temporary Segregated Areas LKTSA not active during summer season (active 01 SEP - 30 JUN)
+**************************************************
+************** LKAA TSA (summer only) ************
+
+* This file contains CZ SUA Temporary Segregated Areas LKTSA not active during summer season (active 01 SEP - 30 JUN)
+* it is located in the separate section for excluding these areas in export for summer competitions
 
 
-************************************************
-***** LKAA TSA (Temporary Segregated Areas) *******
-************************************************
 AC R
 AN LKTSA20 ZDIREC
 AF 136.175
@@ -121,3 +122,7 @@ DP 49:32:15 N 15:22:13 E
 DP 49:39:34 N 15:22:44 E
 DP 49:43:14 N 15:31:16 E
 DP 49:46:39 N 15:31:14 E
+
+
+************** LKAA TSA (summer only) ************
+**************************************************

@@ -1,15 +1,8 @@
 
+*****************************************
+******* LKAA P (Prohibited Areas) *******
 
-
-
-*This file contains all CZ SUA Prohibited Areas (LKP)
-* This file contains OAD (open AIS Database) data
-
-
-**********************************
-***** LKAA P (Prohibited Areas) *****
-**********************************
-
+*This section contains all CZ SUA Prohibited Areas (LKP)
 
 *Setting colour and line of P airspace
 AC P
@@ -105,3 +98,6 @@ AH 2000 MSL
 AL 0 AGL
 V X=50:10:45 N 014:21:49 E
 DC 0.8 *NM
+
+******* LKAA P (Prohibited Areas) *******
+*****************************************

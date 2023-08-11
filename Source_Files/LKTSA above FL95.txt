@@ -1,12 +1,10 @@
 
-*This file contains all CZ SUA Temporary Segregated Areas LKTSA above FL95.
+*This section contains all CZ SUA Temporary Segregated Areas LKTSA above FL95.
 *Single TSA areas are activated daily by AUP (Airspace Update Plan) report
-* This file contains OAD (open AIS Database) data
 
 
-********************************************************
-***** LKAA TRA (Temporary Segregated Areas) above FL95*****
-********************************************************
+************************************************************
+***** LKAA TSA (Temporary Segregated Areas) above FL95 *****
 
 
 *Setting colour and line of P airspace
@@ -477,3 +475,7 @@ DP 49:53:36 N 17:45:12 E
 DP 50:00:30 N 17:37:15 E
 DP 50:09:53 N 17:26:23 E
 DP 50:15:11 N 17:26:43 E
+
+
+***** LKAA TSA (Temporary Segregated Areas) above FL95 *****
+************************************************************
