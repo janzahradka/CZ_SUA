@@ -129,11 +129,14 @@ if __name__ == "__main__":
     # """
 
     text = """ARP: 40° 48' 51" N, 15° 12' 06" E ARP: 41° 48' 51" N, 15° 12' 06" E ARP: 42° 48' 51" N, 15° 12' 06" E """
-    text = "nic tu není"
+    text = """Horizontální hranice: radius 5km se středem PSN 495738,00N0170104,00E (LKSU)."""
+    # text = "nic tu není"
     # Paste whole text with coordinates here
 
     converted_text = convert_all_coordinates(text)
-    print(converted_text)
+    # print(converted_text)
 
-    # for c in converted_text:
-    #     print("DP " + c)
+    for c in converted_text:
+        # print("DP " + c)
+        print("V X=" + c)
+

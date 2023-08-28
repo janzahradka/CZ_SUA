@@ -83,7 +83,7 @@ def export(effective, label, filenames, path):
                     outfile.write(line)
 
 if __name__ == "__main__":
-    effective_date = '23-07-17'
+    effective_date = '23-08-28' # YY-MM-DD
     confirmed = False
     while not confirmed:
         answer = input(f'Effective date "{effective_date}" correct? [Y/N] ').lower()
