@@ -128,8 +128,8 @@ if __name__ == "__main__":
     # and finally ARP: 44° 48' 51" N, 15° 12' 06" E
     # """
 
-    text = """ARP: 40° 48' 51" N, 15° 12' 06" E ARP: 41° 48' 51" N, 15° 12' 06" E ARP: 42° 48' 51" N, 15° 12' 06" E """
-    text = """Horizontální hranice: radius 5km se středem PSN 495738,00N0170104,00E (LKSU)."""
+    # text = """ARP: 40° 48' 51" N, 15° 12' 06" E ARP: 41° 48' 51" N, 15° 12' 06" E ARP: 42° 48' 51" N, 15° 12' 06" E """
+    text = """Horizontální hranice: PSN 501229,13N0163330,71E (0,7NM SE NERATOV) – PSN 501221,91N0163313,32E (0,6NM SE NERATOV) – PSN 500951,27N0163254,83E (BARTOSOVICE V ORLICKYCH HORACH) – PSN 500914,23N0162529,64E (PECIN) – PSN 501211,18N0162423,27E (2,1NM W RICKY V ORLICKYCH HORACH) – PSN 501404,87N0162658,56E (1,5NM N RICKY V ORLICKYCH HORACH) – PSN 501426,73N0163059,04E (1,9NM NW NERATOV) – PSN 501414,16N0163208,82E (1,5NM N NERATOV) – PSN 501313,71N0163313,99E (0,6NM NE NERATOV) – PSN 501253,44N0163304,76E (NERATOV) – PSN 501229,13N0163330,71E (0,7NM SE NERATOV)"""
     # text = "nic tu není"
     # Paste whole text with coordinates here
 
@@ -137,6 +137,6 @@ if __name__ == "__main__":
     # print(converted_text)
 
     for c in converted_text:
-        # print("DP " + c)
-        print("V X=" + c)
+        print("DP " + c)
+        # print("V X=" + c)
 
