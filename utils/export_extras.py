@@ -9,7 +9,7 @@ def export(version, label, filenames, path):
                     outfile.write(line)
 
 
-label = 'HPH23'
+label = 'AZcup24'
 file_set = [
     'DROPZONES.txt',
     'LKCTR.txt',
