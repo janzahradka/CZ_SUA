@@ -50,7 +50,8 @@ cz_low = [
      'extra files/CZ-FL95 ceil.txt'
  ]
  #
-label_cz_low_ce = 'CZ_low_plus_CE_'
+# label_cz_low_ce = 'CZ_low_plus_CE_'
+label_cz_low_ce = 'LION24_CZ_CE'
 cz_low_ce = [
     'FileInfo/info_low_plus_CE.txt',
     'FileInfo/effective_date.txt',
@@ -83,7 +84,7 @@ def export(effective, label, filenames, path):
                     outfile.write(line)
 
 if __name__ == "__main__":
-    effective_date = '23-08-28' # YY-MM-DD
+    effective_date = '24-04-25' # YY-MM-DD
     confirmed = False
     while not confirmed:
         answer = input(f'Effective date "{effective_date}" correct? [Y/N] ').lower()

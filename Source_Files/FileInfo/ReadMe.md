@@ -1,5 +1,9 @@
 
 ***** Changes History *****
+
+* 12MAY24 NOTAMS LION added
+* 25APR24 NOTAMS PISEK DRONY added
+* 25APR24 TRAGA KYJOV added
 * 27AUG23 MILITARY NOTAMS 08-09/2023 ADDED
 * 17JUL23 Top of Class E (FL95) areas
 * 18JUN23 AIRAC 5/23 Added Ceske Budejovice zones incl ATZ LKCS, RMZ Ceske Budejovice, TMA Ceske Budejovice
