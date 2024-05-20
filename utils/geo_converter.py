@@ -129,7 +129,7 @@ if __name__ == "__main__":
     # """
 
     # text = """ARP: 40° 48' 51" N, 15° 12' 06" E ARP: 41° 48' 51" N, 15° 12' 06" E ARP: 42° 48' 51" N, 15° 12' 06" E """
-    text = """PSN 491344,85N0142130,91E (0.7NM N VSEMYSLICE) - PSN 491056,74N0141715,26E (1.7NM SE KRC) - PSN 491932,45N0140849,92E (1NM N PISEK) - PSN 492159,80N0140830,09E (1.1NM SE VRAZ) - PSN 491823,57N0141758,93E (0.5NM NW JEHNEDNO) - PSN 491344,85N0142130,91E (0.7NM N VSEMYSLICE). LETY UAS."""
+    text = """PSN 494249,65N0165913,87E"""
     # text = "nic tu není"
     # Paste whole text with coordinates here
 
@@ -137,6 +137,6 @@ if __name__ == "__main__":
     # print(converted_text)
 
     for c in converted_text:
-        print("DP " + c)
-        # print("V X=" + c)
+        # print("DP " + c)
+        print("V X=" + c)
 

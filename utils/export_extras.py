@@ -24,11 +24,13 @@ file_set = [
     'extra files/AZ cup LKTRAGA.txt',
     'LKTRA.txt',
     'LKTSA all seasons.txt',
+    'LKTSA 01 SEP - 30 JUN.txt',
     'surrounding_AS.txt',
     'NOTAMS.txt',
-    'extra files/CZ-FL90 ceil.txt',
+    'extra files/AZCUPNOTAMS.txt',
+    # 'extra files/CZ-FL90 ceil.txt',
     'extra files/Engine Test Area.txt']
-version = '-v1'
+version = '-v4'
 export_path = f'../Export/{label}{version}/'
 
 if os.path.exists(export_path):
