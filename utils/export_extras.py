@@ -30,7 +30,7 @@ file_set = [
     'extra files/AZCUPNOTAMS.txt',
     # 'extra files/CZ-FL90 ceil.txt',
     'extra files/Engine Test Area.txt']
-version = '-v4'
+version = '-v4.1'
 export_path = f'../Export/{label}{version}/'
 
 if os.path.exists(export_path):
