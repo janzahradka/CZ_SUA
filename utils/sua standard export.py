@@ -21,10 +21,10 @@ cz_all = [
      'LKTRA above FL95.txt',
      'LKTRAGA.txt',
      'LKTSA all seasons.txt',
-     'LKTSA 01 SEP - 30 JUN.txt',
+     'LKTSA summer OFF.txt',
      'LKTSA above FL95.txt',
-     'NOTAMS.txt',
-     'extra files/CZ-FL95 ceil.txt'
+     # 'extra files/CZ-FL95 ceil.txt',
+     'NOTAMS.txt'
  ]
 
 label_cz_low = 'CZ_low_'
@@ -45,13 +45,12 @@ cz_low = [
      'LKTRA.txt',
      'LKTRAGA.txt',
      'LKTSA all seasons.txt',
-     'LKTSA 01 SEP - 30 JUN.txt',
-     'NOTAMS.txt',
-     'extra files/CZ-FL95 ceil.txt'
+     'LKTSA summer OFF.txt',
+     # 'extra files/CZ-FL95 ceil.txt',
+     'NOTAMS.txt'
  ]
  #
-# label_cz_low_ce = 'CZ_low_plus_CE_'
-label_cz_low_ce = 'LION24_CZ_CE'
+label_cz_low_ce = 'CZ_low_plus_CE_'
 cz_low_ce = [
     'FileInfo/info_low_plus_CE.txt',
     'FileInfo/effective_date.txt',
@@ -69,9 +68,9 @@ cz_low_ce = [
     'LKTRA.txt',
     'LKTRAGA.txt',
     'LKTSA all seasons.txt',
-    'LKTSA 01 SEP - 30 JUN.txt',
+    'LKTSA summer OFF.txt',
     'NOTAMS.txt' ,
-    'extra files/CZ-FL95 ceil.txt',
+    # 'extra files/CZ-FL95 ceil.txt',
     'surrounding_AS.txt'
  ]
 
@@ -84,7 +83,7 @@ def export(effective, label, filenames, path):
                     outfile.write(line)
 
 if __name__ == "__main__":
-    effective_date = '24-04-25' # YY-MM-DD
+    effective_date = '24-05-18' # YY-MM-DD
     confirmed = False
     while not confirmed:
         answer = input(f'Effective date "{effective_date}" correct? [Y/N] ').lower()

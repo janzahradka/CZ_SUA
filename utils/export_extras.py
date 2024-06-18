@@ -24,7 +24,7 @@ file_set = [
     'extra files/AZ cup LKTRAGA.txt',
     'LKTRA.txt',
     'LKTSA all seasons.txt',
-    'LKTSA 01 SEP - 30 JUN.txt',
+    'LKTSA summer OFF.txt',
     'surrounding_AS.txt',
     'NOTAMS.txt',
     'extra files/AZCUPNOTAMS.txt',

@@ -1,8 +1,8 @@
 
 **************************************************
-************** LKAA TSA (summer only) ************
+************** LKAA TSA (summer off) ************
 
-* This file contains CZ SUA Temporary Segregated Areas LKTSA not active during summer season (active 01 SEP - 30 JUN)
+* This file contains CZ SUA Temporary Segregated Areas LKTSA not active during summer season (deactivated from 01 JUL to 31 AUG)
 * it is located in the separate section for excluding these areas in export for summer competitions
 
 
