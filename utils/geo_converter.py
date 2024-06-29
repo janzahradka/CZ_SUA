@@ -129,7 +129,7 @@ if __name__ == "__main__":
     # """
 
     # text = """ARP: 40° 48' 51" N, 15° 12' 06" E ARP: 41° 48' 51" N, 15° 12' 06" E ARP: 42° 48' 51" N, 15° 12' 06" E """
-    text = """ 3NM PSN 491448,00N0144249,00E"""
+    text = """502447,00N0160718,00E"""
     # text = "nic tu není"
     # Paste whole text with coordinates here
 
