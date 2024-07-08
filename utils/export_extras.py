@@ -9,27 +9,30 @@ def export(version, label, filenames, path):
                     outfile.write(line)
 
 
-label = 'PMRG24'
+label = 'PPV2024'
 file_set = [
+    'FileInfo/copyright.txt',
+    'FileInfo/effective_date.txt',
     'DROPZONES.txt',
     'LKCTR.txt',
     'LKD.txt',
     'LKP.txt',
     'LKPGZ.txt',
     'LKR.txt',
-    'LKR-NP.txt',
+    # 'LKR-NP.txt',
     'LKRMZ.txt',
-    'LKTMA.txt',
-    'MTMA Caslav.txt',
+    # 'LKTMA.txt',
+    # 'MTMA Caslav.txt',
+    'extra files/PPV LKTMA.txt',
     'LKTRA.txt',
-    'LKTRAGA.txt',
+    # 'LKTRAGA.txt',
     'LKTSA all seasons.txt',
-    'LKTSA summer OFF.txt',
+    # 'LKTSA summer OFF.txt',
     'NOTAMS.txt',
     'surrounding_AS.txt'
 ]
 
-version = '-v3'
+version = '-v1'
 export_path = f'../Export/{label}{version}/'
 
 if os.path.exists(export_path):
