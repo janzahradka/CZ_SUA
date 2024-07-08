@@ -9,7 +9,7 @@ def export(version, label, filenames, path):
                     outfile.write(line)
 
 
-label = 'PMRG'
+label = 'PMRG24'
 file_set = [
     'DROPZONES.txt',
     'LKCTR.txt',
@@ -29,7 +29,7 @@ file_set = [
     'surrounding_AS.txt'
 ]
 
-version = '-v2'
+version = '-v3'
 export_path = f'../Export/{label}{version}/'
 
 if os.path.exists(export_path):
