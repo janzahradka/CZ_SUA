@@ -1,8 +1,7 @@
-*************** CZ_plus_low_CE ***************
+*************** CZ low plus CE ***************
 
 * This file contains:
 **** CZ Airspace Files BELOW FL95 valid from effective date
 **** Airspace of the czech neighbours (warning: this part is not updated on regular basis, users should check the situation before the flight at local authorities)
-**** Ceiling of class E (FL95) for Czechia
 **** Dropzones: users should avoid entering dropzones without coordination with ATZ
 
