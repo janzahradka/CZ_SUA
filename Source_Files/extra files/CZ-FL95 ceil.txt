@@ -1,3 +1,6 @@
+***********************************************
+**** Ceiling of class E (FL95) for Czechia ****
+
 
 *Setting colour and line of E airspace
 AC E
@@ -734,3 +737,7 @@ DP 49:34:14 N 017:37:41 E
 DP 49:35:00 N 017:44:19 E
 DP 49:42:24 N 017:45:08 E
 DP 50:01:03 N 017:47:14 E
+
+
+**** Ceiling of class E (FL95) for Czechia ****
+***********************************************

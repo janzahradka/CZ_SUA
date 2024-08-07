@@ -70,9 +70,36 @@ cz_low_ce = [
     'LKTSA all seasons.txt',
     'LKTSA summer OFF.txt',
     'NOTAMS.txt' ,
-    # 'extra files/CZ-FL95 ceil.txt',
+    'extra files/CZ-FL95 ceil.txt',
     'surrounding_AS.txt'
  ]
+
+label_cz_all_xcsoar = 'CZ_all_xcsoar'
+cz_all_xcsoar = [
+     'FileInfo/info_cz_all.txt',
+     'FileInfo/effective_date.txt',
+     'FileInfo/copyright.txt',
+     'DROPZONES.txt',
+     'LKCTR.txt',
+     'LKD.txt',
+     'LKP.txt',
+     'LKPGZ.txt',
+     'LKR.txt',
+     'LKR-NP.txt',
+     'LKRMZ.txt',
+     'LKTMA.txt',
+     'MTMA Caslav.txt',
+     'LKTMA above FL95.txt',
+     'LKTRA.txt',
+     'LKTRA above FL95.txt',
+     'LKTRAGA.txt',
+     'LKTSA all seasons.txt',
+     'LKTSA summer OFF.txt',
+     'LKTSA above FL95.txt',
+     'extra files/CZ-FL95 ceil.txt',
+     'NOTAMS.txt'
+ ]
+
 
 
 def export(effective, label, filenames, path):
@@ -83,7 +110,7 @@ def export(effective, label, filenames, path):
                     outfile.write(line)
 
 if __name__ == "__main__":
-    effective_date = '24-05-18' # YY-MM-DD
+    effective_date = '24-08-07' # YY-MM-DD
     confirmed = False
     while not confirmed:
         answer = input(f'Effective date "{effective_date}" correct? [Y/N] ').lower()
@@ -104,4 +131,5 @@ if __name__ == "__main__":
     export(effective_date, label_cz_all, cz_all, export_path)
     export(effective_date, label_cz_low, cz_low, export_path)
     export(effective_date, label_cz_low_ce, cz_low_ce, export_path)
+    export(effective_date, label_cz_all_xcsoar, cz_all_xcsoar, export_path)
     shutil.copy('../Source_Files/FileInfo/ReadMe.md', export_path)
