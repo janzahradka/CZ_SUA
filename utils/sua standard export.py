@@ -74,7 +74,7 @@ cz_low_ce = [
     'surrounding_AS.txt'
  ]
 
-label_cz_all_xcsoar = 'CZ_all_xcsoar'
+label_cz_all_xcsoar = 'CZ_all_xcsoar_'
 cz_all_xcsoar = [
      'FileInfo/info_cz_all.txt',
      'FileInfo/effective_date.txt',

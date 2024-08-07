@@ -1,5 +1,6 @@
 
 ***** Changes History *****
+* 07AUG24 small changes in export structure
 * 18MAY24 LKTSA Summer OFF renamed
 * 18MAY24 NOTAMS PISEK-DRONY modified, NOTAMS LION removed
 * 12MAY24 NOTAMS LION added

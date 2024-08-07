@@ -2,7 +2,6 @@
 
 * This file contains:
 **** CZ All Airspace including above FL95 valid from effective date
-**** Ceiling of class E (FL95) for Czechia
 **** Dropzones: users should avoid entering dropzones without coordination with ATZ
 
 
