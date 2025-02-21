@@ -1,5 +1,6 @@
 
 ***** Changes History *****
+* 02FEB25 Changed: LKP1; Removed: LKD11, LKD13, LKD14, LKTRA90, LKTRA91, LKTRA92; Added: LKTRA93, LKTRA94, LKTRA95, LKTRA96 
 * 07AUG24 small changes in export structure
 * 18MAY24 LKTSA Summer OFF renamed
 * 18MAY24 NOTAMS PISEK-DRONY modified, NOTAMS LION removed

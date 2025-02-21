@@ -1,0 +1,604 @@
+http://www.winpilot.com/UsersGuide/UserAirspace.asp
+
+Special Use Airspace  
+
+OpenAirtm  Airspace and Terrain description language is an easy to use and publicly available standard for displaying map information.
+User can add or modify the data himself, therefore having a full control over what is being displayed on the screen.
+
+For a list of available airspace files see our airspace directory.
+
+NEW: WinPilot Version 1.130 and later: 
+In addition to 'Airspace.txt', now WinPilot also reads a file called 'Terrain.txt'.
+Both files can contain all OpenAir commands.
+The intention of the 'Terrain.txt' file is to separate terrain description from airspace description.
+The restriction of the maximum number of labels  created by the AT command has been changed from 3 to unlimited.
+
+There are two new map elements meant for displaying terrain and geographic  features
+(they differ from airspace in that they don't have popup labels attached):
+
+TO {string}    ; Declares Terrain Open Polygon; string -  name (optional)
+TC {string}    ; Declares Terrain Closed Polygon; string - name  (optional)
+
+This commands make it easy to define things like lakes, roads, borders, etc
+For example, to draw a lake using  light blue color and a dark blue 1-pixel wide, solid border, that is visible at zoom levels 100km or closer, the following commands can be used:
+
+TC Lake Tahoe
+SP 0, 1, 0, 0, 255
+SB 200,200,255
+V Z=100
+DP 38:56:00 N 120:02:00 W
+DP 38:56:40 N 120:04:00 W
+DP 39:00:00 N 120:05:55 W
+DP 39:01:45 N 120:07:00 W
+DP 39:03:40 N 120:07:00 W
+DP 39:05:00 N 120:09:00 W
+DP 39:10:30 N 120:07:30 W
+DP 39:11:00 N 120:06:00 W
+...
+
+The three new commands seen above are:
+SP - Select Pen - corresponds to Win32 API CreatePen
+SB  -Select Brush - corresponds to Win32 API CreateSolidBrush
+and V Z=number (select a zoom level above which the element will not be displayed)
+
+SP style, width, red, green, blue ; Selects Pen (border) to be used in drawing
+      PEN STYLES in SP command:
+      SOLID    0
+      DASH    1
+      NULL (transparent=no border displayed) 5
+
+  Example: for a 1 pixel wide, dashed, light gray pen use: SP 0,1,192,192,192
+
+ SB  red, green, blue     ; Selects Brush (interior)  red, green, blue can range from 0 (least intensity) to 255 (max intensity)
+
+  Example: to select white interior of a closed polygon, use: SB 255, 255, 255
+  To select transparent interior use: SB -1,-1,-1
+
+The SP and SB commands can also be used to alter the default colors of airspace segments. 
+For example, to change the default color of class C airspace from dark gray to magenta, use: 'SB 180,0,180'  in the first class C segment definition, like this:
+
+AC C
+AN RENO-C
+AL SFC
+AH 8400 ft
+SB 180,0,180 *select MAGENTA as the default for class C
+V X=39:29.9 N 119:46.1 W
+DC 5
+
+For a definition of OpenAir, see the listing below:
+
+******* OPEN AIR (tm) TERRAIN and AIRSPACE DESCRIPTION LANGUAGE *************
+*    Version 1.0
+*    December 10, 1998
+*    Updated October 15, 1999
+*    Send comments to jerryp@winpilot.com
+*
+*  AIRSPACE related record types:
+*  ==============================
+*
+* AC class    ;    class = Airspace Class, see below:
+*     R restricted
+*     Q danger
+*     P prohibited
+*     A Class A
+*     B Class B
+*     C Class C
+*     D Class D
+*     GP glider prohibited
+*     CTR CTR
+*     W Wave Window
+*
+*  AN string        ;     string = Airspace Name
+*  AH string        ;     string = Airspace Ceiling
+*  AL string        ;     string = Airspace Floor
+*  AT coordinate    ;    coordinate = Coordinate of where to place a name label on the map (optional)
+*                     ;     NOTE: there can be multiple AT records for a single airspace segment
+*   
+*    TERRAIN related record types (WinPilot version 1.130 and newer):
+*    ==============================
+*
+*    TO    {string}                 ; Declares Terrain Open Polygon; string = name (optional)
+*    TC    {string}                 ; Declares Terrain Closed Polygon; string = name (optional)
+*    SP style, width, red, green, blue    ; Selects Pen to be used in drawing
+*    SB red, green, blue                         ; Selects Brush to be used in drawing
+*
+*    Record types common to both TERRAIN and AIRSPACE
+*    =================================================
+*
+*    V x=n             ;     Variable assignment.
+*                     ;     Currently the following variables are supported:
+*                     ;     D={+|-}    sets direction for: DA and DB records
+*                     ;                     '-' means counterclockwise direction; '+' is the default
+*                     ;                     automatically reset to '+' at the begining of new airspace segment   
+*                     ;     X=coordinate    : sets the center for the following records: DA, DB, and DC   
+*                     ;     W=number        : sets the width of an airway in nm (NYI)
+*                     ;      Z=number         : sets zoom level at which the element becomes visible (WP version 1.130 and newer)
+*
+*    DP coordinate                     ; add polygon pointC
+*    DA radius, angleStart, angleEnd    ; add an arc, angles in degrees, radius in nm (set center using V X=...)
+*    DB coordinate1, coordinate2         ; add an arc, from coordinate1 to coordinate2 (set center using V X=...)
+*    DC radius                         ; draw a circle (center taken from the previous V X=...  record, radius in nm
+*    DY coordinate                     ; add a segment of an airway (NYI)
+
+* SAMPLE OpenAir(tm) File (for Minden, NV):
+
+* Reno Class C
+AC C
+AN RENO-C
+AL SFC
+AH 8400 ft
+V X=39:29.9 N 119:46.1 W
+DC 5
+
+* Reno Class C
+AC C
+AN RENO
+AL 7200 ft
+AH 8400 ft
+* this item will have 3 labels
+AT 39:36.8 N 119:46.1W
+AT 39:22.8 N 119:45.1W
+AT 39:29.9 N 119:36.1W
+V X=39:29.9 N 119:46.1W
+DA 10,270,290
+DA 7,290,320
+DA 10,320,200
+V D=-
+DA 5,200,270
+
+AC C
+AN BEALE AFB
+AL SFC
+AH 4100 ft
+V X=39:08.2 N 121:26.2 W
+DC 5
+
+AC C
+AN BEALE AFB
+AL 2600ft
+AH 4100 ft
+AT 39:10.2 N 121:17.2 W
+DA 10,9,130
+V D=-
+DA 5,130,9
+
+AC C
+AN BEALE AFB
+AL 1600ft
+AH 4100 ft
+AT 39:06.2 N 121:35.5 W
+DA 10,130,9
+V D=-5
+DA 5,9,130
+
+AC C
+AN SACRAMENTO/MCCLEAN
+AL 1600 ft
+AH 4100 ft
+V X=38:41.7 N 121:35.4 W
+DA 10,164,40
+V X=38:40.0 N 121:24.0 W
+DA 10,344,219
+
+******************* RESTRICTED ********************
+
+AC R
+AN R 4812 4804
+AL 0
+AH FL 180
+V X=39:13:00 N 118:13:00 W
+DA 5,0,178
+V D=-
+V X=39:10:20 N 118:37:00 W
+DA 5,175,355
+
+AC R
+AN R-4803 S
+AL 0
+AH FL180
+V X=39:20:00 N 118:52:00 W
+DA 3,27,270
+DP 39:35:00 N 118:59:20 W
+DP 39:36:00 N 118:53:30 W
+
+AC R
+AN R-4806 W
+AL 0
+AH UNLIM
+DP 36:41:00 N 115:56:10 W    c29
+DP 37:06:00 N 115:56:10 W    c30
+DP 37:06:00 N 115:35:00 W    c31
+DP 37:16:55 N 115:35:00 W    c32
+DP 37:16:55 N 115:18:10 W    c34
+DP 36:38:08 N 115:18:10 W    c35
+DP 36:25:40 N 115:18:10 W    c36
+DP 36:25:40 N 115:23:20 W    c37
+DP 36:35:00 N 115:37:00 W    c38
+DP 36:35:00 N 115:53:00 W    c39
+DP 36:35:45 N 115:56:10 W    c40
+
+AC R
+AN R-4806 E
+AL 100 Agl
+AH UNLIM
+DP 37:16:55 N 115:18:10 W    c34
+DP 36:38:08 N 115:18:10 W    c35
+DP 36:47:40 N 115:07:00 W    c41
+DP 37:11:45 N 115:07:00 W    c42
+DP 37:16:55 N 115:11:00 W    c43
+
+AC R
+AN R-4807 A
+AL 0
+AH UNLIM (Mon-Fri)
+AT 37:28:00 N 116:36:00 W
+DP 37:53:00 N 117:06:00 W
+DP 37:53:00 N 116:55:30 W    c1
+DP 37:47:00 N 116:55:30 W    c2
+DP 37:33:00 N 116:43:20 W    c3
+DP 37:33:00 N 116:26:20 W    c4
+DP 37:53:00 N 116:26:20 W    c5
+DP 37:53:00 N 116:11:00 W   
+DP 37:42:00 N 116:11:00 W   
+DP 37:42:00 N 115:53:00 W    c6
+DP 37:33:00 N 115:53:00 W    c7
+DP 37:33:00 N 115:48:00 W    c8
+DP 37:28:00 N 115:48:00 W    c9
+DP 37:28:00 N 116:00:00 W    c10
+DP 37:16:00 N 116:00:00 W    c11
+DP 37:16:00 N 116:11:10 W    c12
+DP 37:20:00 N 116:11:00 W    c13
+DP 37:23:00 N 116:17:15 W    c14
+DP 37:23:00 N 116:22:15 W    c15
+DP 37:21:00 N 116:27:00 W    c16
+DP 37:21:00 N 116:34:10 W    c17
+DP 37:16:00 N 116:31:00 W    c18
+DP 37:08:00 N 116:27:00 W    c19
+DP 36:55:00 N 116:27:00 W    c20
+DP 36:55:00 N 116:34:00 W    c21
+DP 36:51:00 N 116:34:00 W    c22
+DP 37:26:25 N 117:04:45 W    c23
+DP 37:32:30 N 117:05:55 W    c24
+DP 37:53:00 N 117:06:00 W    c25
+
+AC R
+AN R-4807 B
+AL 0
+AH UNLIMITED
+DP 37:16:00 N 116:11:10 W    c12
+DP 37:20:00 N 116:11:00 W    c13
+DP 37:23:00 N 116:17:15 W    c14
+DP 37:23:00 N 116:22:15 W    c15
+DP 37:21:00 N 116:27:00 W    c16
+DP 37:21:00 N 116:34:10 W    c17
+DP 37:16:00 N 116:31:00 W    c18
+
+AC R
+AN R-4808 N
+AL 0
+AH UNLIMITED
+DP 37:28:00 N 115:48:00 W    c9
+DP 37:28:00 N 116:00:00 W    c10
+DP 37:16:00 N 116:00:00 W    c11
+DP 37:16:00 N 116:11:10 W    c12
+DP 37:16:00 N 116:31:00 W    c18
+DP 37:08:00 N 116:27:00 W    c19
+DP 36:55:00 N 116:27:00 W    c20
+DP 36:55:00 N 116:34:00 W    c21
+DP 36:51:00 N 116:34:00 W    c22
+DP 36:51:00 N 116:26:45 W    c26
+DP 36:46:00 N 116:26:45 W    c27
+DP 36:41:00 N 116:15:00 W    c28
+DP 36:41:00 N 115:56:10 W    c29
+DP 37:06:00 N 115:56:10 W    c30
+DP 37:06:00 N 115:35:00 W    c31
+DP 37:16:55 N 115:35:00 W    c32
+DP 37:28:00 N 115:35:00 W    c33
+
+AC R
+AN R-4808 S
+AL 0
+AH UNLIMITED
+DP 36:46:00 N 116:26:45 W    c27
+DP 36:41:00 N 116:15:00 W    c28
+DP 36:41:00 N 116:26:45 W   
+
+AC R
+AN R-4809
+AL 0
+AH UNLIMITED
+DP 37:53:00 N 116:55:30 W    c1
+DP 37:47:00 N 116:55:30 W    c2
+DP 37:33:00 N 116:43:20 W    c3
+DP 37:33:00 N 116:26:20 W    c4
+DP 37:53:00 N 116:26:20 W    c5
+
+AC R
+AN R-4810
+AL 0
+AH 17000ft
+V X=39:10:20 N 118:37:00 W
+DA 5,293,215
+V X=39:09:00 N 118:42:00 W
+DA 3,159,347
+
+AC R
+AN R-4811
+AL 0
+AH 15000ft (Mo-Fri)
+V X=38:14:40 N 118:38:40 W
+DC 1.5
+
+AC R
+AN R-4813
+AL 0
+AH FL180
+V X=39:51:20 N 118:21:00 W
+DA 13,165,255
+DP 39:51:15 N 118:37:35 W
+DP 40:01:20 N 118:15:00 W
+DP 40:01:20 N 118:00:55 W
+DP 39:58:20 N 118:00:55 W
+
+AC R
+AN R-4816S
+AL 500 ft agl
+AH FL180
+DP 39:17:20 N 118:20:30 W
+DP 39:18:20 N 117:59:00 W
+DP 39:21:00 N 117:55:00 W
+DP 39:24:30 N 117:52:00 W
+DP 39:26:50 N 117:51:08 W
+DP 39:30:00 N 117:49:00 W
+DP 39:34:00 N 117:41:20 W
+DP 39:34:00 N 118:12:30 W
+DP 39:30:00 N 118:15:18 W
+
+AC R
+AN R-4816N
+AL 1500 ft agl
+AH FL180
+DP 39:34:00 N 118:12:30 W
+DP 39:51:20 N 117:59:55 W
+DP 39:51:20 N 117:31:00 W
+DP 39:34:00 N 117:40:00 W
+
+************* ALERT ************
+AC R
+AN A-481
+AL 7000ft
+AH 17000ft
+AT 36:21.0 N 115:22.0 W
+DP 36:14.2 N 115:02.0 W
+V X=36:14.2 N 115:02.0 W
+DA 30,274,307
+
+************* CLASS D ***********
+
+AC D
+AN NAS-FALLON
+AL 0
+AH 6400ft
+V X=39:25.0 N 118:42.0 W
+DC 6
+
+AC D
+AN LAKE TAHOE
+AL 0
+AH 8800ft
+V X=38:53.6 N 119:59.7 W
+DC 5
+
+************* Wave Windows ***********
+AC W
+AN Minden West
+AH Ask on 122.8
+AL 18000 ft
+DP 39:04:00 N 119:57:00 W
+DP 39:04:00 N 119:41:00 W
+DP 38:42:00 N 119:38:00 W
+DP 38:42:00 N 119:57:00 W
+
+=================================================
+
+2018 : Update : Extensions Suggested by the Naviter Company:
+Reason
+
+The Open Air format is the current de-facto standard for editing airspace data 
+for glider pilots worldwide
+Objective
+
+Create a new airspace format type which can easily be edited manually by pilots 
+worldwide, possibly even use the already existing software.
+
+The new format needs to be
+
+Simple
+
+Human readable
+
+Editable in Notepad 
+
+(this makes it hard to create controlled copies)
+
+Extendable when new needs appear (and therefore XML?)
+
+Steps to solution
+
+Be able to read AIXM format
+
+Define parameters which are interesting for gliding / paragliding / hang 
+gliding:
+
+Define required airspace classes
+
+A,B,C,D,E,F,G 
+(independent from airspace types)
+
+Define required airspace types (edit the table below):
+
+Abbreviation
+Description
+Open Air “AY”
+6.1
+CTR
+Control Zone
+CTR
+Y
+Restricted Area
+R
+Y
+Prohibited Area
+P
+Y
+Danger Area
+Q
+Y
+Glider Sector
+W, GSEC
+Y
+Airway
+AWY
+Y
+Transponder Mandatory Zone
+TMZ
+Y
+Radio Mandatory Zone
+RMZ
+Y
+Military Terminal Zone
+MTMA
+Y
+NOTAM
+
+TFR
+Temporary Flight Restriction
+
+ADA
+Advisory Area
+
+ADIZ
+Air Defense Identification Zone
+
+CTA
+Control Area
+
+FIR
+Flight Information Region
+
+TMA
+Terminal Manoeuvring Area
+
+DFIR
+Delegated FIR
+
+TIZ
+Traffic Information Zone
+
+TIA
+Traffic Information Area
+
+SRZ
+Special Rules Zone
+
+ATZ
+Aerodrome Traffic Zone
+
+MATZ
+Military Aerodrome Traffic Zone
+
+FISA
+Flight Information Service Area
+
+T
+Temporary Reserved
+
+MBZ
+Mandatory Broadcast Zone
+
+ASR
+Aerial Sporting and Recreation Area
+
+COMP
+Competition boundary
+
+TRZ
+Transponder Recommended Zone
+
+VFRR
+VFR Route
+
+RTZ
+Radio/Transponder Mandatory zone
+
+PARA
+Parachute jumping area
+
+LFZ
+Low Flying Zone
+
+CFZ
+Common Frequency Zone
+
+MOA
+Military Operating Area
+
+TSA
+Temporary segregated airspace (from Poland)
+
+TRA
+Temporary reserved airspace (from Poland)
+
+Add suggestions here
+
+Frequency field
+
+Date / Time when an airspace is active
+
+NOTAM airspace type (could already be implicitly defined above)
+
+Multiple lower and upper limits
+
+able to use defined radius in arc´s 
+
+Publish new airspace format and make it available to everybody
+
+Create a web-based platform (Cloud) for storage and download
+
+Put the responsibility for knowing which airspace is active to the pilot
+
+(which implies that more airspace management functions will be introduced in 
+SeeYou)
+
+Additional OpenAir fields (differences from original):
+
+AY = Airspace Type (extends AC which should now only be used for class)
+
+AF = 
+Frequency of the controlling ATC-station or other authority in that 
+particular airspace
+
+AG = Call-sign 
+for this station is provided.
+
+Example for AF and AG:
+
+AC R
+
+AN EHR 3
+
+AH 3000 MSL
+
+AL GND
+
+AF 132.350 
+
+AG Dutch Mil
+
+DP 52:23:00 N 005:50:00 E
+
+DP 52:21:30 N 005:52:30 E
+
+DP 52:24:30 N 006:01:00 E
+
+DP 52:27:00 N 006:00:00 E

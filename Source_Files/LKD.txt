@@ -93,28 +93,5 @@ DP 48:53:11 N 16:39:05 E
 DP 48:54:07 N 16:36:44 E
 
 
-AC Q
-AN LKD11 CHLUM 126.10 118.65
-AH FL 95
-AL 0 AGL
-V X=48:52:38 N 014:04:18 E
-DC 7.0 *NM
-
-
-AC Q
-AN LKD13 MILOVANY 136.175 119.375
-AH FL 95
-AL 0 AGL
-V X=49:40:23 N 017:36:05 E
-DC 7.0 *NM
-
-
-AC Q
-AN LKD14 LESNA 126.10 118.65
-AH FL 95
-AL 0 AGL
-V X=50:18:18 N 013:08:25 E
-DC 7.0 *NM
-
 ******* LKAA D (Dangerous Areas) ********
 *****************************************
