@@ -106,7 +106,7 @@ def convert_airac_to_openair(input_text:str):
 
     # Výstup do konzole
     output = "\n".join(openair_output)
-    print(output)
+    return output
 
 
 # Testovací vstupní text
@@ -187,35 +187,49 @@ def convert_airac_to_openair(input_text:str):
 # """
 
 
-input_text = """
-TMA II BRNO
-491528.30N 0170351.62E -
-491514.85N 0172945.86E -
-491442.19N 0173521.58E -
-490705.08N 0171626.75E -
-485615.73N 0171411.81E -
-485103.05N 0165559.46E -
-485542.66N 0164810.07E -
-CCA o poloměru / with radius 14 NM
-se středem v / centred at
-DME BNO (490900.23N 0164133.29E) -
-485752.54N 0165426.67E -
-485731.51N 0165828.67E -
-CCA o poloměru / with radius 16 NM
-se středem v / centred at
-DME BNO (490900.23N 0164133.29E) -
-491528.30N 0170351.62E
-FL95 / 3500 ft AMSL
-Třída vzdušného prostoru / Class of airspace: D
-PRAHA ACC
-PRAHA RADAR
-H24
-EN, CZ
-127.350 MHz
-124.050 MHz* * RESERVE
-"""
+# input_text = """
+# TMA II BRNO
+# 491528.30N 0170351.62E -
+# 491514.85N 0172945.86E -
+# 491442.19N 0173521.58E -
+# 490705.08N 0171626.75E -
+# 485615.73N 0171411.81E -
+# 485103.05N 0165559.46E -
+# 485542.66N 0164810.07E -
+# CCA o poloměru / with radius 14 NM
+# se středem v / centred at
+# DME BNO (490900.23N 0164133.29E) -
+# 485752.54N 0165426.67E -
+# 485731.51N 0165828.67E -
+# CCA o poloměru / with radius 16 NM
+# se středem v / centred at
+# DME BNO (490900.23N 0164133.29E) -
+# 491528.30N 0170351.62E
+# FL95 / 3500 ft AMSL
+# Třída vzdušného prostoru / Class of airspace: D
+# PRAHA ACC
+# PRAHA RADAR
+# H24
+# EN, CZ
+# 127.350 MHz
+# 124.050 MHz* * RESERVE
+# """
+
+# input_text = """
+# 500749.90N 0160359.89E -
+# 500631.57N 0162158.95E -
+# 495214.81N 0161847.72E -
+# 495055.69N 0154834.46E -
+# 495547.79N 0153511.65E -
+# 495516.82N 0155046.70E -
+# 495454.00N 0160231.00E -
+# 500110.00N 0160451.00E -
+# 500710.00N 0160405.00E -
+# 500749.90N 0160359.89E
+# """
 
 
 if __name__ == "__main__":
     # Spuštění konverze a výstupu do konzole
+    # input_text = input_text.replace("\n", " ")
     convert_airac_to_openair(input_text)

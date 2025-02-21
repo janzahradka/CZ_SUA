@@ -60,14 +60,19 @@ AIRSPACE_TYPE_MAP = [
 ]
 
 
-def extract_airspace_name(text: str):
+def extract_airspace_name(text: str, max_words: int = 5):
     """
     Extrahuje kód prostoru a název prostoru na základě mapování v AIRSPACE_TYPE_MAP.
 
     Pravidla:
     - Pokud text začíná některým z name_template z AIRSPACE_TYPE_MAP, je to rozpoznáno jako kód prostoru.
     - Pokud jsou za kódem přilepené číslice (např. LKR1), jsou součástí kódu.
-    - Zbytek textu je název prostoru.
+    - Název prostoru je maximálně prvních 5 slov za kódem.
+    - Pokud není rozpoznán kód prostoru, vrátí (None, None)
+
+    Parametry:
+    - text (str): Vstupní text
+    - max_words (int): Maximální počet slov v názvu prostoru (výchozí: 5)
 
     Návratové hodnoty:
     - tuple (code, name) - Kód prostoru a název prostoru
@@ -80,8 +85,13 @@ def extract_airspace_name(text: str):
         if match:
             code = match.group(1)
             name = text[len(code):].strip()
+            # Rozdělení názvu na slova a použití maximálně prvních max_words
+            name_words = name.split()
+            name = " ".join(name_words[:max_words])
             return code, name
-    return None
+
+    # Pokud není rozpoznán kód prostoru, vrátí (None, None)
+    return None, None
 
 
 def get_ay_code(space_name:str):
