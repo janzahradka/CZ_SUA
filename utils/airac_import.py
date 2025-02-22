@@ -3,14 +3,32 @@ import unicodedata
 from geo_utils import contains_coordinate_with_index, extract_coordinate_to_dms, extract_radius_and_unit, normalize_radius
 from openair_utils import get_ac_code, get_ay_code, extract_verticals, extract_frequencies, extract_airspace_name
 
-# Funkce pro konverzi názvu na formát bez diakritiky
-def remove_diacritics(text):
+# Funkce pro odstranění diakritiky
+def remove_diacritics(text:str) -> str:
+    """
+    Odstraní diakritiku z textu
+    :param text:
+    :return:
+    """
     normalized = unicodedata.normalize('NFKD', text)
     return ''.join([c for c in normalized if not unicodedata.combining(c)])
 
 
 # Hlavní funkce pro analýzu a konverzi na OpenAir formát z AIRAC PDF
 def convert_airac_to_openair(input_text:str):
+    """
+    Converts an input AIRAC format text to an OpenAir formatted string by extracting and
+    transforming various air traffic-related data such as coordinates, airspace characteristics,
+    frequencies, and more. The function processes the input text, identifies key components,
+    and outputs an OpenAir formatted result based on the extracted data.
+
+    :param input_text: The input AIRAC format text to be converted.
+    :type input_text: str
+    :return: A string containing the converted OpenAir formatted text. If input text is empty
+             or not applicable, it returns an empty string.
+    :rtype: str
+    :raises Exception: Raised during the extraction of vertical limits if an error occurs.
+    """
     input_text = input_text.upper() # převede na UPPER
 
     # nalezení vertikálních limitů
@@ -91,7 +109,7 @@ def convert_airac_to_openair(input_text:str):
                         openair_output.append(f"V D={direction}")
                         openair_output.append(f"DB {arc_start_coordinate}, {arc_end_coordinate}")
                     else: #neidentifikován oblouk, pouze kruh
-                        openair_output.append(f"V X= {center_dms}")
+                        openair_output.append(f"V X={extracted_coordinate}")
                         openair_output.append(f"DC {normalize_radius(radius, unit)} *{unit}")
                 else: # není ani kruh ani oblouk
                     # Polygon
@@ -106,7 +124,8 @@ def convert_airac_to_openair(input_text:str):
 
     # Výstup do konzole
     output = "\n".join(openair_output)
-    return output
+    normalized_output = remove_diacritics(output)
+    return normalized_output
 
 
 # Testovací vstupní text
@@ -228,8 +247,15 @@ def convert_airac_to_openair(input_text:str):
 # 500749.90N 0160359.89E
 # """
 
+input_text="""
+LKP2 TEMELÍN
+Kružnice o poloměru / A circle of radius 1.1 NM
+se středem v poloze / centred at
+491048.73N 0142231.77E
+"""
+
 
 if __name__ == "__main__":
     # Spuštění konverze a výstupu do konzole
     # input_text = input_text.replace("\n", " ")
-    convert_airac_to_openair(input_text)
+    print(convert_airac_to_openair(input_text))

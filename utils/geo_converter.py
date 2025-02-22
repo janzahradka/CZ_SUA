@@ -84,7 +84,7 @@ def convert_all_coordinates(text):
     for entry in GEOGRAPHICAL_PATTERNS:
         matches = re.findall(entry["pattern"], text)
         for match in matches:
-            # Výsledek z pravidla použijeme k extrakci a převodu
+            # Výsledek zpravidla použijeme k extrakci a převodu
             lat_decimal, lon_decimal = parse_coordinates(match)
             formatted_coords.append(coords_to_dms_format(lat_decimal, lon_decimal))
     if not formatted_coords:

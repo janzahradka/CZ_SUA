@@ -93,7 +93,7 @@ def extract_geo_coordinate(coord_str) -> tuple[float, float] | None:
             return lat_decimal, lon_decimal
 
     # If no patterns match
-    raise ValueError(f"Invalid format or format not recognized in {coord_str!r}. ")
+    return None
 
 
 def decimal_to_dms(decimal_degree, is_longitude=False) -> str  :
@@ -126,10 +126,7 @@ def decimal_to_dms(decimal_degree, is_longitude=False) -> str  :
         degrees += 1
 
     # Return formatted string
-    if is_longitude:
-        return f"{degrees:03}:{minutes:02}:{seconds:02} {hemisphere}"
-    else:
-        return f"{degrees:02}:{minutes:02}:{seconds:02} {hemisphere}"
+    return f"{degrees:02}:{minutes:02}:{seconds:02} {hemisphere}"
 
 
 def coords_to_dms_format(lat_decimal: float, lon_decimal: float) -> str:
@@ -149,7 +146,7 @@ def coords_to_dms_format(lat_decimal: float, lon_decimal: float) -> str:
 
 def extract_coordinate_to_dms(coordinate: str) -> str:
     """
-        converts coordinate string in any of GEOGRAPHIC_PATTERNS to DMS format such as
+    Converts coordinate string in any of GEOGRAPHIC_PATTERNS to DMS format such as:
         input example:
                 50:05:53 N 014:24:38 E
                 49° 48' 51" N, 15° 12' 06" E
@@ -157,8 +154,18 @@ def extract_coordinate_to_dms(coordinate: str) -> str:
                 49.7689256N, 17.0833339E
                 500552.95N 0142437.57E
         output example: '41:16:36 N 017:51:56 E'
+    Returns an empty string if no coordinate is found.
     """
-    return coords_to_dms_format(*extract_geo_coordinate(coordinate))
+    # Zavoláme funkci na extrakci souřadnic
+    coordinates = extract_geo_coordinate(coordinate)
+
+    # Zkontrolujeme, zda byly souřadnice nalezeny
+    if coordinates:
+        # Pokud ano, převedeme na DMS formát
+        return coords_to_dms_format(*coordinates)
+    else:
+        # Pokud nebyly nalezeny, vrátíme prázdný řetězec nebo jiný výstup podle potřeby
+        return ""
 
 
 def contains_coordinate_with_index(coord_str) -> tuple[bool, int]:
