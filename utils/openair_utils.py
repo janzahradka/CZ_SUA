@@ -56,7 +56,10 @@ AIRSPACE_TYPE_MAP = [
      },
     {"name_template": "TRA GA",
      "AC_tag": "GS",
-     "AY_tag": "GSEC"}
+     "AY_tag": "GSEC"},
+    {"name_template": "NTM",
+     "AC_tag": "R",
+     "AY_tag": "NOTAM"}
 ]
 
 

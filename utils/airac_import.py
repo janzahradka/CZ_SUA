@@ -1,6 +1,6 @@
 import re
 import unicodedata
-from geo_utils import contains_coordinate_with_index, extract_coordinate_to_dms, extract_radius_and_unit, normalize_radius
+from geo_utils import contains_coordinate_with_index, extract_coordinate_to_dms, extract_radius_and_unit, normalize_radius, get_lines_by_coordinates
 from openair_utils import get_ac_code, get_ay_code, extract_verticals, extract_frequencies, extract_airspace_name
 
 # Funkce pro odstranění diakritiky
@@ -70,57 +70,44 @@ def convert_airac_to_openair(input_text:str):
         openair_output.append(f"AH {high_limit}")
         openair_output.append(f"AL {low_limit}")
 
+    lines = get_lines_by_coordinates(input_text)
     # Zpracování řádků
+    skipping_lines = 0
     for line_index, line in enumerate(lines):
-        coordinate_found, position = contains_coordinate_with_index(line)
-        buffer_line_index += 1
-        if position != 0:
-            # Pokud řádek NEZAČÍNÁ souřadnicí, přidej do temporary_buffer
-            temporary_buffer.append(line)
-        else:
-            # Pokud řádek ZAČÍNÁ souřadnicí
-            # Přidáme i tento řádek do temporary_buffer
+        if skipping_lines == 0:
             extracted_coordinate = extract_coordinate_to_dms(line)
-            if buffer_line_index > 1:
-    
-                # Spojíme všechny řádky v temporary_buffer do jednoho bloku
-                combined_text = " ".join(temporary_buffer)
-    
-                # Detekce kružnice nebo oblouku
-                if re.search(r"\b(KRUH|CIRCLE|RADIUS)", combined_text, re.IGNORECASE):
-                    radius, unit = extract_radius_and_unit(combined_text)
-                    center_dms = extract_coordinate_to_dms(combined_text)
-                    if re.search(r"\b(ARC|OBLOUK|ARCU|ARC OF|OBLOUKU|OBLOUKEM|CWA)", combined_text, re.IGNORECASE):
-                        direction = "+"
-                        arc = True
-                    elif re.search(r"\b(PROTI SMĚRU|ANTI-CLOCKWISE|ANTICLOCKWISE|COUNTERCLOCKWISE|CCA)", combined_text, re.IGNORECASE):
-                        direction = "-"
-                        arc = True
-                    else:
-                        arc = False
-                    if arc: # detekován oblouk
-                        # první koordinát oblouku:
-                        preceding_row_with_coordinate = lines[line_index - buffer_line_index] # první koordinát oblouku předchází aktuálnímu bloku, avšak může být součástí předchozího oblouku
-                        arc_start_coordinate = extract_coordinate_to_dms(preceding_row_with_coordinate) # extrakce středu oblouku z bloku textu
-                        if openair_output and openair_output[-1].startswith("DP"):
-                            openair_output.pop()  # odstranění polygonu, který je ve skutečnosti prvním koordinátem oblouku
-                        arc_end_coordinate = extracted_coordinate  # druhý koordinát oblouku je koordinát následující po bloku textu
-                        openair_output.append(f"V X= {center_dms} *ARP () {radius} {unit}")
-                        openair_output.append(f"V D={direction}")
-                        openair_output.append(f"DB {arc_start_coordinate}, {arc_end_coordinate}")
-                    else: #neidentifikován oblouk, pouze kruh
-                        openair_output.append(f"V X={extracted_coordinate}")
-                        openair_output.append(f"DC {normalize_radius(radius, unit)} *{unit}")
-                else: # není ani kruh ani oblouk
-                    # Polygon
-                    openair_output.append(f"DP {extracted_coordinate}")
-            else: # víceřádkový řetězec obsahující pouze Polygon, nikoliv kruh nebo oblouk
-                # Polygon
-                openair_output.append(f"DP {extracted_coordinate}")
+            if re.search(r"\b(KRUH|CIRCLE|RADIUS)", line, re.IGNORECASE):
+                radius, unit = extract_radius_and_unit(line)
+                # center_dms = extract_coordinate_to_dms(line)
+                if re.search(r"\b(ARC|OBLOUK|ARCU|ARC OF|OBLOUKU|OBLOUKEM|CWA)", line, re.IGNORECASE):
+                    direction = "+"
+                    arc = True
+                elif re.search(r"\b(PROTI SMĚRU|ANTI-CLOCKWISE|ANTICLOCKWISE|COUNTERCLOCKWISE|CCA)", line,
+                               re.IGNORECASE):
+                    direction = "-"
+                    arc = True
+                else:
+                    arc = False
+                if arc:  # detekován oblouk
+                    arc_start_coordinate = extracted_coordinate # start oblouku je na prvním řádku
+                    arc_centre_coordinate = extract_coordinate_to_dms(lines[line_index + 1]) # střed oblouku je na následujícím řádku
+                    arc_end_coordinate = extract_coordinate_to_dms(lines[line_index + 2]) # konec oblouku je na následujícím řádku
+                    skipping_lines = 2 # přeskočí následující dva řádky ze zpracování
 
-            # Vyčistíme temporary_buffer
-            temporary_buffer = []
-            buffer_line_index = 0
+                    openair_output.append(f"V X= {arc_centre_coordinate} *ARP () {radius} {unit}")
+                    openair_output.append(f"V D={direction}")
+                    openair_output.append(f"DB {arc_start_coordinate}, {arc_end_coordinate}")
+                else:  # neidentifikován oblouk, pouze kruh
+                    circle_centre_coordinate = extract_coordinate_to_dms(lines[line_index + 1]) # střed kruhu je na následujícím řádku
+                    openair_output.append(f"V X={circle_centre_coordinate}")
+                    openair_output.append(f"DC {normalize_radius(radius, unit)} *{unit}")
+                    skipping_lines = 1 # přeskočí řádek se středem kruhu
+            else:  # není ani kruh ani oblouk
+                # Polygon
+                if extracted_coordinate:
+                    openair_output.append(f"DP {extracted_coordinate}")
+        else:
+            skipping_lines -= 1
 
     # Výstup do konzole
     output = "\n".join(openair_output)
@@ -247,13 +234,43 @@ def convert_airac_to_openair(input_text:str):
 # 500749.90N 0160359.89E
 # """
 
-input_text="""
-LKP2 TEMELÍN
-Kružnice o poloměru / A circle of radius 1.1 NM
-se středem v poloze / centred at
-491048.73N 0142231.77E
-"""
+# input_text="""
+# LKP2 TEMELÍN
+# Kružnice o poloměru / A circle of radius 1.1 NM
+# se středem v poloze / centred at
+# 491048.73N 0142231.77E
+# 5000 FT AMSL / GND
+# """
 
+
+# input_text = """
+# TMA II BRNO
+# 491528.30N 0170351.62E -
+# 491514.85N 0172945.86E -
+# 491442.19N 0173521.58E -
+# 490705.08N 0171626.75E -
+# 485615.73N 0171411.81E -
+# 485103.05N 0165559.46E -
+# 485542.66N 0164810.07E -
+# CCA o poloměru / with radius 14 NM
+# se středem v / centred at
+# DME BNO (490900.23N 0164133.29E) -
+# 485752.54N 0165426.67E -
+# 485731.51N 0165828.67E -
+# CCA o poloměru / with radius 16 NM
+# se středem v / centred at
+# DME BNO (490900.23N 0164133.29E) -
+# 491528.30N 0170351.62E
+# 495959.99N 0175959.99E
+# FL95 / 3500 ft AMSL
+# Třída vzdušného prostoru / Class of airspace: D
+# PRAHA ACC
+# PRAHA RADAR
+# H24
+# EN, CZ
+# 127.350 MHz
+# 124.050 MHz*
+# """
 
 if __name__ == "__main__":
     # Spuštění konverze a výstupu do konzole

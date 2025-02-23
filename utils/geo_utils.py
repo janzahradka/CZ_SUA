@@ -3,17 +3,26 @@
 import re
 
 GEOGRAPHICAL_PATTERNS  = [
-        # N41°16'36" E017°51'56"
-        r'(?P<lat_hem1>[NS])?(?P<lat_deg>\d{1,2})°\s?(?P<lat_min>\d{1,2})\'\s?(?P<lat_sec>\d{1,2}(?:,\d{1,2})?)"\s?(?P<lat_hem2>[NS])?\s?(?P<lon_hem1>[EW])?(?P<lon_deg>\d{1,3})°\s?(?P<lon_min>\d{1,2})\'\s?(?P<lon_sec>\d{1,2}(?:,\d{1,2})?)"\s?(?P<lon_hem2>[EW])?',
-        # 49° 48' 51" N, 15° 12' 06" E
-        r'(?P<lat_hem1>[NS])?(?P<lat_deg>\d{1,2})°\s?(?P<lat_min>\d{1,2})\'\s?(?P<lat_sec>\d{1,2}(?:,\d{1,2})?)"\s?(?P<lat_hem2>[NS])?,\s?(?P<lon_hem1>[EW])?(?P<lon_deg>\d{1,3})°\s?(?P<lon_min>\d{1,2})\'\s?(?P<lon_sec>\d{1,2}(?:,\d{1,2})?)"\s?(?P<lon_hem2>[EW])?',
-        # 43 02 40,66 N 014 09 25,97 E
-        r'(?P<lat_deg>\d{2})\s?(?P<lat_min>\d{2})\s?(?P<lat_sec>\d{2}(?:,\d{1,2})?)\s?(?P<lat_hem>[NS])?\s?(?P<lon_deg>\d{3})\s?(?P<lon_min>\d{2})\s?(?P<lon_sec>\d{2}(?:,\d{1,2})?)\s?(?P<lon_hem>[EW])',
-        # 49.7689256N, 17.0833339E
-        r'(?P<lat>\d{1,2}\.\d+)(?P<lat_hem>[NS]),\s?(?P<lon>\d{1,3}\.\d+)(?P<lon_hem>[EW])',
-        # 500552.95N 0142437.57E
-        r'(?P<lat_dms>\d{6,8}\.\d+)(?P<lat_hem>[NS])\s(?P<lon_dms>\d{6,8}\.\d+)(?P<lon_hem>[EW])',
-    ]
+    # 49.7689256N, 17.0833339E - Decimální formát
+    r'(?P<lat>[0-8]\d\.\d{1,7})(?P<lat_hem>[NS]),\s?(?P<lon>(1[0-7][0-9]|0[0-8][0-9]|[0-9][0-9]|\d)\.\d{1,7})(?P<lon_hem>[EW])',
+    #
+    # 500552.95N 0142437.57E - Kompaktní DMS formát
+    r'(?P<lat_dms>([0-8][0-9]|\d)[0-5]\d[0-5]\d\.\d{1,2})(?P<lat_hem>[NS])\s(?P<lon_dms>(1[0-7][0-9]|0[0-8][0-9]|[0-9][0-9]|\d)[0-5]\d[0-5]\d\.\d{1,2})(?P<lon_hem>[EW])',
+    #
+    # N41°16'36" E017°51'56" - DMS formát s ° ' "
+    r'(?P<lat_hem>[NS])(?P<lat_deg>([0-8][0-9]|\d))°\s?(?P<lat_min>[0-5]\d)\'\s?(?P<lat_sec>[0-5]\d(?:,\d{1,2})?)",?\s?(?P<lon_hem>[EW])(?P<lon_deg>(1[0-7][0-9]|0[0-8][0-9]|[0-9][0-9]|\d))°\s?(?P<lon_min>[0-5]\d)\'\s?(?P<lon_sec>[0-5]\d(?:,\d{1,2})?)"',
+    #
+    # 49° 48' 51" N, 15° 12' 06" E - DMS s čárkou
+    r'(?P<lat_deg>([0-8][0-9]|\d))°\s?(?P<lat_min>[0-5]\d)\'\s?(?P<lat_sec>[0-5]\d)"\s?(?P<lat_hem>[NS]),?\s?(?P<lon_deg>(1[0-7][0-9]|0[0-8][0-9]|[0-9][0-9]|\d))°\s?(?P<lon_min>[0-5]\d)\'\s?(?P<lon_sec>[0-5]\d(?:,\d{1,2})?)"\s?(?P<lon_hem>[EW])',
+
+    # 43 02 40,66 N 014 09 25,97 E - DMS s čárkami
+    r'(?P<lat_deg>([0-8][0-9]|\d))\s?(?P<lat_min>[0-5]\d)\s?(?P<lat_sec>[0-5]\d(?:,\d{1,2})?)\s?(?P<lat_hem>[NS])\s?(?P<lon_deg>(1[0-7][0-9]|0[0-8][0-9]|[0-9][0-9]|\d))\s?(?P<lon_min>[0-5]\d)\s?(?P<lon_sec>[0-5]\d(?:,\d{1,2})?)\s?(?P<lon_hem>[EW])',
+
+    # 49:48:51 N 15:12:06 E - Časový formát
+    r'(?P<lat_deg>([0-8][0-9]|\d)):(?P<lat_min>[0-5]\d):(?P<lat_sec>[0-5]\d)\s?(?P<lat_hem>[NS])\s+(?P<lon_deg>(1[0-7][0-9]|0[0-8][0-9]|[0-9][0-9]|\d)):(?P<lon_min>[0-5]\d):(?P<lon_sec>[0-5]\d)\s?(?P<lon_hem>[EW])'
+]
+
+
 """
 Tato konstanta definuje seznam regulárních výrazů pro zpracování geografických souřadnic ve
 více formátech. Každý regulární výraz pokrývá jednu z těchto forem:
@@ -96,7 +105,7 @@ def extract_geo_coordinate(coord_str) -> tuple[float, float] | None:
     return None
 
 
-def decimal_to_dms(decimal_degree, is_longitude=False) -> str  :
+def decimal_to_dms(decimal_degree, is_longitude=False) -> str:
     """ Convert decimal degrees to degrees, minutes, and seconds (DMS) format."""
     if is_longitude:
         if decimal_degree < 0:
@@ -115,9 +124,9 @@ def decimal_to_dms(decimal_degree, is_longitude=False) -> str  :
     degrees = int(decimal_degree)
     minutes_decimal = (decimal_degree - degrees) * 60
     minutes = int(minutes_decimal)
-    seconds = round((minutes_decimal - minutes) * 60)  # Round to 0 decimal places
+    seconds = round((minutes_decimal - minutes) * 60)  # Zaokrouhlíme sekundy na celé číslo
 
-    # Zaokrouhlení v šedesátkové soustavě
+    # Správné zaokrouhlení a přenos zbytků
     if seconds == 60:
         seconds = 0
         minutes += 1
@@ -125,8 +134,10 @@ def decimal_to_dms(decimal_degree, is_longitude=False) -> str  :
         minutes = 0
         degrees += 1
 
-    # Return formatted string
+    # Formátování s pevnou strukturou (bez desetinné tečky)
     return f"{degrees:02}:{minutes:02}:{seconds:02} {hemisphere}"
+
+
 
 
 def coords_to_dms_format(lat_decimal: float, lon_decimal: float) -> str:
@@ -222,8 +233,54 @@ def normalize_radius(radius, unit):
         raise ValueError(f"Neznámá jednotka: {unit}")
 
 
+def get_lines_by_coordinates(text: str) -> list[str]:
+    """
+    Rozdělí text na základě geografických shod, ale pouze podle začátku shod.
+    Shody jsou deduplikovány a překrývající shody způsobí výjimku.
+    """
 
+    # Odstraníme zalomení řádků a vytvoříme jednolitý řetězec
+    single_line_text = text.replace("\n", " ")
 
+    # Seznam pro uložení indexů všech shod (jen jejich začátek)
+    match_indices = []
+
+    # Iterace přes všechny vzory v GEOGRAPHICAL_PATTERNS
+    for pattern in GEOGRAPHICAL_PATTERNS:
+        for match in re.finditer(pattern, single_line_text):
+            # Uložíme start index shody
+            match_indices.append(match.start())
+
+    # Deduplication: odstranění duplicitních indexů
+    match_indices = sorted(set(match_indices))
+
+    # Kontrola překryvů (jen pro případ, že by existovaly duplicity, i když by neměly)
+    for i in range(len(match_indices) - 1):
+        start_current = match_indices[i]
+        start_next = match_indices[i + 1]
+        # Pokud dvě shody začínají příliš blízko (například další shoda by začínala uvnitř předchozí části)
+        if start_current >= start_next:
+            raise ValueError(
+                f"Překryv nalezen mezi shodami na pozicích {start_current} a {start_next}."
+            )
+
+    # Rozdělení textu na části podle počátečních indexů shod
+    split_lines = []
+    last_index = 0
+
+    for start in match_indices:
+        # Text před shodou přidáme jako součást seznamu
+        before_match = single_line_text[last_index:start].strip()
+        if before_match:
+            split_lines.append(before_match)
+        #poslední prvek
+        if start == max(match_indices):
+            split_lines.append(single_line_text[start:].strip())
+
+        # Posuneme `last_index` na začátek další části
+        last_index = start
+
+    return split_lines
 # if __name__ == "__main__":
 #
 
