@@ -7,6 +7,9 @@ import folium
 import webbrowser
 from geo_utils import extract_geo_coordinate
 from map_utils import calculate_arc_points
+from tkinter import ttk, scrolledtext
+import tkinter as tk
+from tkinter import messagebox
 
 """
 pro lepší zážitek doporučuju nainstalovat font Roboto a JetBrains Mono
@@ -23,8 +26,8 @@ class AirspaceApp:
         # Ovládací lišta s Unicode ikonami
         self.create_toolbar()
 
-        # Rámce pro textová pole s popisky
-        self.create_text_fields()
+        # rozložení s taby
+        self.create_tabs()
 
     def create_toolbar(self):
         """ Vytvoří ovládací lištu s Unicode ikonami na tlačítkách """
@@ -55,45 +58,45 @@ class AirspaceApp:
         reset_btn.pack(side=tk.RIGHT, padx=2, pady=2)
 
 
-    def create_text_fields(self):
-        """ Vytvoří textová pole s popisky pro vstup a výstup """
-
-        # Detekce dostupnosti fontu JetBrains Mono
-        try:
-            import tkinter.font as tkFont
-            available_fonts = tkFont.families()
-            if "JetBrains Mono" in available_fonts:
-                font_to_use = ("JetBrains Mono", 12)
-            else:
-                font_to_use = ("Courier New", 12)  # Defaultní monospace
-        except Exception:
-            font_to_use = ("Courier New", 12)  # Fallback na Courier New
-
-        # Rámec pro vstupní pole a popisek
-        input_frame = tk.Frame(self.root)
-        input_frame.pack(side=tk.LEFT, padx=10, pady=10, fill=tk.BOTH, expand=True)
-
-        # Popisek pro vstup
-        input_label = tk.Label(input_frame, text="Vstup", font=("Arial", 12, "bold"))
-        input_label.pack(anchor="w")  # Zarovnáno vlevo
-
-        # Vstupní pole (80 znaků na šířku) s JetBrains Mono nebo Courier New
-        self.input_text = scrolledtext.ScrolledText(input_frame, wrap=tk.WORD, width=80, height=30)
-        self.input_text.config(font=font_to_use)
-        self.input_text.pack(fill=tk.BOTH, expand=True)
-
-        # Rámec pro výstupní pole a popisek
-        output_frame = tk.Frame(self.root)
-        output_frame.pack(side=tk.RIGHT, padx=10, pady=10, fill=tk.BOTH, expand=True)
-
-        # Popisek pro výstup
-        output_label = tk.Label(output_frame, text="Výstup", font=("Arial", 12, "bold"))
-        output_label.pack(anchor="w")  # Zarovnáno vlevo
-
-        # Výstupní pole (80 znaků na šířku) s JetBrains Mono nebo Courier New
-        self.output_text = scrolledtext.ScrolledText(output_frame, wrap=tk.WORD, width=80, height=30)
-        self.output_text.config(font=font_to_use)
-        self.output_text.pack(fill=tk.BOTH, expand=True)
+    # def create_text_fields(self):
+    #     """ Vytvoří textová pole s popisky pro vstup a výstup """
+    #
+    #     # Detekce dostupnosti fontu JetBrains Mono
+    #     try:
+    #         import tkinter.font as tkFont
+    #         available_fonts = tkFont.families()
+    #         if "JetBrains Mono" in available_fonts:
+    #             font_to_use = ("JetBrains Mono", 12)
+    #         else:
+    #             font_to_use = ("Courier New", 12)  # Defaultní monospace
+    #     except Exception:
+    #         font_to_use = ("Courier New", 12)  # Fallback na Courier New
+    #
+    #     # Rámec pro vstupní pole a popisek
+    #     input_frame = tk.Frame(self.root)
+    #     input_frame.pack(side=tk.LEFT, padx=10, pady=10, fill=tk.BOTH, expand=True)
+    #
+    #     # Popisek pro vstup
+    #     input_label = tk.Label(input_frame, text="Vstup", font=("Arial", 12, "bold"))
+    #     input_label.pack(anchor="w")  # Zarovnáno vlevo
+    #
+    #     # Vstupní pole (80 znaků na šířku) s JetBrains Mono nebo Courier New
+    #     self.input_text = scrolledtext.ScrolledText(input_frame, wrap=tk.WORD, width=80, height=30)
+    #     self.input_text.config(font=font_to_use)
+    #     self.input_text.pack(fill=tk.BOTH, expand=True)
+    #
+    #     # Rámec pro výstupní pole a popisek
+    #     output_frame = tk.Frame(self.root)
+    #     output_frame.pack(side=tk.RIGHT, padx=10, pady=10, fill=tk.BOTH, expand=True)
+    #
+    #     # Popisek pro výstup
+    #     output_label = tk.Label(output_frame, text="Výstup", font=("Arial", 12, "bold"))
+    #     output_label.pack(anchor="w")  # Zarovnáno vlevo
+    #
+    #     # Výstupní pole (80 znaků na šířku) s JetBrains Mono nebo Courier New
+    #     self.output_text = scrolledtext.ScrolledText(output_frame, wrap=tk.WORD, width=80, height=30)
+    #     self.output_text.config(font=font_to_use)
+    #     self.output_text.pack(fill=tk.BOTH, expand=True)
 
 
 
@@ -110,12 +113,15 @@ class AirspaceApp:
         """ Spustí zpracování vstupního textu """
         input_text = self.input_text.get(1.0, tk.END).strip()
         if input_text:
-            self.output_text.config(state='normal')
             self.output_text.delete(1.0, tk.END)
             try:
                 # Zpracování vstupu
                 output = convert_airac_to_openair(input_text)
                 self.output_text.insert(tk.END, output)
+
+                # === AUTOMATICKÉ PŘEPNUTÍ NA VÝSTUP ===
+                self.output_notebook.select(self.output_tab)
+
             except Exception as e:
                 self.output_text.insert(tk.END, f"Chyba při zpracování: {e}")
         else:
@@ -373,6 +379,120 @@ class AirspaceApp:
             self.show_on_map(output_text)
         else:
             messagebox.showwarning("Upozornění", "Výstupní pole je prázdné.")
+
+    def show_map_multi(self):
+        """ Zobrazí všechny prostory z vícenásobného výstupu na jedné mapě """
+        # Načteme obsah vícenásobného výstupu
+        multi_output_text = self.multi_output_text.get(1.0, tk.END).strip()
+
+        if not multi_output_text:
+            # Pokud je vícenásobný výstup prázdný, zobrazíme varování
+            messagebox.showwarning("Upozornění", "Vícenásobný výstup je prázdný.")
+            return
+
+        # Rozdělíme text na jednotlivé prostory podle dvou prázdných řádků
+        spaces = multi_output_text.split("\n\n")
+
+        # Spojíme všechny prostory do jednoho řetězce
+        combined_spaces = "\n".join(spaces)
+
+        # Zobrazíme všechny prostory na jedné mapě
+        self.show_on_map(combined_spaces)
+
+    def create_tabs(self):
+        """ Vytvoří rozložení s taby pro vstup, výstup a vícenásobný výstup """
+        # === DETEKCE FONTU JETBRAINS MONO ===
+        try:
+            import tkinter.font as tkFont
+            available_fonts = tkFont.families()
+            if "JetBrains Mono" in available_fonts:
+                font_to_use = ("JetBrains Mono", 12)
+            else:
+                font_to_use = ("Courier New", 12)  # Fallback na monospace
+        except Exception:
+            font_to_use = ("Courier New", 12)
+
+        # === LEVÝ PANEL (VSTUP) ===
+        input_notebook = ttk.Notebook(self.root)
+        input_notebook.pack(side=tk.LEFT, padx=10, pady=10, fill=tk.BOTH, expand=True)
+
+        input_tab = tk.Frame(input_notebook)
+        input_notebook.add(input_tab, text="Vstup")
+
+        # Vstupní pole s JetBrains Mono nebo Courier New
+        self.input_text = scrolledtext.ScrolledText(input_tab, wrap=tk.WORD, width=80, height=30, font=font_to_use)
+        self.input_text.pack(fill=tk.BOTH, expand=True)
+
+        # Ovládací lišta pro vstupní pole
+        input_toolbar = tk.Frame(input_tab)
+        input_toolbar.pack(fill=tk.X)
+
+        clear_input_btn = tk.Button(input_toolbar, text="Vymazat", command=lambda: self.clear_field(self.input_text))
+        clear_input_btn.pack(side=tk.RIGHT)
+
+        # === PRAVÝ PANEL (VÝSTUP A VÍCENÁSOBNÝ VÝSTUP) ===
+        self.output_notebook = ttk.Notebook(self.root)
+        self.output_notebook.pack(side=tk.RIGHT, padx=10, pady=10, fill=tk.BOTH, expand=True)
+
+        # === Tab pro současné výstupní pole ===
+        self.output_tab = tk.Frame(self.output_notebook)
+        self.output_notebook.add(self.output_tab, text="Výstup")
+
+        self.output_text = scrolledtext.ScrolledText(self.output_tab, wrap=tk.WORD, width=80, height=30,
+                                                     font=font_to_use)
+        self.output_text.pack(fill=tk.BOTH, expand=True)
+
+        # Ovládací lišta pro výstupní pole
+        output_toolbar = tk.Frame(self.output_tab)
+        output_toolbar.pack(fill=tk.X)
+
+        clear_output_btn = tk.Button(output_toolbar, text="Vymazat", command=lambda: self.clear_field(self.output_text))
+        clear_output_btn.pack(side=tk.RIGHT)
+
+        move_to_multi_btn = tk.Button(output_toolbar, text="Přesunout do vícenásobného",
+                                      command=self.move_to_multi_output)
+        move_to_multi_btn.pack(side=tk.LEFT)
+
+        # === Tab pro vícenásobný výstup ===
+        self.multi_output_tab = tk.Frame(self.output_notebook)
+        self.output_notebook.add(self.multi_output_tab, text="Vícenásobný výstup")
+
+        self.multi_output_text = scrolledtext.ScrolledText(self.multi_output_tab, wrap=tk.WORD, width=80, height=30,
+                                                           font=font_to_use)
+        self.multi_output_text.pack(fill=tk.BOTH, expand=True)
+
+        # Ovládací lišta pro vícenásobný výstup
+        multi_output_toolbar = tk.Frame(self.multi_output_tab)
+        multi_output_toolbar.pack(fill=tk.X)
+
+        clear_multi_output_btn = tk.Button(multi_output_toolbar, text="Vymazat",
+                                           command=lambda: self.clear_field(self.multi_output_text))
+        clear_multi_output_btn.pack(side=tk.RIGHT)
+
+        show_map_multi_btn = tk.Button(multi_output_toolbar, text="Zobrazit na mapě", command=self.show_map_multi)
+        show_map_multi_btn.pack(side=tk.LEFT)
+
+    def move_to_multi_output(self):
+        """ Přesune obsah výstupního pole do vícenásobného výstupu a přepne na tento tab """
+        output_text = self.output_text.get(1.0, tk.END).strip()
+        if output_text:
+            # Přidáme obsah do vícenásobného výstupu s oddělením dvěma prázdnými řádky
+            current_text = self.multi_output_text.get(1.0, tk.END).strip()
+            if current_text:
+                new_text = current_text + "\n\n\n" + output_text
+            else:
+                new_text = output_text
+            self.multi_output_text.delete(1.0, tk.END)
+            self.multi_output_text.insert(tk.END, new_text)
+
+            # === AUTOMATICKÉ PŘEPNUTÍ NA VÍCENÁSOBNÝ VÝSTUP ===
+            self.output_notebook.select(self.multi_output_tab)
+            self.multi_output_text.focus_set()
+
+    def clear_field(self, field):
+        """ Vymaže obsah jednoho textového pole """
+        field.delete(1.0, tk.END)
+
 
 # Spuštění aplikace
 if __name__ == "__main__":
