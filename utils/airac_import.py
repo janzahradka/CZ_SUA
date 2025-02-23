@@ -56,8 +56,8 @@ def convert_airac_to_openair(input_text:str):
     first_line = lines[0]
     code, name = extract_airspace_name(first_line)
     if code and name:
-        if frequency:
-            name = f"{name} {frequency}"
+        if freqs:
+            name = f'{name} {" ".join(freqs)}'
         openair_output.append(f"AC {get_ac_code(code)}")
         openair_output.append(f"AY {get_ay_code(code)}")
         openair_output.append(f"AN {code} {name}")
@@ -79,13 +79,15 @@ def convert_airac_to_openair(input_text:str):
             if re.search(r"\b(KRUH|CIRCLE|RADIUS)", line, re.IGNORECASE):
                 radius, unit = extract_radius_and_unit(line)
                 # center_dms = extract_coordinate_to_dms(line)
-                if re.search(r"\b(ARC|OBLOUK|ARCU|ARC OF|OBLOUKU|OBLOUKEM|CWA)", line, re.IGNORECASE):
-                    direction = "+"
+                search_arc = re.search(r"\b(ARC|OBLOUK|ARCU|ARC OF|OBLOUKU|OBLOUKEM|CWA)", line, re.IGNORECASE)
+                search_anti_arc = re.search(r"\b(PROTI SMĚRU|ANTI-CLOCKWISE|ANTICLOCKWISE|COUNTERCLOCKWISE|CCA)", line,
+                                   re.IGNORECASE)
+                if search_arc or search_anti_arc:
                     arc = True
-                elif re.search(r"\b(PROTI SMĚRU|ANTI-CLOCKWISE|ANTICLOCKWISE|COUNTERCLOCKWISE|CCA)", line,
-                               re.IGNORECASE):
-                    direction = "-"
-                    arc = True
+                    if search_anti_arc:
+                        direction = "-"
+                    else:
+                        direction = "+"
                 else:
                     arc = False
                 if arc:  # detekován oblouk
@@ -115,7 +117,7 @@ def convert_airac_to_openair(input_text:str):
     return normalized_output
 
 
-# Testovací vstupní text
+# # Testovací vstupní text
 # input_text = """LKTRA62 NYMBURK
 # 502835.45N 0151011.21E -
 # 502305.85N 0152316.12E -
@@ -272,7 +274,7 @@ def convert_airac_to_openair(input_text:str):
 # 124.050 MHz*
 # """
 
-if __name__ == "__main__":
-    # Spuštění konverze a výstupu do konzole
-    # input_text = input_text.replace("\n", " ")
-    print(convert_airac_to_openair(input_text))
+# if __name__ == "__main__":
+#     # Spuštění konverze a výstupu do konzole
+#     # input_text = input_text.replace("\n", " ")
+#     print(convert_airac_to_openair(input_text))

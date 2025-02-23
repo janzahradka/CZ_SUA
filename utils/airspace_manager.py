@@ -3,6 +3,10 @@ from tkinter import scrolledtext
 from tkinter import messagebox
 import pyperclip
 from airac_import import convert_airac_to_openair
+import folium
+import webbrowser
+from geo_utils import extract_geo_coordinate
+from map_utils import calculate_arc_points
 
 """
 pro lepší zážitek doporučuju nainstalovat font Roboto a JetBrains Mono
@@ -39,6 +43,9 @@ class AirspaceApp:
 
         copy_btn = tk.Button(toolbar, text="📄 Kopírovat výstup", font=("Roboto", 12), command=self.copy_to_clipboard)
         copy_btn.pack(side=tk.LEFT, padx=2, pady=2)
+
+        map_btn = tk.Button(toolbar, text="🗺️ Zobrazit na mapě", font=("Roboto", 12), command=self.show_map)
+        map_btn.pack(side=tk.LEFT, padx=2, pady=2)
 
         # Přidání pružné mezery vpravo od vycentrovaných tlačítek
         tk.Label(toolbar, text="").pack(side=tk.LEFT, expand=True)
@@ -83,8 +90,8 @@ class AirspaceApp:
         output_label = tk.Label(output_frame, text="Výstup", font=("Arial", 12, "bold"))
         output_label.pack(anchor="w")  # Zarovnáno vlevo
 
-        # Výstupní pole (readonly, 80 znaků na šířku) s JetBrains Mono nebo Courier New
-        self.output_text = scrolledtext.ScrolledText(output_frame, wrap=tk.WORD, width=80, height=30, state='disabled')
+        # Výstupní pole (80 znaků na šířku) s JetBrains Mono nebo Courier New
+        self.output_text = scrolledtext.ScrolledText(output_frame, wrap=tk.WORD, width=80, height=30)
         self.output_text.config(font=font_to_use)
         self.output_text.pack(fill=tk.BOTH, expand=True)
 
@@ -111,7 +118,6 @@ class AirspaceApp:
                 self.output_text.insert(tk.END, output)
             except Exception as e:
                 self.output_text.insert(tk.END, f"Chyba při zpracování: {e}")
-            self.output_text.config(state='disabled')
         else:
             messagebox.showwarning("Upozornění", "Vstupní pole je prázdné.")
 
@@ -130,9 +136,248 @@ class AirspaceApp:
         self.output_text.delete(1.0, tk.END)
         self.output_text.config(state='disabled')
 
+    def build_popup_content(self, space_name, space_class, category, frequency, station_name, upper_limit, lower_limit):
+        """ Sestaví HTML obsah pro popup okno na základě vyplněných tagů """
+        popup_content = ""
+
+        # Pomocná funkce pro převod ft na m
+        def convert_to_meters(feet):
+            return round(float(feet) * 0.3048)
+
+        # Převod jednotek pro horní hranici
+        if upper_limit:
+            if "MSL" in upper_limit or "AMSL" in upper_limit:
+                # Pokud je MSL, převedeme ft na m
+                value = ''.join(filter(str.isdigit, upper_limit))
+                if value:
+                    meters = convert_to_meters(value)
+                    upper_limit = f"{value} ft / {meters} m AMSL"
+            elif "AGL" in upper_limit:
+                # Pokud je AGL, převedeme ft na m
+                value = ''.join(filter(str.isdigit, upper_limit))
+                if value:
+                    meters = convert_to_meters(value)
+                    upper_limit = f"{value} ft / {meters} m AGL"
+
+        # Převod jednotek pro spodní hranici
+        if lower_limit:
+            if "MSL" in lower_limit or "AMSL" in lower_limit:
+                # Pokud je MSL, převedeme ft na m
+                value = ''.join(filter(str.isdigit, lower_limit))
+                if value:
+                    meters = convert_to_meters(value)
+                    lower_limit = f"{value} ft / {meters} m AMSL"
+            elif "AGL" in lower_limit:
+                # Pokud je AGL, převedeme ft na m
+                value = ''.join(filter(str.isdigit, lower_limit))
+                if value:
+                    meters = convert_to_meters(value)
+                    lower_limit = f"{value} ft / {meters} m AGL"
+
+        # Sestavení obsahu podle požadovaného pořadí
+        if space_name:
+            popup_content += f"Název: <b>{space_name}</b><br>"
+        if space_class:
+            popup_content += f"Třída: <b>{space_class}</b><br>"
+        if category:
+            popup_content += f"Kategorie: <b>{category}</b><br>"
+        if frequency:
+            popup_content += f"FRQ: <b>{frequency}</b><br>"
+        if station_name:
+            popup_content += f"Název stanoviště: <b>{station_name}</b><br>"
+        if upper_limit:
+            popup_content += f"Horní hranice: <b>{upper_limit}</b><br>"
+        if lower_limit:
+            popup_content += f"Spodní hranice: <b>{lower_limit}</b><br>"
+
+        # Pokud nejsou vyplněné žádné informace
+        if not popup_content:
+            popup_content = "Prostor nemá definované podrobnosti"
+
+        return popup_content
+
+    def show_on_map(self, output_text):
+        """ Vykreslí obrazce na interaktivní mapě pomocí Folium a zazoomuje na prostor """
+        # Vytvoříme mapu s výchozím středem v ČR
+        map_object = folium.Map(location=[50.0, 15.0], zoom_start=6)
+
+        # Přidáme vlastní CSS pro offset popupu
+        custom_css = """
+        <style>
+            .leaflet-popup-content-wrapper {
+                transform: translate(0px, -150px) !important;
+            }
+            .leaflet-popup-tip {
+                display: none !important;
+            }
+        </style>
+        """
+        folium.Element(custom_css).add_to(map_object)
+
+        # Rozdělíme text na řádky a projdeme je
+        lines = output_text.splitlines()
+
+        # Proměnné pro uložení bodů polygonu, středu a poloměru
+        polygon_points = []
+        center = None
+        radius = None
+        all_coordinates = []  # Seznam všech souřadnic pro výpočet bounding boxu
+
+        # Metainformace
+        space_name = None
+        space_class = None
+        category = None
+        frequency = None
+        station_name = None
+        upper_limit = None
+        lower_limit = None
+        direction = "+"  # Výchozí směr pro oblouk: ve směru hodinových ručiček
+
+        for line in lines:
+            if line.startswith("AN"):
+                # Název prostoru
+                space_name = line.split("AN ")[1]
+
+            elif line.startswith("AC"):
+                # Třída prostoru
+                space_class = line.split("AC ")[1]
+
+            elif line.startswith("AY"):
+                # Kategorie prostoru
+                category = line.split("AY ")[1]
+
+            elif line.startswith("AF"):
+                # Frekvence
+                frequency = line.split("AF ")[1]
+
+            elif line.startswith("AG"):
+                # Název stanoviště
+                station_name = line.split("AG ")[1]
+
+            elif line.startswith("AH"):
+                # Horní vertikální hranice
+                upper_limit = line.split("AH ")[1]
+
+            elif line.startswith("AL"):
+                # Spodní vertikální hranice
+                lower_limit = line.split("AL ")[1]
+
+            elif line.startswith("V D="):
+                # Směr oblouku
+                direction = line.split("V D=")[1].strip()
+
+            elif line.startswith("DP"):
+                # Polygonový bod
+                coordinate_str = line.split("DP ")[1]
+                coords = extract_geo_coordinate(coordinate_str)
+                if coords:
+                    lat, lon = coords
+                    polygon_points.append((lat, lon))
+                    all_coordinates.append((lat, lon))
+
+            elif line.startswith("V X="):
+                # Střed kruhu nebo oblouku
+                center_str = line.split("V X=")[1].strip()
+                center = extract_geo_coordinate(center_str)
+                if center:
+                    all_coordinates.append(center)
+
+            elif line.startswith("DC"):
+                # Kruh
+                radius_nm = float(line.split()[1])  # Poloměr v námořních mílích
+                radius = radius_nm * 1852  # Převod NM na metry
+                if center and radius:
+                    circle = folium.Circle(
+                        location=center,
+                        radius=radius,
+                        color='blue',
+                        fill=True,
+                        fill_color='lightblue'
+                    ).add_to(map_object)
+
+                    # Přidáme popup s metainformacemi po kliknutí na kruh
+                    popup_content = self.build_popup_content(space_name, space_class, category, frequency, station_name,
+                                                             upper_limit, lower_limit)
+                    folium.Popup(popup_content, max_width=300, show=False, sticky=False).add_to(circle)
+
+            elif line.startswith("DB"):
+                # Oblouk
+                points = line.split("DB ")[1].split(",")
+                start_coords = extract_geo_coordinate(points[0].strip())
+                end_coords = extract_geo_coordinate(points[1].strip())
+                if start_coords and end_coords and center:
+                    # Výpočet bodů oblouku
+                    arc_points = calculate_arc_points(center, start_coords, end_coords, direction)
+                    # === SPOJENÍ OBLUKU S POLYGONEM ===
+                    # 1. Pokud je předchozí bod, připojíme ho k začátku oblouku
+                    if polygon_points:
+                        polygon_points.append(polygon_points[-1])  # Spojení s předchozím bodem
+                    # 2. Připojíme všechny body oblouku
+                    polygon_points.extend(arc_points)
+                    # 3. Připojíme koncový bod oblouku
+                    polygon_points.append(end_coords)
+                    # 4. Body oblouku jsou nyní součástí polygonu
+                    all_coordinates.extend(arc_points)
+
+                    # # Přidáme popup s metainformacemi po kliknutí na oblouk
+                    # popup_content = self.build_popup_content(space_name, space_class, category, frequency, station_name,
+                    #                                          upper_limit, lower_limit)
+                    # folium.Popup(popup_content, max_width=300, show=False, sticky=False).add_to(arc)
+
+        # Pokud máme polygonové body, vykreslíme je jako polygon
+        if polygon_points:
+            polygon = folium.Polygon(
+                locations=polygon_points,
+                color='green',
+                fill=True,
+                fill_color='lightgreen'
+            ).add_to(map_object)
+
+            # Přidáme popup s metainformacemi po kliknutí na polygon
+            popup_content = self.build_popup_content(space_name, space_class, category, frequency, station_name,
+                                                     upper_limit, lower_limit)
+            folium.Popup(popup_content, max_width=300, show=False, sticky=False).add_to(polygon)
+
+        # === VÝPOČET ROZŠÍŘENÉHO BOUNDING BOXU ===
+        if all_coordinates:
+            lats = [coord[0] for coord in all_coordinates]
+            lons = [coord[1] for coord in all_coordinates]
+            north = max(lats)
+            south = min(lats)
+            east = max(lons)
+            west = min(lons)
+
+            # Vypočítáme střed bounding boxu
+            center_lat = (north + south) / 2
+            center_lon = (east + west) / 2
+
+            # Zvětšíme bounding box na dvojnásobek
+            height = north - south
+            width = east - west
+            new_north = center_lat + height
+            new_south = center_lat - height
+            new_east = center_lon + width
+            new_west = center_lon - width
+
+            # Nastavíme mapu tak, aby byla přizpůsobena všem souřadnicím
+            map_object.fit_bounds([(new_south, new_west), (new_north, new_east)])
+
+        # Uložíme mapu jako HTML a otevřeme ji v prohlížeči
+        map_object.save("airspace_map.html")
+        webbrowser.open("airspace_map.html")
+
+    def show_map(self):
+        """ Zobrazí výstup na interaktivní mapě """
+        output_text = self.output_text.get(1.0, tk.END).strip()
+        if output_text:
+            self.show_on_map(output_text)
+        else:
+            messagebox.showwarning("Upozornění", "Výstupní pole je prázdné.")
 
 # Spuštění aplikace
 if __name__ == "__main__":
     root = tk.Tk()
     app = AirspaceApp(root)
     root.mainloop()
+
+# TODO: rozšířit zobrazení mapy na více prostorů

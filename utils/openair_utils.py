@@ -2,13 +2,33 @@ import re
 
 # Kompletní mapování typů prostorů
 AIRSPACE_TYPE_MAP = [
-    {"name_template": "LKP",
-     "AC_tag": "P",
-     "AY_tag": "Prohibited Area"
+    {"name_template": "ATZ",
+     "AC_tag": "E",
+     "AY_tag": "Aerodrome Traffic Zone"
+     },
+    {"name_template": "CTR",
+     "AC_tag": "D",
+     "AY_tag": "Control Zone"
+     },
+    {"name_template": "DROPZONE",
+     "AC_tag": "Q",
+     "AY_tag": "Dropzone"
      },
     {"name_template": "LKD",
      "AC_tag": "Q",
      "AY_tag": "Dangerous Area"
+     },
+    {"name_template": "LKP",
+     "AC_tag": "P",
+     "AY_tag": "Prohibited Area"
+     },
+    {"name_template": "LKRMZ",
+     "AC_tag": "E",
+     "AY_tag": "Radio Mandatory zone"
+     },
+    {"name_template": "LKTMZ",
+     "AC_tag": "E",
+     "AY_tag": "Transponder Mandatory Zone"
      },
     {"name_template": "LKR",
      "AC_tag": "R",
@@ -22,44 +42,29 @@ AIRSPACE_TYPE_MAP = [
      "AC_tag": "R",
      "AY_tag": "Temporary Reserved Area"
      },
-    {"name_template": "LKCTR",
-     "AC_tag": "D",
-     "AY_tag": "Control Zone"
-     },
     {"name_template": "MCTR",
      "AC_tag": "D",
      "AY_tag": "Military Control Zone"
-     },
-    {"name_template": "LKTMA",
-     "AC_tag": "D",
-     "AY_tag": "Terminal Manoeuvring Area"
-     },
-    {"name_template": "TMA",
-     "AC_tag": "D",
-     "AY_tag": "Terminal Manoeuvring Area"
      },
     {"name_template": "MTMA",
      "AC_tag": "D",
      "AY_tag": "Military Terminal Zone"
      },
-    {"name_template": "LKPGZ",
+    {"name_template": "NTM",
+     "AC_tag": "R",
+     "AY_tag": "NOTAM"
+     },
+    {"name_template": "PGZ",
      "AC_tag": "GS",
      "AY_tag": "Paragliding Zone"
      },
-    {"name_template": "LKRMZ",
-     "AC_tag": "E",
-     "AY_tag": "RMZ"
-     },
-    {"name_template": "DROPZONE",
-     "AC_tag": "Q",
-     "AY_tag": "Dropzone"
+    {"name_template": "TMA",
+     "AC_tag": "D",
+     "AY_tag": "Terminal Manoeuvring Area"
      },
     {"name_template": "TRA GA",
      "AC_tag": "GS",
-     "AY_tag": "GSEC"},
-    {"name_template": "NTM",
-     "AC_tag": "R",
-     "AY_tag": "NOTAM"}
+     "AY_tag": "GSEC"}
 ]
 
 
@@ -84,7 +89,7 @@ def extract_airspace_name(text: str, max_words: int = 5):
     for airspace in AIRSPACE_TYPE_MAP:
         template = airspace["name_template"]
         # Kontrola, zda text začíná šablonou (s volitelnými číslicemi na konci)
-        match = re.match(rf"({template}\d*)\b", text)
+        match = re.match(rf"({template}[A-Za-z0-9]*)\b", text)
         if match:
             code = match.group(1)
             name = text[len(code):].strip()
