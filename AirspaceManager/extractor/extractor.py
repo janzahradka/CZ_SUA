@@ -1,4 +1,3 @@
-from AirspaceManager.extractor.const import COORIDNATES_PATTERNS
 import re
 
 class Extractor:

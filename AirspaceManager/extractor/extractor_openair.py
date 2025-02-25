@@ -3,6 +3,8 @@ from AirspaceManager.airspace import Airspace
 from typing import Optional
 import re
 import unicodedata
+from AirspaceManager.extractor.convertor import Convertor
+
 
 
 
@@ -172,14 +174,28 @@ class ExtractorOpenAir(Extractor):
         for line in self.lines:
             if line.startswith("DP"):
                 coordinate = line.split("DP ")[1].strip()
-                self.draw_commands.append({
-                    "type": "polygon_point",
-                    "polygon_point_coordinate": coordinate
-                })
+                # === Použití Convertor.detect_and_convert() ===
+                try:
+                    lat, lon = Convertor.detect_and_convert(coordinate)
+                    # === Uložíme jako tuple ===
+                    self.draw_commands.append({
+                        "type": "polygon_point",
+                        "polygon_point_coordinate": (lat, lon)
+                    })
+                except ValueError as e:
+                    print(f"Chyba při konverzi souřadnic: {coordinate}. {e}")
+
             elif line.startswith("V X="):
                 current_center = line.split("V X=")[1].strip()
+                try:
+                    lat, lon = Convertor.detect_and_convert(current_center)
+                    current_center = (lat, lon)  # === Uložíme jako tuple ===
+                except ValueError as e:
+                    print(f"Chyba při konverzi souřadnic středu: {current_center}. {e}")
+
             elif line.startswith("V D="):
                 current_direction = line.split("V D=")[1].strip()
+
             elif line.startswith("DC"):
                 radius = line.split("DC ")[1].strip().split(" ")[0]
                 self.draw_commands.append({
@@ -188,13 +204,21 @@ class ExtractorOpenAir(Extractor):
                     "circle_radius": radius,
                     "radius_unit": "NM"
                 })
+
             elif line.startswith("DB"):
                 start, end = line.split("DB ")[1].split(",")
-                self.draw_commands.append({
-                    "type": "arc",
-                    "arc_center_coordinate": current_center,
-                    "arc_direction": current_direction,
-                    "arc_start_point_coordinate": start.strip(),
-                    "arc_end_point_coordinate": end.strip()
-                })
+                try:
+                    start_lat, start_lon = Convertor.detect_and_convert(start.strip())
+                    end_lat, end_lon = Convertor.detect_and_convert(end.strip())
+                    # === Uložíme jako tuple ===
+                    self.draw_commands.append({
+                        "type": "arc",
+                        "arc_center_coordinate": current_center,
+                        "arc_direction": current_direction,
+                        "arc_start_point_coordinate": (start_lat, start_lon),
+                        "arc_end_point_coordinate": (end_lat, end_lon)
+                    })
+                except ValueError as e:
+                    print(f"Chyba při konverzi souřadnic oblouku: {start}, {end}. {e}")
+
         return self.draw_commands

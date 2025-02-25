@@ -1,3 +1,5 @@
+from AirspaceManager.extractor.convertor import Convertor
+
 class Airspace:
     """ Třída Airspace reprezentuje jeden vzdušný prostor """
 
@@ -24,17 +26,23 @@ class Airspace:
             "station_name": self.station_name,
             "upper_limit": self.upper_limit,
             "lower_limit": self.lower_limit,
-            "draw_commands": self.draw_commands
+            "draw_commands": self.draw_commands,
         }
 
     def format_draw_commands(self):
-        """ Formátovaný výpis draw_commands pro čitelnější ladění """
+        """ Formátovaný výpis draw_commands pro čitelnější ladění ve formátu CSDMS """
         output = "Příkazy kreslení:\n"
         for command in self.draw_commands:
-            # output += f"  - {command['type']}:\n"
             for key, value in command.items():
                 if key != "type":
-                    output += f"      {key}: {value}\n"
+                    # === Převod na CSDMS formát pokud jde o souřadnice ===
+                    if isinstance(value, tuple) and len(value) == 2:
+                        lat, lon = value
+                        csdms_lat = Convertor.decimal_to_csdms(lat, is_longitude=False)
+                        csdms_lon = Convertor.decimal_to_csdms(lon, is_longitude=True)
+                        output += f"      {key}: {csdms_lat} {csdms_lon}\n"
+                    else:
+                        output += f"      {key}: {value}\n"
         return output
 
     def format_limit(self, limit):

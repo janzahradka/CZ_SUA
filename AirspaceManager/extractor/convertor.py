@@ -29,10 +29,48 @@ class Convertor:
         """
         Převádí hodnoty DMS na desetinný formát.
         """
+        # Nahrazení čárky tečkou pro všechny části DMS
+        deg = deg.replace(',', '.')
+        min_ = min_.replace(',', '.')
+        sec = sec.replace(',', '.')
+
         decimal = float(deg) + float(min_) / 60 + float(sec) / 3600
         if hem in ['S', 'W']:
             decimal *= -1
         return round(decimal, 6)
+
+    @staticmethod
+    def decimal_to_csdms(decimal_degree, is_longitude=False) -> str:
+        """ Convert decimal degrees to degrees, minutes, and seconds (Colon-separated DMS) format."""
+        if is_longitude:
+            if decimal_degree < 0:
+                hemisphere = 'W'
+                decimal_degree = -decimal_degree
+            else:
+                hemisphere = 'E'
+        else:
+            if decimal_degree < 0:
+                hemisphere = 'S'
+                decimal_degree = -decimal_degree
+            else:
+                hemisphere = 'N'
+
+        # Convert to DMS (Degrees, Minutes, Seconds)
+        degrees = int(decimal_degree)
+        minutes_decimal = (decimal_degree - degrees) * 60
+        minutes = int(minutes_decimal)
+        seconds = round((minutes_decimal - minutes) * 60)  # Zaokrouhlíme sekundy na celé číslo
+
+        # Správné zaokrouhlení a přenos zbytků
+        if seconds == 60:
+            seconds = 0
+            minutes += 1
+        if minutes == 60:
+            minutes = 0
+            degrees += 1
+
+        # Formátování s pevnou strukturou (bez desetinné tečky)
+        return f"{degrees:02}:{minutes:02}:{seconds:02} {hemisphere}"
 
     @classmethod
     def detect_and_convert(cls, coordinate_str: str) -> tuple:
