@@ -1,0 +1,5 @@
+LKP2 TEMELÍN
+Kružnice o poloměru / A circle of radius 1.1 NM
+se středem v poloze / centred at
+491048.73N 0142231.77E
+5000 FT AMSL / GND

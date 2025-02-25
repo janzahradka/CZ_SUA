@@ -1,0 +1,9 @@
+AC Q
+AN DROPZONE Břeclav 119.655
+AY Para Jumping Area
+AF 119.655
+AG Breclav RADIO
+AH FL 95
+AL 0 AGL
+V X=48:47:27 N 016:53:33 E
+DC 2 *NM

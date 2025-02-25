@@ -1,0 +1,16 @@
+LKTRA62 NYMBURK
+502835.45N 0151011.21E -
+502305.85N 0152316.12E -
+501108.78N 0152255.61E -
+501108.54N 0150324.04E -
+501107.99N 0145839.41E
+odtud kruhový oblouk proti směru
+hodinových ručiček o poloměru /
+thence anti-clockwise by the arc of
+a circle radius 28 NM
+se středem v poloze / centred at
+500544.80N 0141555.81E -
+501409.32N 0145728.83E -
+502833.75N 0150003.79E -
+502835.45N 0151011.21E
+FL245 / 3000 FT AMSL
