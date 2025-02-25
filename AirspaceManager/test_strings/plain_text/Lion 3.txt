@@ -1,4 +1,4 @@
-LION 3
+NTM-LION 3
 FL245 1000 ft AGL
 
 

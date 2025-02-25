@@ -1,4 +1,4 @@
-LION 1
+NTM-LION 1
 FL305 5000 ft AMSL
 
 
