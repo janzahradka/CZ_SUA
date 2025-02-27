@@ -19,17 +19,18 @@ class ExtractorOpenAir(Extractor):
         self.name: Optional[str] = None
         self.airspace_class: Optional[str] = None
         self.category: Optional[str] = None
-        self.frequency: Optional[str] = None
+        self.frequencies: Optional[list] = None
         self.station_name: Optional[str] = None
         self.upper_limit: Optional[dict] = None
         self.lower_limit: Optional[dict] = None
         self.draw_commands: list = []
+        self.get_airspace_data()
 
     def get_airspace_data(self):
         self.extract_name()
         self.extract_airspace_class()
         self.extract_category()
-        self.extract_frequency()
+        self.extract_frequencies()
         self.extract_station_name()
         self.extract_upper_limit()
         self.extract_lower_limit()
@@ -37,12 +38,11 @@ class ExtractorOpenAir(Extractor):
 
     def to_airspace(self):
         """ Naplní a vrátí objekt Airspace s daty z Extractoru """
-        self.get_airspace_data()  # Nejprve vytěžíme data
         return Airspace(
             name=self.name,
             airspace_class=self.airspace_class,
             category=self.category,
-            frequency=self.frequency,
+            frequencies=self.frequencies,
             station_name=self.station_name,
             upper_limit=self.upper_limit,
             lower_limit=self.lower_limit,
@@ -101,12 +101,27 @@ class ExtractorOpenAir(Extractor):
                 break # bude jen jeden AY v prostoru
         return self.category
 
-    def extract_frequency(self):
-        """ Extrakce frekvence (AF) """
+    def extract_frequencies(self):
+        """
+        Extrakce první frekvence (AF) v rozsahu 118.000 - 136.975.
+        Ignoruje další výskyty.
+        """
+        pattern = r'\b(1[1-3][0-9]\.\d{1,3})\b'
+
+        # Prohledáme všechny řádky a hledáme pouze první výskyt za AF
         for line in self.lines:
             if line.startswith("AF"):
-                self.frequency = line.split("AF ")[1].strip()
-        return self.frequency
+                # === Najdeme první frekvenci ===
+                match = re.search(pattern, line)
+                if match:
+                    freq = float(match.group(1))
+                    # === Ověříme, zda je v platném rozsahu ===
+                    if 118.000 <= freq <= 136.975:
+                        # === Převedeme na tři desetinná místa ===
+                        formatted_freq = f"{freq:.3f}"
+                        # === Vrátíme jako jednočlenný seznam ===
+                        self.frequencies = [formatted_freq]
+                        return self.frequencies
 
     def extract_station_name(self):
         """ Extrakce názvu stanoviště (AG) """
@@ -174,13 +189,13 @@ class ExtractorOpenAir(Extractor):
         for line in self.lines:
             if line.startswith("DP"):
                 coordinate = line.split("DP ")[1].strip()
-                # === Použití Convertor.detect_and_convert() ===
+                # === Použití Convertor.extract_coodinate_from_text() ===
                 try:
-                    lat, lon = Convertor.detect_and_convert(coordinate)
-                    # === Uložíme jako tuple ===
+                    decimal_coord = Convertor.extract_coodinate_from_text(coordinate)
+                    # === Uložíme jako dict ===
                     self.draw_commands.append({
                         "type": "polygon_point",
-                        "polygon_point_coordinate": (lat, lon)
+                        "polygon_point_coordinate": decimal_coord
                     })
                 except ValueError as e:
                     print(f"Chyba při konverzi souřadnic: {coordinate}. {e}")
@@ -188,13 +203,14 @@ class ExtractorOpenAir(Extractor):
             elif line.startswith("V X="):
                 current_center = line.split("V X=")[1].strip()
                 try:
-                    lat, lon = Convertor.detect_and_convert(current_center)
-                    current_center = (lat, lon)  # === Uložíme jako tuple ===
+                    decimal_center = Convertor.extract_coodinate_from_text(current_center)
+                    # === Uložíme jako dict ===
+                    current_center = decimal_center
                 except ValueError as e:
                     print(f"Chyba při konverzi souřadnic středu: {current_center}. {e}")
 
-            elif line.startswith("V D="):
-                current_direction = line.split("V D=")[1].strip()
+            elif line.startswith("D="):
+                current_direction = line.split("D=")[1].strip()
 
             elif line.startswith("DC"):
                 radius = line.split("DC ")[1].strip().split(" ")[0]
@@ -208,17 +224,18 @@ class ExtractorOpenAir(Extractor):
             elif line.startswith("DB"):
                 start, end = line.split("DB ")[1].split(",")
                 try:
-                    start_lat, start_lon = Convertor.detect_and_convert(start.strip())
-                    end_lat, end_lon = Convertor.detect_and_convert(end.strip())
-                    # === Uložíme jako tuple ===
+                    start_coord = Convertor.extract_coodinate_from_text(start.strip())
+                    end_coord = Convertor.extract_coodinate_from_text(end.strip())
+                    # === Uložíme jako dict ===
                     self.draw_commands.append({
                         "type": "arc",
                         "arc_center_coordinate": current_center,
                         "arc_direction": current_direction,
-                        "arc_start_point_coordinate": (start_lat, start_lon),
-                        "arc_end_point_coordinate": (end_lat, end_lon)
+                        "arc_start_point_coordinate": start_coord,
+                        "arc_end_point_coordinate": end_coord
                     })
                 except ValueError as e:
                     print(f"Chyba při konverzi souřadnic oblouku: {start}, {end}. {e}")
 
         return self.draw_commands
+

@@ -245,10 +245,10 @@ def extract_frequencies(text: str) -> list[str]:
     Extracts valid frequencies from a given text within
     the acceptable range of 118.000 to 136.975.
 
-    :param text: The input text containing potential frequency values.
+    :param text: The input text containing potential frequencies values.
     :type text: str
 
-    :return: A list of valid frequency strings formatted to three decimal places.
+    :return: A list of valid frequencies strings formatted to three decimal places.
     :rtype: list[str]
     """
     # Regulární výraz pro zachycení potenciálních frekvencí

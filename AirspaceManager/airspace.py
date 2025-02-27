@@ -4,12 +4,12 @@ class Airspace:
     """ Třída Airspace reprezentuje jeden vzdušný prostor """
 
     def __init__(self, name=None, airspace_class=None, category=None,
-                 frequency=None, station_name=None,
+                 frequencies=None, station_name=None,
                  upper_limit=None, lower_limit=None, draw_commands=None):
         self.name = name
         self.airspace_class = airspace_class
         self.category = category
-        self.frequency = frequency
+        self.frequencies = frequencies
         self.station_name = station_name
         self.upper_limit = upper_limit
         self.lower_limit = lower_limit
@@ -22,7 +22,7 @@ class Airspace:
             "name": self.name,
             "airspace_class": self.airspace_class,
             "category": self.category,
-            "frequency": self.frequency,
+            "frequencies": self.frequencies,
             "station_name": self.station_name,
             "upper_limit": self.upper_limit,
             "lower_limit": self.lower_limit,
@@ -31,18 +31,20 @@ class Airspace:
 
     def format_draw_commands(self):
         """ Formátovaný výpis draw_commands pro čitelnější ladění ve formátu CSDMS """
-        output = "Příkazy kreslení:\n"
+        output = "Readable commands:\n"
+        i = 1
         for command in self.draw_commands:
             for key, value in command.items():
+                line_prefix = str(i) + " " * (5 - len(str(i)))
                 if key != "type":
-                    # === Převod na CSDMS formát pokud jde o souřadnice ===
-                    if isinstance(value, tuple) and len(value) == 2:
-                        lat, lon = value
-                        csdms_lat = Convertor.decimal_to_csdms(lat, is_longitude=False)
-                        csdms_lon = Convertor.decimal_to_csdms(lon, is_longitude=True)
-                        output += f"      {key}: {csdms_lat} {csdms_lon}\n"
+                    # === Převod na CSDMS formát pokud jde o souřadnice jako dict ===
+                    if isinstance(value, dict) and "lat" in value and "lon" in value:
+                        # Převod pomocí get_csdms_from_decimal()
+                        csdms = Convertor.get_csdms_from_decimal(value)
+                        output += f"   {line_prefix}{key}: {csdms}\n"
                     else:
-                        output += f"      {key}: {value}\n"
+                        output += f"   {line_prefix}{key}: {value}\n"
+            i += 1
         return output
 
     def format_limit(self, limit):
@@ -62,10 +64,10 @@ class Airspace:
             f" airspace_class (AC): {self.airspace_class}\n"
             f" name (AN): {self.name}\n"
             f" category (AY): {self.category}\n"
-            f" frequency (AF): {self.frequency}\n"
+            f" frequencies (AF): {self.frequencies}\n"
             f" station_name (AG): {self.station_name}\n"
             f" upper_limit (AH): {self.format_limit(self.upper_limit)}\n"
             f" lower_limit (AL): {self.format_limit(self.lower_limit)}\n"
             f" draw_commands (): {self.draw_commands}\n"
-            f"{self.format_draw_commands()}"
+            f" {self.format_draw_commands()}"
         )

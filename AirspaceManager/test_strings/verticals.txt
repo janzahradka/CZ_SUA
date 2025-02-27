@@ -1,0 +1,8 @@
+# input string | expected upper limit | expected lower limit
+1000 AMSLA FL30500 | None | None
+FL 305,5000 ft AMSL | FL 305 | 5000 MSL
+FL 95/5000 ft MSL | FL 95 | 5000 MSL
+GND aGNDA FL 95 | FL 95 | 0 AGL
+FL 95 0 AGL | FL 95 | 0 AGL
+1000 AGL 1000 AMSL | 1000 MSL | 1000 AGL
+5000 AMSL 5000 ft AMSL | 5000 MSL | 5000 MSL

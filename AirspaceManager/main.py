@@ -24,7 +24,7 @@ file_path_plain = './test_strings/plain_text/TRA62 Nymburk.txt'
 
 
 # print("Název:", openair_extractor.extract_name())
-# print("Třída:", openair_extractor.extract_class())
+# print("Třída:", openair_extractor.extract_airspace_class())
 # print("FRQ:", openair_extractor.extract_frequency())
 # print("Název stanoviště:", openair_extractor.extract_station_name())
 # print("Upper limit:", openair_extractor.extract_upper_limit())

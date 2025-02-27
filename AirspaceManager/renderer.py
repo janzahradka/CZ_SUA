@@ -109,8 +109,8 @@ class Renderer:
             content += f"Třída: <b>{airspace.airspace_class}</b><br>"
         if airspace.category:
             content += f"Kategorie: <b>{airspace.category}</b><br>"
-        if airspace.frequency:
-            content += f"Frekvence: <b>{airspace.frequency}</b><br>"
+        if airspace.frequencies:
+            content += f"Frekvence: <b>{airspace.frequencies}</b><br>"
         if airspace.station_name:
             content += f"Stanoviště: <b>{airspace.station_name}</b><br>"
         if airspace.upper_limit:

@@ -18,7 +18,7 @@ class Convertor:
         re.compile(r'(?P<lat_deg>([0-8][0-9]|\d))°\s?(?P<lat_min>[0-5]\d)\'\s?(?P<lat_sec>[0-5]\d)"\s?(?P<lat_hem>[NS]),?\s?(?P<lon_deg>(1[0-7][0-9]|0[0-8][0-9]|[0-9][0-9]|\d))°\s?(?P<lon_min>[0-5]\d)\'\s?(?P<lon_sec>[0-5]\d(?:,\d{1,2})?)"\s?(?P<lon_hem>[EW])'),
 
         # 43 02 40,66 N 014 09 25,97 E - DMS s čárkami
-        re.compile(r'(?P<lat_deg>([0-8][0-9]|\d))\s?(?P<lat_min>[0-5]\d)\s?(?P<lat_sec>[0-5]\d(?:,\d{1,2})?)\s?(?P<lat_hem>[NS])\s?(?P<lon_deg>(1[0-7][0-9]|0[0-8][0-9]|[0-9][0-9]|\d))\s?(?P<lon_min>[0-5]\d)\s?(?P<lon_sec>[0-5]\d(?:,\d{1,2})?)\s?(?P<lon_hem>[EW])'),
+        re.compile(r'(?P<lat_deg>([0-8][0-9]|\d))\s?(?P<lat_min>[0-5]\d)\s?(?P<lat_sec>[0-5]\d(?:[,\.]\d{1,2})?)\s?(?P<lat_hem>[NS])\s?(?P<lon_deg>(1[0-7][0-9]|0[0-8][0-9]|[0-9][0-9]|\d))\s?(?P<lon_min>[0-5]\d)\s?(?P<lon_sec>[0-5]\d(?:[,\.]\d{1,2})?)\s?(?P<lon_hem>[EW])'),
 
         # 49:48:51 N 15:12:06 E - Časový formát
         re.compile(r'(?P<lat_deg>([0-8][0-9]|\d)):(?P<lat_min>[0-5]\d):(?P<lat_sec>[0-5]\d)\s?(?P<lat_hem>[NS])\s+(?P<lon_deg>(1[0-7][0-9]|0[0-8][0-9]|[0-9][0-9]|\d)):(?P<lon_min>[0-5]\d):(?P<lon_sec>[0-5]\d)\s?(?P<lon_hem>[EW])')
@@ -40,7 +40,7 @@ class Convertor:
         return round(decimal, 6)
 
     @staticmethod
-    def decimal_to_csdms(decimal_degree, is_longitude=False) -> str:
+    def get_csdms_component(decimal_degree, is_longitude=False) -> str:
         """ Convert decimal degrees to degrees, minutes, and seconds (Colon-separated DMS) format."""
         if is_longitude:
             if decimal_degree < 0:
@@ -73,33 +73,90 @@ class Convertor:
         return f"{degrees:02}:{minutes:02}:{seconds:02} {hemisphere}"
 
     @classmethod
-    def detect_and_convert(cls, coordinate_str: str) -> tuple:
+    def get_csdms_from_decimal(cls, coordinate: dict) -> str | None:
+        """
+        Převádí celý koordinát na CSDMS formát.
+        Očekává slovník s klíči 'lat' a 'lon'.
+
+        Např.:
+        {
+            "lat": 49.15283,
+            "lon": 17.035162
+        }
+        """
+        if coordinate is None or "lat" not in coordinate or "lon" not in coordinate:
+            return None
+        else:
+            lat_csdms = cls.get_csdms_component(coordinate["lat"], is_longitude=False)
+            lon_csdms = cls.get_csdms_component(coordinate["lon"], is_longitude=True)
+
+            csdms_coordinate = f'{lat_csdms} {lon_csdms}'
+            return csdms_coordinate
+
+    @staticmethod
+    def decimal_to_dict(coordinate_tuple: tuple) -> dict:
+        """
+        Převádí tuple (lat, lon) na dict s klíči 'lat' a 'lon'.
+
+        Např.:
+        (49.15283, 17.035162) -> {
+            "lat": 49.15283,
+            "lon": 17.035162
+        }
+        """
+        if not isinstance(coordinate_tuple, tuple) or len(coordinate_tuple) != 2:
+            raise ValueError("Očekávám tuple s dvěma prvky: (lat, lon)")
+
+        lat, lon = coordinate_tuple
+        return {
+            "lat": lat,
+            "lon": lon
+        }
+
+    @classmethod
+    def extract_coodinate_from_text(cls, coordinate_str: str) -> dict | None:
         """
         Detekuje formát souřadnic pomocí COORDINATES_PATTERNS a převede na decimal.
+        Vrací dict:
+        {
+            "lat": <latitude>,
+            "lon": <longitude>
+        }
         """
-        for pattern in cls.COORDINATES_PATTERNS:
-            match = pattern.search(coordinate_str)
-            if match:
-                if 'lat' in match.groupdict() and 'lon' in match.groupdict():
-                    # Decimální formát
-                    lat = float(match.group('lat'))
-                    if match.group('lat_hem') in ['S']:
-                        lat *= -1
-                    lon = float(match.group('lon'))
-                    if match.group('lon_hem') in ['W']:
-                        lon *= -1
-                    return lat, lon
+        if coordinate_str:
+            for pattern in cls.COORDINATES_PATTERNS:
+                match = pattern.search(coordinate_str)
+                if match:
+                    if 'lat' in match.groupdict() and 'lon' in match.groupdict():
+                        # Decimální formát
+                        lat = float(match.group('lat'))
+                        if match.group('lat_hem') in ['S']:
+                            lat *= -1
+                        lon = float(match.group('lon'))
+                        if match.group('lon_hem') in ['W']:
+                            lon *= -1
+                        # Použití decimal_to_dict()
+                        return cls.decimal_to_dict((lat, lon))
 
-                elif 'lat_dms' in match.groupdict() and 'lon_dms' in match.groupdict():
-                    # Kompaktní DMS formát
-                    lat = cls.dms_to_decimal(match.group('lat_dms')[:2], match.group('lat_dms')[2:4], match.group('lat_dms')[4:], match.group('lat_hem'))
-                    lon = cls.dms_to_decimal(match.group('lon_dms')[:3], match.group('lon_dms')[3:5], match.group('lon_dms')[5:], match.group('lon_hem'))
-                    return lat, lon
+                    elif 'lat_dms' in match.groupdict() and 'lon_dms' in match.groupdict():
+                        # Kompaktní DMS formát
+                        lat = cls.dms_to_decimal(match.group('lat_dms')[:2], match.group('lat_dms')[2:4],
+                                                 match.group('lat_dms')[4:], match.group('lat_hem'))
+                        lon = cls.dms_to_decimal(match.group('lon_dms')[:3], match.group('lon_dms')[3:5],
+                                                 match.group('lon_dms')[5:], match.group('lon_hem'))
+                        # Použití decimal_to_dict()
+                        return cls.decimal_to_dict((lat, lon))
 
-                elif 'lat_deg' in match.groupdict() and 'lon_deg' in match.groupdict():
-                    # Klasický DMS formát
-                    lat = cls.dms_to_decimal(match.group('lat_deg'), match.group('lat_min'), match.group('lat_sec'), match.group('lat_hem'))
-                    lon = cls.dms_to_decimal(match.group('lon_deg'), match.group('lon_min'), match.group('lon_sec'), match.group('lon_hem'))
-                    return lat, lon
+                    elif 'lat_deg' in match.groupdict() and 'lon_deg' in match.groupdict():
+                        # Klasický DMS formát
+                        lat = cls.dms_to_decimal(match.group('lat_deg'), match.group('lat_min'), match.group('lat_sec'),
+                                                 match.group('lat_hem'))
+                        lon = cls.dms_to_decimal(match.group('lon_deg'), match.group('lon_min'), match.group('lon_sec'),
+                                                 match.group('lon_hem'))
+                        # Použití decimal_to_dict()
+                        return cls.decimal_to_dict((lat, lon))
+                # Pokud není nalezen platný formát
+            return None
+        else:
+            return None
 
-        raise ValueError(f"Neznámý formát souřadnic: {coordinate_str}")

@@ -326,7 +326,7 @@ class AirspaceApp:
                     all_coordinates.extend(arc_points)
 
                     # # Přidáme popup s metainformacemi po kliknutí na oblouk
-                    # popup_content = self.build_popup_content(space_name, space_class, category, frequency, station_name,
+                    # popup_content = self.build_popup_content(space_name, space_class, category, frequencies, station_name,
                     #                                          upper_limit, lower_limit)
                     # folium.Popup(popup_content, max_width=300, show=False, sticky=False).add_to(arc)
 

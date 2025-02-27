@@ -1,9 +1,11 @@
 import re
 from typing import Optional
+
+from pycparser.c_ast import Return
+
 from AirspaceManager.extractor.convertor import Convertor
 from AirspaceManager.airspace import Airspace
 import unicodedata
-
 
 AIRSPACE_TYPE_MAP = [
     {"name_template": "ATZ", "AC_tag": "E", "AY_tag": "Aerodrome Traffic Zone"},
@@ -31,13 +33,15 @@ class Extractor:
         cleaned_text = self.remove_diacritics(input_text)
         self.text = cleaned_text
         self.lines_by_coordinates = self.get_lines_by_coordinates(cleaned_text)
-        self.name: Optional[str] = None
-        self.airspace_class: Optional[str] = None
-        self.category: Optional[str] = None
-        self.frequency: Optional[str] = None
-        self.upper_limit: Optional[str] = None
-        self.lower_limit: Optional[str] = None
-        self.draw_commands: list = []
+        self.name: Optional[str] = self.extract_name()
+        self.airspace_class: Optional[str] = self.extract_airspace_class()
+        self.category: Optional[str] = self.extract_category()
+        self.frequencies: Optional[list] = self.extract_frequencies()
+        upper, lower = self.extract_verticals()
+        self.upper_limit: Optional[dict] = upper
+        self.lower_limit: Optional[dict] = lower
+        self.draw_commands: Optional[list[dict]] = self.extract_draw_commands()
+
 
     def remove_diacritics(self, text: str) -> str:
         """ Odstraní diakritiku z textu """
@@ -90,45 +94,56 @@ class Extractor:
 
             # Posuneme `last_index` na začátek další části
             last_index = start
-
         return split_lines
 
     def extract_name(self):
-        """ Rozpoznání názvu a kódu prostoru """
-        lines = self.text.splitlines()
-        first_line = lines[0] if lines else ''
-        match = re.match(r"([A-Z0-9]+) (.+)", first_line)
-        if match:
-            code, name = match.groups()
-            self.name = f"{code} {name}"
+        """
+        Extrahuje název prostoru z prvního řádku.
+        Pokud řádek začíná shodou s template, vrátí celý řádek (max. 50 znaků).
+        """
+        first_line = self.text.splitlines()[0].strip()  # První řádek bez mezer na začátku a konci
+
+        for item in AIRSPACE_TYPE_MAP:
+            template = item["name_template"]
+
+            # === Nový regulární výraz ===
+            # - `^` začátek řádku
+            # - `re.IGNORECASE` pro ignorování velikosti písmen
+            match = re.match(rf"^{template}", first_line, re.IGNORECASE)
+
+            if match:
+                # === self.name bude celý řádek (max. 50 znaků) ===
+                self.name = first_line[:50].strip()  # Max. 50 znaků a oříznutí mezer na konci
+                break
+        else:
+            self.name = None  # Pokud není shoda, nastaví na None
+
         return self.name
 
-    def extract_class(self):
+    def extract_airspace_class(self):
         """ Rozpoznání třídy prostoru podle mapování """
-        for airspace in AIRSPACE_TYPE_MAP:
-            if self.name and self.name.startswith(airspace["name_template"]):
-                self.airspace_class = airspace["AC_tag"]
-                break
-        return self.airspace_class
+        for item in AIRSPACE_TYPE_MAP:
+            if self.name and self.name.startswith(item["name_template"]):
+                self.airspace_class = item["AC_tag"]
+                return self.airspace_class
 
     def extract_category(self):
         """ Rozpoznání kategorie prostoru podle mapování """
-        for airspace in AIRSPACE_TYPE_MAP:
-            if self.name and self.name.startswith(airspace["name_template"]):
-                self.category = airspace["AY_tag"]
-                break
-        return self.category
+        for item in AIRSPACE_TYPE_MAP:
+            if self.name and self.name.startswith(item["name_template"]):
+                self.category = item["AY_tag"]
+                return self.category
 
     def extract_verticals(self):
         """
-        Extracts upper and lower vertical limits from text and returns them as formatted strings.
-        Expected output:
-            upper_limit: str - Upper limit with unit (e.g., "FL 125", "5000 MSL")
-            lower_limit: str - Lower limit with unit (e.g., "1000 AGL", "0 AGL")
+        Extracts upper and lower vertical limits from text and returns them as dicts.
+        Expected output: upper_limit, lower_limit
+            upper_limit: {"value": int, "unit": str}
+            lower_limit: {"value": int, "unit": str}
         expected input such as:
-            FL125 / 1000 ft AGL
-            FL125 / FL95
-            1000 ft AGL / GND
+            FL125,  1000 ft AGL
+            FL125  FL95
+            1000 ft AGL  GND
             FL95 / GND
             FL95 / FL65
             FL95 / 2500 ft AMSL
@@ -136,24 +151,24 @@ class Extractor:
             FL245 / FL95
 
         converts:
-            GND -> 0 AGL
-            1000 ft AGL -> 1000 AGL
-            2000 ft AMSL -> 2000 MSL
-            FL95 -> FL 95
-            FL245 -> FL 245
+            GND -> {"value": 0, "unit": "AGL"}
+            1000 ft AGL -> {"value": 1000, "unit": "AGL"}
+            2000 FT AMSL -> {"value": 2000, "unit": "MSL"}
+            FL95 -> {"value": 95, "unit": "FT"}
+            FL245 -> {"value": 245, "unit": "FT"}
 
         """
         # Regulární výraz pro extrakci vertikálních limitů
         pattern = re.compile(r"""
-            (?:FL\s*(\d+))|            # Match Flight Level (FL95, FL 95)
-            (?:(\d+)\s*ft\s*(AGL|AMSL|MSL))|  # Match feet with units (1000 ft AGL, 2000 ft AMSL)
-            (GND)                      # Match GND
+            \b(?:FL)\s?(?P<fl>\d{2,3})\b |                              # Flight Level (např. FL95, FL 95)
+            \b(?P<feet>\d{1,4})\s?(?:ft)?\s?(?P<unit>AGL|AMSL|MSL)\b |  # Feet s jednotkou
+            \b(?P<gnd>GND)\b                                             # GND
         """, re.IGNORECASE | re.VERBOSE)
 
         # Najdi všechny shody
         matches = pattern.findall(self.text)
         if len(matches) != 2:
-            raise ValueError("Expected exactly two vertical limits in the text")
+            return None, None
 
         # Konverze shod na číselné hodnoty a jednotky
         limits = []
@@ -179,22 +194,21 @@ class Extractor:
                 unit = "AGL"
                 limits.append({"value": 0, "unit": unit})
 
-            # Rozhodnutí, který limit je upper a který lower
-            lim1, lim2 = limits[0], limits[1]
-            order = {"AGL": 1, "MSL": 2, "FL": 3} # FL vždy > MSL > AGL
-            # Pokud jsou jednotky různé, porovnáme podle pořadí
-            if lim1["unit"] != lim2["unit"]:
-                self.upper_limit = lim1 if order[lim1["unit"]] > order[lim2["unit"]] else lim2
-                self.lower_limit = lim1 if order[lim1["unit"]] < order[lim2["unit"]] else lim2
-            # Pokud jsou jednotky stejné, porovnáme číselnou hodnotu
-            else:
-                self.upper_limit = lim1 if lim1["value"] > lim2["value"] else lim2
-                self.lower_limit = lim1 if lim1["value"] < lim2["value"] else lim2
-
+        # Rozhodnutí, který limit je upper a který lower
+        lim1, lim2 = limits[0], limits[1]
+        order = {"AGL": 1, "MSL": 2, "FL": 3} # FL vždy > MSL > AGL
+        # Pokud jsou jednotky různé, porovnáme podle pořadí
+        if lim1["unit"] != lim2["unit"]:
+            self.upper_limit = lim1 if order[lim1["unit"]] > order[lim2["unit"]] else lim2
+            self.lower_limit = lim1 if order[lim1["unit"]] < order[lim2["unit"]] else lim2
+        # Pokud jsou jednotky stejné, porovnáme číselnou hodnotu
+        else:
+            self.upper_limit = lim1 if lim1["value"] > lim2["value"] else lim2
+            self.lower_limit = lim1 if lim1["value"] < lim2["value"] else lim2
         return self.upper_limit, self.lower_limit
 
     def extract_frequencies(self):
-        """ Extrakce frekvencí v rozsahu 118.000 - 136.975 """
+        """ Extrakce frekvencí v rozsahu 118.000 - 136.975 bez změny pořadí """
         pattern = r'\b(1[1-3][0-9]\.\d{1,3})\b'
         matches = re.findall(pattern, self.text)
 
@@ -202,10 +216,14 @@ class Extractor:
         for match in matches:
             freq = float(match)
             if 118.000 <= freq <= 136.975:
-                frequencies.append(f"{freq:.3f}")
+                # === Převedeme na tři desetinná místa ===
+                formatted_freq = f"{freq:.3f}"
+                frequencies.append(formatted_freq)
 
-        self.frequency = frequencies[0] if frequencies else None
-        return self.frequency
+        # === Deduplication bez změny pořadí ===
+        deduplicated_frequencies = list(dict.fromkeys(frequencies))
+
+        return deduplicated_frequencies
 
     def extract_radius_and_unit(self, text:str):
         """
@@ -219,70 +237,92 @@ class Extractor:
 
         if match:
             # Extrahujeme číslo (radius) a jednotku (unit)
-            radius = float(match.group(1))  # Změníme číslo na float
+            radius_value = float(match.group(1))  # Změníme číslo na float
             unit = match.group(2).upper()  # Jednotku převedeme na velká písmena, např. NM nebo KM
-            return radius, unit
+            if unit == "KM":
+                return round(radius_value * 0.539957, 3)  # TODO: přesunout do Convertoru
+            elif unit == "NM":
+                pass
+            else:
+                # Pokud je jednotka neznámá
+                raise ValueError(f"Neznámá jednotka: {unit}")
+            return radius_value, unit
         else:
             # Pokud žádný radius neexistuje, vrátíme None
             return None, None
 
-    def normalize_radius(self, radius, unit):
-        """
-        Normalizuje poloměr podle zadané jednotky.
-        V případě "KM" převede na námořní míle (NM).
-
-        :param radius: Číselná hodnota poloměru.
-        :param unit: Jednotka poloměru ("NM" nebo "KM").
-        :return: Normalizovaný poloměr v NM.
-        """
-        # Kontrola jednotky a případná konverze na NM
-        if unit == "NM":
-            return round(radius, 3)
-            # Beze změny
-        elif unit == "KM":
-            # Převod z kilometrů na námořní míle
-            return round(radius * 0.539957, 3)
-        else:
-            # Pokud je jednotka neznámá
-            raise ValueError(f"Neznámá jednotka: {unit}")
     
     def extract_draw_commands(self):
         """ Rozpoznání tvarů: kruhy, polygony, oblouky """
         self.draw_commands = []
-        lines = self.input_text.splitlines()
-        for line in lines:
-            if "KRUH" in line or "CIRCLE" in line:
-                radius_match = re.search(r"(\d+(\.\d+)?)\s*(NM|KM|M)", line)
-                if radius_match:
-                    radius = radius_match.group(1)
-                    unit = radius_match.group(3)
-                    center_line = lines[lines.index(line) + 1]
-                    center_lat, center_lon = Convertor.detect_and_convert(center_line)
-                    self.draw_commands.append({
-                        "type": "circle",
-                        "circle_center_coordinate": (center_lat, center_lon),
-                        "circle_radius": radius,
-                        "radius_unit": unit
-                    })
-        return self.draw_commands
+        lines = self.lines_by_coordinates
 
-    def get_airspace_data(self):
-        """ Zavolá všechny extrakční metody """
-        self.extract_name()
-        self.extract_class()
-        self.extract_category()
-        self.extract_verticals()
-        self.extract_frequencies()
-        self.extract_draw_commands()
+        # === Přidáno ošetření na None ===
+        if lines is None:
+            print("Chyba: lines_by_coordinates je None.")
+            return  # Přeskočí zpracování, pokud lines není naplněno
+
+        skipping_lines = 0
+        current_direction = "+"
+        for line_index, line in enumerate(lines):
+            if skipping_lines == 0:
+                extracted_coordinate = Convertor.extract_coodinate_from_text(line)
+                if re.search(r"\b(KRUH|CIRCLE|RADIUS)", line, re.IGNORECASE):
+                    radius_value, unit = self.extract_radius_and_unit(line)
+                    search_arc = re.search(r"\b(ARC|OBLOUK|ARCU|ARC OF|OBLOUKU|OBLOUKEM|CWA)", line, re.IGNORECASE)
+                    search_anti_arc = re.search(r"\b(PROTI SMĚRU|ANTI-CLOCKWISE|ANTICLOCKWISE|COUNTERCLOCKWISE|CCA)",
+                                                line,
+                                                re.IGNORECASE)
+                    if search_arc or search_anti_arc:
+                        arc = True
+                        if search_anti_arc:
+                            current_direction = "-"
+                        else:
+                            current_direction = "+"
+                    else:
+                        arc = False
+                    if arc:  # detekován oblouk
+                        arc_start_coordinate = extracted_coordinate  # start oblouku je na prvním řádku
+                        current_center = Convertor.extract_coodinate_from_text(
+                            lines[line_index + 1])  # střed oblouku je na následujícím řádku
+                        arc_end_coordinate = Convertor.extract_coodinate_from_text(
+                            lines[line_index + 2])  # konec oblouku je na následujícím řádku
+                        skipping_lines = 2  # přeskočí následující dva řádky ze zpracování
+                        self.draw_commands.append({
+                            "type": "arc",
+                            "arc_center_coordinate": current_center,
+                            "arc_direction": current_direction,
+                            "arc_start_point_coordinate": arc_start_coordinate,
+                            "arc_end_point_coordinate": arc_end_coordinate
+                        })
+                    else:  # neidentifikován oblouk, pouze kruh
+                        current_center = Convertor.extract_coodinate_from_text(
+                            lines[line_index + 1])  # střed kruhu je na následujícím řádku
+                        self.draw_commands.append({
+                            "type": "circle",
+                            "circle_center_coordinate": current_center,
+                            "circle_radius": radius_value,
+                            "radius_unit": unit
+                        })
+                        skipping_lines = 1  # přeskočí řádek se středem kruhu
+                else:  # není ani kruh ani oblouk
+                    # Polygon
+                    if extracted_coordinate:
+                        self.draw_commands.append({
+                            "type": "polygon_point",
+                            "polygon_point_coordinate": extracted_coordinate
+                        })
+            else:
+                skipping_lines -= 1
+        return self.draw_commands
 
     def to_airspace(self):
         """ Naplní a vrátí objekt Airspace s daty z Extractoru """
-        self.get_airspace_data()
         return Airspace(
             name=self.name,
             airspace_class=self.airspace_class,
             category=self.category,
-            frequency=self.frequency,
+            frequencies=self.frequencies,
             upper_limit=self.upper_limit,
             lower_limit=self.lower_limit,
             draw_commands=self.draw_commands

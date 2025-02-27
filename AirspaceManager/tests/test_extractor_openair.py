@@ -16,38 +16,38 @@ OPENAIR_FILES = [
         "airspace_class": "Q",
         "name": "DROPZONE Breclav 119.655",
         "category": "Para Jumping Area",
-        "frequency": "119.655",
+        "frequencies": ['119.655'],
         "station_name": "Breclav RADIO",
         "upper_limit": {"value": 95, "unit": "FL"},
         "lower_limit": {"value": 0, "unit": "AGL"},
         "draw_commands": [{
             'type': 'circle',
-            'circle_center_coordinate': convertor.detect_and_convert('48:47:27 N 016:53:33 E'),
+            'circle_center_coordinate': convertor.extract_coodinate_from_text('48:47:27 N 016:53:33 E'),
             'circle_radius': '2', 'radius_unit': 'NM'}]
     }),
     ("LKTSA7C Jince - polygon", "OpenAir", {
         "airspace_class": "R",
         "name": "LKTSA7C JINCE 126.10",
-        "frequency": "126.10",
+        "frequencies": ['126.100'],
         "station_name": "PRAHA INFORMATION",
-        "draw_commands": [{'type': 'polygon_point', 'polygon_point_coordinate': convertor.detect_and_convert('49:49:42 N 013:56:17 E')},
-                          {'type': 'polygon_point', 'polygon_point_coordinate': convertor.detect_and_convert('49:48:32 N 013:57:50 E')},
-                          {'type': 'polygon_point', 'polygon_point_coordinate': convertor.detect_and_convert('49:45:44 N 013:51:00 E')},
-                          {'type': 'polygon_point', 'polygon_point_coordinate': convertor.detect_and_convert('49:47:44 N 013:52:00 E')},
-                          {'type': 'polygon_point', 'polygon_point_coordinate': convertor.detect_and_convert('49:49:42 N 013:56:17 E')}]
+        "draw_commands": [{'type': 'polygon_point', 'polygon_point_coordinate': convertor.extract_coodinate_from_text('49:49:42 N 013:56:17 E')},
+                          {'type': 'polygon_point', 'polygon_point_coordinate': convertor.extract_coodinate_from_text('49:48:32 N 013:57:50 E')},
+                          {'type': 'polygon_point', 'polygon_point_coordinate': convertor.extract_coodinate_from_text('49:45:44 N 013:51:00 E')},
+                          {'type': 'polygon_point', 'polygon_point_coordinate': convertor.extract_coodinate_from_text('49:47:44 N 013:52:00 E')},
+                          {'type': 'polygon_point', 'polygon_point_coordinate': convertor.extract_coodinate_from_text('49:49:42 N 013:56:17 E')}]
     }),
     ("TRA62 Nymburk - oblouk", "OpenAir", {
         "airspace_class": "R",
         "name": "LKTRA62 NYMBURK",
-        "draw_commands": [{'type': 'polygon_point', 'polygon_point_coordinate': convertor.detect_and_convert('50:28:35 N 15:10:11 E')},
-                          {'type': 'polygon_point', 'polygon_point_coordinate': convertor.detect_and_convert('50:23:06 N 15:23:16 E')},
-                          {'type': 'polygon_point', 'polygon_point_coordinate': convertor.detect_and_convert('50:11:09 N 15:22:56 E')},
-                          {'type': 'polygon_point', 'polygon_point_coordinate': convertor.detect_and_convert('50:11:09 N 15:03:24 E')},
-                          {'type': 'arc', 'arc_center_coordinate': convertor.detect_and_convert('50:05:45 N 14:15:56 E'), 'arc_direction': '-',
-                           'arc_start_point_coordinate': convertor.detect_and_convert('50:11:08 N 14:58:39 E'),
-                           'arc_end_point_coordinate': convertor.detect_and_convert('50:14:09 N 14:57:29 E')},
-                          {'type': 'polygon_point', 'polygon_point_coordinate': convertor.detect_and_convert('50:28:34 N 15:00:04 E')},
-                          {'type': 'polygon_point', 'polygon_point_coordinate': convertor.detect_and_convert('50:28:35 N 15:10:11 E')}]
+        "draw_commands": [{'type': 'polygon_point', 'polygon_point_coordinate': convertor.extract_coodinate_from_text('50:28:35 N 15:10:11 E')},
+                          {'type': 'polygon_point', 'polygon_point_coordinate': convertor.extract_coodinate_from_text('50:23:06 N 15:23:16 E')},
+                          {'type': 'polygon_point', 'polygon_point_coordinate': convertor.extract_coodinate_from_text('50:11:09 N 15:22:56 E')},
+                          {'type': 'polygon_point', 'polygon_point_coordinate': convertor.extract_coodinate_from_text('50:11:09 N 15:03:24 E')},
+                          {'type': 'arc', 'arc_center_coordinate': convertor.extract_coodinate_from_text('50:05:45 N 14:15:56 E'), 'arc_direction': '-',
+                           'arc_start_point_coordinate': convertor.extract_coodinate_from_text('50:11:08 N 14:58:39 E'),
+                           'arc_end_point_coordinate': convertor.extract_coodinate_from_text('50:14:09 N 14:57:29 E')},
+                          {'type': 'polygon_point', 'polygon_point_coordinate': convertor.extract_coodinate_from_text('50:28:34 N 15:00:04 E')},
+                          {'type': 'polygon_point', 'polygon_point_coordinate': convertor.extract_coodinate_from_text('50:28:35 N 15:10:11 E')}]
     })
 ]
 
