@@ -223,7 +223,7 @@ class Extractor:
         # === Deduplication bez změny pořadí ===
         deduplicated_frequencies = list(dict.fromkeys(frequencies))
 
-        return deduplicated_frequencies
+        return deduplicated_frequencies if deduplicated_frequencies else None
 
     def extract_radius_and_unit(self, text:str):
         """

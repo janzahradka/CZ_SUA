@@ -43,7 +43,7 @@ class AirspaceFormatter:
                 # === Převod na CSDMS pomocí get_csdms_from_decimal() ===
                 csdms = Convertor.get_csdms_from_decimal(command['circle_center_coordinate'])
                 lines.append(f"V X={csdms}")
-                lines.append(f"DC {command['circle_radius']}{command['radius_unit']}")
+                lines.append(f"DC {command['circle_radius']} *{command['radius_unit']}")
 
             elif command['type'] == 'arc':
                 # === Převod na CSDMS pomocí get_csdms_from_decimal() ===
@@ -51,7 +51,7 @@ class AirspaceFormatter:
                 start_csdms = Convertor.get_csdms_from_decimal(command['arc_start_point_coordinate'])
                 end_csdms = Convertor.get_csdms_from_decimal(command['arc_end_point_coordinate'])
                 lines.append(f"V X={center_csdms}")
-                lines.append(f"D={command['arc_direction']}")
+                lines.append(f"V D={command['arc_direction']}")
                 lines.append(f"DB {start_csdms}, {end_csdms}")
 
         return "\n".join(lines)

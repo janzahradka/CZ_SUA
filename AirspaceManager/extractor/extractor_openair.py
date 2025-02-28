@@ -80,15 +80,18 @@ class ExtractorOpenAir(Extractor):
     def extract_name(self):
         """ Extrakce názvu prostoru (AN) a přiřazení k self.name """
         for line in self.lines:
-            if line.startswith("AN"):
-                self.name = line.split("AN ")[1].strip()
+            if line.startswith("AN "):
+                name = line.split("AN ")[1].strip()
+                frequency_pattern = r'\b(1[1-3][0-9]\.\d{1,3})\b'
+                cleaned_name = re.sub(frequency_pattern, '', name).strip()
+                self.name = cleaned_name
                 break  # bude jen jeden AN v prostoru
         return self.name
 
     def extract_airspace_class(self):
         """ Extrakce třídy prostoru (AC) """
         for line in self.lines:
-            if line.startswith("AC"):
+            if line.startswith("AC "):
                 self.airspace_class = line.split("AC ")[1].strip()
                 break # bude jen jeden AC v prostoru
         return self.airspace_class
@@ -96,37 +99,60 @@ class ExtractorOpenAir(Extractor):
     def extract_category(self):
         """ Extrakce kategorie prostoru (AY) """
         for line in self.lines:
-            if line.startswith("AY"):
+            if line.startswith("AY "):
                 self.category = line.split("AY ")[1].strip()
                 break # bude jen jeden AY v prostoru
         return self.category
 
     def extract_frequencies(self):
         """
-        Extrakce první frekvence (AF) v rozsahu 118.000 - 136.975.
-        Ignoruje další výskyty.
+        Extrakce frekvencí z tagů AF a AN.
+        Z tagu AF se považují frekvence za hlavní (frequenze_af).
+        Z tagu AN se extrahují další frekvence (frequenze_an).
+        Výsledný seznam se sestaví jako:
+          frekvence_af + ty frekvence z frekvence_an, které v seznamu ještě nejsou.
+        Platný rozsah frekvencí je 118.000 až 136.975.
         """
         pattern = r'\b(1[1-3][0-9]\.\d{1,3})\b'
+        final_frequencies = []
+        frequencies_af = []
+        frequencies_an = []
 
-        # Prohledáme všechny řádky a hledáme pouze první výskyt za AF
+        # Projdeme všechny řádky
         for line in self.lines:
-            if line.startswith("AF"):
-                # === Najdeme první frekvenci ===
-                match = re.search(pattern, line)
-                if match:
-                    freq = float(match.group(1))
-                    # === Ověříme, zda je v platném rozsahu ===
+            if line.startswith("AF "):
+                # Najdeme všechny výskyty frekvencí v řádku
+                matches = re.findall(pattern, line)
+                for match in matches:
+                    freq = float(match)
                     if 118.000 <= freq <= 136.975:
-                        # === Převedeme na tři desetinná místa ===
                         formatted_freq = f"{freq:.3f}"
-                        # === Vrátíme jako jednočlenný seznam ===
-                        self.frequencies = [formatted_freq]
-                        return self.frequencies
+                        if formatted_freq not in frequencies_af:
+                            frequencies_af.append(formatted_freq)
+            elif line.startswith("AN "):
+                # V řádku s tagem AN také hledej frekvence
+                matches = re.findall(pattern, line)
+                for match in matches:
+                    freq = float(match)
+                    if 118.000 <= freq <= 136.975:
+                        formatted_freq = f"{freq:.3f}"
+                        if formatted_freq not in frequencies_an:
+                            frequencies_an.append(formatted_freq)
+        # Výsledný seznam: nejprve všechny frekvence z AF,
+        # poté k nim připojíme ty frekvence z AN, které ještě nejsou v seznamu.
+        if len(frequencies_af) > 0:
+            final_frequencies = frequencies_af.copy()
+        for freq in frequencies_an:
+            if freq not in final_frequencies:
+                final_frequencies.append(freq)
+
+        self.frequencies = final_frequencies if final_frequencies else None
+        return self.frequencies
 
     def extract_station_name(self):
         """ Extrakce názvu stanoviště (AG) """
         for line in self.lines:
-            if line.startswith("AG"):
+            if line.startswith("AG "):
                 self.station_name = line.split("AG ")[1].strip()
         return self.station_name
 
@@ -167,7 +193,7 @@ class ExtractorOpenAir(Extractor):
     def extract_upper_limit(self):
         """ Extrakce horní vertikální hranice (AH) FL 95, 1000 AGL, 1000 MSL """
         for line in self.lines:
-            if line.startswith("AH"):
+            if line.startswith("AH "):
                 upper_limit_raw = line.split("AH ")[1].strip()
                 self.upper_limit = self.extract_limit(upper_limit_raw)
         return self.upper_limit
@@ -175,7 +201,7 @@ class ExtractorOpenAir(Extractor):
     def extract_lower_limit(self):
         """ Extrakce spodní vertikální hranice (AL) """
         for line in self.lines:
-            if line.startswith("AL"):
+            if line.startswith("AL "):
                 lower_limit_raw = line.split("AL ")[1].strip()
                 self.lower_limit = self.extract_limit(lower_limit_raw)
         return self.lower_limit
@@ -187,7 +213,7 @@ class ExtractorOpenAir(Extractor):
         current_direction = "+"
 
         for line in self.lines:
-            if line.startswith("DP"):
+            if line.startswith("DP "):
                 coordinate = line.split("DP ")[1].strip()
                 # === Použití Convertor.extract_coodinate_from_text() ===
                 try:
@@ -209,8 +235,8 @@ class ExtractorOpenAir(Extractor):
                 except ValueError as e:
                     print(f"Chyba při konverzi souřadnic středu: {current_center}. {e}")
 
-            elif line.startswith("D="):
-                current_direction = line.split("D=")[1].strip()
+            elif line.startswith("V D="):
+                current_direction = line.split("V D=")[1].strip()
 
             elif line.startswith("DC"):
                 radius = line.split("DC ")[1].strip().split(" ")[0]
@@ -221,7 +247,7 @@ class ExtractorOpenAir(Extractor):
                     "radius_unit": "NM"
                 })
 
-            elif line.startswith("DB"):
+            elif line.startswith("DB "):
                 start, end = line.split("DB ")[1].split(",")
                 try:
                     start_coord = Convertor.extract_coodinate_from_text(start.strip())
