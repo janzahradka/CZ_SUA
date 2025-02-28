@@ -3,6 +3,23 @@ import webbrowser
 import numpy as np
 from extractor.convertor import Convertor
 
+# Definice funkcí na úrovni modulu pro styl a zvýraznění
+def polygon_style_function(feature):
+    return {
+        'fillColor': 'green',
+        'color': 'green',
+        'fillOpacity': 0.4,
+        'weight': 2
+    }
+
+def constant_highlight(feature):
+    return {
+        'fillColor': 'yellow',
+        'color': 'yellow',
+        'fillOpacity': 0.7,
+        'weight': 3
+    }
+
 class Renderer:
     """Renderer for drawing airspaces on a map using Folium"""
 
@@ -69,7 +86,6 @@ class Renderer:
 
     def render_map(self):
         """Creates a map and draws all airspaces."""
-        # Nastavujeme výchozí zoom na 8
         map_object = folium.Map(location=[50.0, 15.0], zoom_start=8)
         all_coordinates = []
 
@@ -95,14 +111,27 @@ class Renderer:
 
             if polygon_points:
                 polygon_points.append(polygon_points[0])  # Close the polygon
-                polygon = folium.Polygon(
-                    locations=polygon_points,
-                    color='green',
-                    fill=True,
-                    fill_color='lightgreen'
-                ).add_to(map_object)
+                # Convert coordinates to GeoJSON format ([lon, lat])
+                geo_coords = [[lon, lat] for (lat, lon) in polygon_points]
                 popup_content = self.build_popup_content(airspace)
-                folium.Popup(popup_content, max_width=300, show=False).add_to(polygon)
+                polygon_geojson = {
+                    "type": "Feature",
+                    "properties": {
+                        "popup": popup_content
+                    },
+                    "geometry": {
+                        "type": "Polygon",
+                        "coordinates": [geo_coords]
+                    }
+                }
+                # Vytvoříme GeoJsonPopup, který zobrazuje vlastnost "popup"
+                popup = folium.GeoJsonPopup(fields=["popup"], labels=False)
+                folium.GeoJson(
+                    polygon_geojson,
+                    style_function=polygon_style_function,
+                    highlight_function=constant_highlight,
+                    popup=popup,
+                ).add_to(map_object)
 
         if all_coordinates:
             lats = [coord[0] for coord in all_coordinates]
@@ -112,7 +141,6 @@ class Renderer:
             east = max(lons)
             west = min(lons)
 
-            # Přidáme marži až 5násobek velikosti prostoru
             margin_factor = 1.0
             lat_margin = (north - south) * margin_factor
             lon_margin = (east - west) * margin_factor
@@ -135,7 +163,7 @@ class Renderer:
         lat = coord["lat"]
         lon = coord["lon"]
         radius_nm = float(command["circle_radius"])
-        radius_m = radius_nm * 1852  # Convert NM to meters
+        radius_m = radius_nm * 1852
 
         folium.Circle(
             location=(lat, lon),
@@ -145,10 +173,8 @@ class Renderer:
             fill_color='lightblue'
         ).add_to(map_object)
 
-        # Přibližný výpočet bounding boxu kruhu
-        dlat = radius_m / 111000  # přibližně 111 km na stupeň zeměpisné šířky
-        dlon = radius_m / (111000 * np.cos(np.radians(lat)))  # korekce pro zeměpisnou délku
-        # Přidáme čtyři rohy bounding boxu
+        dlat = radius_m / 111000
+        dlon = radius_m / (111000 * np.cos(np.radians(lat)))
         all_coordinates.append((lat - dlat, lon - dlon))
         all_coordinates.append((lat - dlat, lon + dlon))
         all_coordinates.append((lat + dlat, lon - dlon))
@@ -169,7 +195,7 @@ class Renderer:
         arc_points = self.calculate_arc_points(center_coords, start_coords, end_coords, direction)
 
         if polygon_points:
-            polygon_points.append(polygon_points[-1])  # Connect to previous point
+            polygon_points.append(polygon_points[-1])
         polygon_points.extend(arc_points)
         polygon_points.append(end_coords)
 
