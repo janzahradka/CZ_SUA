@@ -4,7 +4,8 @@ from tkinter import scrolledtext, messagebox, ttk
 import pyperclip
 import webbrowser
 import folium
-from controller import process_plain_text, process_openair_text  # veškerá logika je v controller.py
+from controller import process_plain_text, process_openair_text  # Logika z controller.py
+from renderer import Renderer
 
 
 class AirspaceApp:
@@ -46,6 +47,7 @@ class AirspaceApp:
         left_toolbar = tk.Frame(parent, bd=1, relief=tk.RAISED)
         left_toolbar.pack(side=tk.TOP, fill=tk.X, padx=5, pady=5)
 
+        # Levé tlačítka
         paste_btn = tk.Button(left_toolbar, text="Paste from Clipboard", font=("Roboto", 12),
                               command=self.paste_from_clipboard)
         paste_btn.pack(side=tk.LEFT, padx=2, pady=2)
@@ -53,8 +55,13 @@ class AirspaceApp:
         clear_input_btn = tk.Button(left_toolbar, text="Clear Input", font=("Roboto", 12), command=self.clear_input)
         clear_input_btn.pack(side=tk.LEFT, padx=2, pady=2)
 
+        # Filler pro posunutí tlačítka "Run Processing" doprava
+        filler = tk.Label(left_toolbar, text="")
+        filler.pack(side=tk.LEFT, expand=True, fill=tk.X)
+
+        # Tlačítko "Run Processing" napravo
         process_btn = tk.Button(left_toolbar, text="Run Processing", font=("Roboto", 12), command=self.process_text)
-        process_btn.pack(side=tk.LEFT, padx=2, pady=2)
+        process_btn.pack(side=tk.RIGHT, padx=2, pady=2)
 
         # Notebook pro levý panel s kartami "plain text" a "OpenAir"
         self.input_notebook = ttk.Notebook(parent)
@@ -79,16 +86,21 @@ class AirspaceApp:
         right_toolbar = tk.Frame(parent, bd=1, relief=tk.RAISED)
         right_toolbar.pack(side=tk.TOP, fill=tk.X, padx=5, pady=5)
 
-        map_btn = tk.Button(right_toolbar, text="Show Map", font=("Roboto", 12), command=self.show_map)
-        map_btn.pack(side=tk.LEFT, padx=2, pady=2)
-
+        # Levá tlačítka na pravé liště
         clear_output_btn = tk.Button(right_toolbar, text="Clear Output", font=("Roboto", 12), command=self.clear_output)
         clear_output_btn.pack(side=tk.LEFT, padx=2, pady=2)
 
-        # Tlačítko "Add to multi" – aktivní pouze pro single output s obsahem
         self.add_to_multi_button = tk.Button(right_toolbar, text="Add to multi", font=("Roboto", 12),
                                              command=self.transfer_to_multi_output, state=tk.DISABLED)
         self.add_to_multi_button.pack(side=tk.LEFT, padx=2, pady=2)
+
+        # V metodě create_right_panel, v nástrojové liště:
+        filler = tk.Label(right_toolbar, text="")
+        filler.pack(side=tk.LEFT, expand=True, fill=tk.X)
+
+        # Tlačítko "Show Map" nyní volá show_map_handler
+        map_btn = tk.Button(right_toolbar, text="Show Map", font=("Roboto", 12), command=self.show_map_handler)
+        map_btn.pack(side=tk.RIGHT, padx=2, pady=2)
 
         # Notebook pro pravý panel s kartami "single" a "multi"
         self.output_notebook = ttk.Notebook(parent)
@@ -114,8 +126,12 @@ class AirspaceApp:
             messagebox.showerror("Error", f"Failed to paste from clipboard: {e}")
 
     def clear_input(self):
-        self.plain_text.delete(1.0, tk.END)
-        self.openair_text.delete(1.0, tk.END)
+        # Vymažeme pouze obsah aktivního vstupního tabu
+        current_tab = self.input_notebook.index("current")
+        if current_tab == 0:
+            self.plain_text.delete(1.0, tk.END)
+        elif current_tab == 1:
+            self.openair_text.delete(1.0, tk.END)
 
     def process_text(self):
         # Zjistíme, která karta ve vstupním notebooku je aktuálně aktivní.
@@ -152,23 +168,24 @@ class AirspaceApp:
                 messagebox.showerror("Error", f"Processing error: {e}")
 
     def clear_output(self):
-        self.single_output.delete(1.0, tk.END)
-        # Po vymazání aktualizujeme stav tlačítka "Add to multi"
+        # Vymažeme pouze obsah aktivního výstupního tabu
+        current_tab = self.output_notebook.index("current")
+        if current_tab == 0:
+            self.single_output.delete(1.0, tk.END)
+        elif current_tab == 1:
+            self.multi_output.delete(1.0, tk.END)
         self.update_add_to_multi_button_state()
 
     def transfer_to_multi_output(self):
-        """Přenese obsah z single output do multi output karty."""
+        """Transfer content from single output to multi output tab."""
         output_data = self.single_output.get(1.0, tk.END).strip()
         if output_data:
             current_text = self.multi_output.get(1.0, tk.END).strip()
-            if current_text:
-                new_text = current_text + "\n\n" + output_data
-            else:
-                new_text = output_data
+            # Přidáme ještě jeden řádek, takže oddělovač bude "\n\n\n"
+            new_text = current_text + "\n\n\n" + output_data if current_text else output_data
             self.multi_output.delete(1.0, tk.END)
             self.multi_output.insert(tk.END, new_text)
             self.output_notebook.select(self.multi_tab)
-            # Po přesunu také aktualizujeme stav tlačítka "Add to multi"
             self.update_add_to_multi_button_state()
         else:
             messagebox.showwarning("Warning", "Single output field is empty.")
@@ -177,7 +194,6 @@ class AirspaceApp:
         """Aktualizuje, zda má být tlačítko 'Add to multi' aktivní.
            Tlačítko je povoleno, pouze pokud je aktivní karta 'single'
            a není prázdná."""
-        # Zkontrolujeme, zda je aktivní karta single (index 0)
         current_tab = self.output_notebook.index("current")
         single_text = self.single_output.get(1.0, tk.END).strip()
         if current_tab == 0 and single_text:
@@ -187,12 +203,66 @@ class AirspaceApp:
 
     def show_map(self):
         """
-        Sample function: creates a map using Folium and opens it in the browser.
+        Retrieves the content from the 'single' output tab (which is in OpenAir format),
+        converts it into an Airspace object, and then uses Renderer to display the space on a map.
         """
-        map_object = folium.Map(location=[50.0, 15.0], zoom_start=6)
-        folium.Marker(location=[50.0, 15.0], popup="Airspace").add_to(map_object)
-        map_object.save("airspace_map.html")
-        webbrowser.open("airspace_map.html")
+        single_content = self.single_output.get(1.0, tk.END).strip()
+        if not single_content:
+            messagebox.showwarning("Warning", "Single output is empty.")
+            return
+        try:
+            # Convert the OpenAir formatted text into an Airspace object
+            from controller import airspace_from_openair
+            airspace_obj = airspace_from_openair(single_content)
+
+            # Use the Renderer to render the map.
+            renderer = Renderer([airspace_obj])  # Note: renderer expects a list of Airspace objects.
+            renderer.render_map()
+        except Exception as e:
+            messagebox.showerror("Error", f"Error rendering map: {e}")
+
+    def show_map_handler(self):
+        """Determines which output tab is active and calls the appropriate map rendering function."""
+        current_tab = self.output_notebook.index("current")
+        if current_tab == 0:
+            # Active tab is "single"
+            self.show_map()
+        elif current_tab == 1:
+            # Active tab is "multi"
+            self.show_multi_map()
+
+    def show_multi_map(self):
+        """
+        Render map from multi output content.
+        Splits the multi output into blocks (each representing one airspace),
+        converts each block to an Airspace object, and then renders all airspaces on one map.
+        """
+        multi_content = self.multi_output.get(1.0, tk.END).strip()
+        if not multi_content:
+            messagebox.showwarning("Warning", "Multi output field is empty.")
+            return
+        try:
+            from controller import airspace_from_openair  # Funkce převádějící OpenAir text na Airspace objekt
+            # Split multi output into blocks using triple newlines as separator
+            blocks = multi_content.split("\n\n\n")
+            airspaces = []
+            for block in blocks:
+                block = block.strip()
+                if block:
+                    try:
+                        airspace_obj = airspace_from_openair(block)
+                        airspaces.append(airspace_obj)
+                    except Exception as e:
+                        print(f"Error processing block: {e}")
+            if not airspaces:
+                messagebox.showwarning("Warning", "No valid airspaces found in multi output.")
+                return
+
+            from renderer import Renderer
+            renderer = Renderer(airspaces)
+            renderer.render_map()
+        except Exception as e:
+            messagebox.showerror("Error", f"Error rendering multi map: {e}")
 
 
 if __name__ == "__main__":

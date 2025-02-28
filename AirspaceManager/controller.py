@@ -26,3 +26,12 @@ def process_openair_text(input_text: str) -> str:
     airspace_obj = extractor.to_airspace()
     formatter = AirspaceFormatter(airspace_obj)
     return formatter.to_openair()
+
+def airspace_from_openair(openair_text: str):
+    """
+    Converts OpenAir formatted text into an Airspace object.
+    This function is used by the renderer.
+    """
+    extractor = ExtractorOpenAir(openair_text)
+    airspace_obj = extractor.to_airspace()
+    return airspace_obj
