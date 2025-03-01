@@ -9,28 +9,22 @@ from shapely.ops import transform
 import pyproj
 
 def get_color(airspace_class):
-    """
-    Returns a color based on airspace_class.
-    C - purple
-    D - red
-    R - orange
-    Q - brown
-    E - green
-    GS - white
-    Default: blue
-    """
+    if airspace_class:
+        airspace_class = airspace_class.strip().upper()
     mapping = {
         "C": "purple",
-        "D": "red",
+        "D": "crimson",
         "R": "orange",
         "Q": "brown",
         "E": "green",
-        "GS": "white"
+        "GS": "white",
+        "P": "red"
     }
     return mapping.get(airspace_class, "blue")
 
+
 def polygon_style_function(feature):
-    # Use the precomputed defaultColor property
+    # Použijeme předdefinovanou barvu z vlastností
     color = feature["properties"].get("defaultColor", "blue")
     return {
         'fillColor': color,
@@ -154,7 +148,6 @@ class Renderer:
 
     def render_map(self):
         map_object = folium.Map(location=[50.0, 15.0], zoom_start=8)
-        # Přidáme infoBox do HTML
         info_html = """
         <div id="infoBox" style="position: fixed; top: 10px; right: 10px; width: 300px;
              padding: 10px; background-color: white; border: 1px solid gray;
@@ -195,7 +188,6 @@ class Renderer:
             print(f"{idx}. Area: {area:.2f}\n{airspace}\n")
         for airspace, area in airspaces_with_area:
             popup_content = self.build_popup_content(airspace)
-            # Předáme také airspace_class a defaultColor
             airspace_class = airspace.airspace_class if hasattr(airspace, "airspace_class") else ""
             default_color = get_color(airspace_class)
             draw_commands = airspace.draw_commands
@@ -212,7 +204,7 @@ class Renderer:
                     all_coordinates.append((lat, lon))
                     has_polygon = True
                 elif command["type"] == "circle":
-                    self.render_circle(map_object, command, all_coordinates, popup_content)
+                    self.render_circle(map_object, command, all_coordinates, popup_content, airspace_class)
                 elif command["type"] == "arc":
                     self.render_arc(map_object, command, polygon_points, all_coordinates)
             if has_polygon:
@@ -236,8 +228,6 @@ class Renderer:
                 )
                 geojson.add_child(HoverScript())
                 geojson.add_to(map_object)
-            # Ujistíme se, že i u geometrie z kruhu předáme defaultColor, pokud by bylo potřeba:
-            # (V metodě render_circle níže jsme defaultColor prozatím prázdné – lze jej rozšířit podobně.)
         if all_coordinates:
             lats = [coord[0] for coord in all_coordinates]
             lons = [coord[1] for coord in all_coordinates]
@@ -256,7 +246,7 @@ class Renderer:
         map_object.save("airspace_map.html")
         webbrowser.open("airspace_map.html")
 
-    def render_circle(self, map_object, command, all_coordinates, popup_content=None):
+    def render_circle(self, map_object, command, all_coordinates, popup_content=None, airspace_class=""):
         coord = self.get_coordinate(command["circle_center_coordinate"])
         if coord is None:
             return
@@ -268,13 +258,12 @@ class Renderer:
         for pt in circle_points:
             all_coordinates.append(pt)
         geo_coords = [[pt[1], pt[0]] for pt in circle_points]
-        # Pokud máte airspace_class i u kruhu, můžete jej předat – zde ponecháváme prázdné
         polygon_geojson = {
             "type": "Feature",
             "properties": {
                 "popup": popup_content if popup_content else "",
-                "airspace_class": "",
-                "defaultColor": get_color("")
+                "airspace_class": airspace_class,
+                "defaultColor": get_color(airspace_class)
             },
             "geometry": {"type": "Polygon", "coordinates": [geo_coords]}
         }
