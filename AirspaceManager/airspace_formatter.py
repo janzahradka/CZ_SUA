@@ -8,26 +8,24 @@ class AirspaceFormatter:
         """ Převádí Airspace objekt do OpenAir formátu """
         lines = []
 
-        # Přidání názvu
+        if self.airspace.airspace_class:
+            lines.append(f"AC {self.airspace.airspace_class}")
+
         if self.airspace.name:
             if self.airspace.frequencies:
                 for frequency in self.airspace.frequencies:
                     self.airspace.name += f" {frequency}"
             lines.append(f"AN {self.airspace.name}")
 
-        # Přidání třídy a kategorie
-        if self.airspace.airspace_class:
-            lines.append(f"AC {self.airspace.airspace_class}")
         if self.airspace.category:
             lines.append(f"AY {self.airspace.category}")
 
-        # Přidání frekvence a názvu stanoviše
         if self.airspace.frequencies:
             lines.append(f"AF {self.airspace.frequencies[0]}") # Do AF tagu pouze první frekvence
+
         if self.airspace.station_name:
             lines.append(f"AG {self.airspace.station_name}")
 
-        # Přidání vertikálních limitů
         if self.airspace.lower_limit and self.airspace.upper_limit:
             lines.append(f"AL {self._format_vertical_limit(self.airspace.lower_limit)}")
             lines.append(f"AH {self._format_vertical_limit(self.airspace.upper_limit)}")

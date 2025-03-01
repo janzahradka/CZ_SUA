@@ -1,0 +1,240 @@
+--- Processing started at 2025-03-01 17:39:57.147309 ---
+
+[2025-03-01 17:39:57.150384] Processed file: Source_Files\DROPZONES.txt
+  Original size: 4914 bytes, 388 lines
+  New size:      4914 bytes, 388 lines
+  Difference:    +0 bytes, +0 lines
+  No changes in this file.
+
+[2025-03-01 17:39:57.164452] Processed file: Source_Files\LKCTR.txt
+  Original size: 12012 bytes, 535 lines
+  New size:      12012 bytes, 535 lines
+  Difference:    +0 bytes, +0 lines
+  No changes in this file.
+
+[2025-03-01 17:39:57.173562] Processed file: Source_Files\LKD.txt
+  Original size: 1250 bytes, 97 lines
+  New size:      1250 bytes, 97 lines
+  Difference:    +0 bytes, +0 lines
+  No changes in this file.
+
+[2025-03-01 17:39:57.183814] Processed file: Source_Files\LKP.txt
+  Original size: 1419 bytes, 108 lines
+  New size:      1419 bytes, 108 lines
+  Difference:    +0 bytes, +0 lines
+  No changes in this file.
+
+[2025-03-01 17:39:57.194241] Processed file: Source_Files\LKPGZ.txt
+  Original size: 1544 bytes, 132 lines
+  New size:      1544 bytes, 132 lines
+  Difference:    +0 bytes, +0 lines
+  No changes in this file.
+
+[2025-03-01 17:39:57.203298] Processed file: Source_Files\LKR.txt
+  Original size: 598 bytes, 22 lines
+  New size:      598 bytes, 22 lines
+  Difference:    +0 bytes, +0 lines
+  No changes in this file.
+
+[2025-03-01 17:39:57.215053] Processed file: Source_Files\LKTMA.txt
+  Original size: 47350 bytes, 2060 lines
+  New size:      47350 bytes, 2060 lines
+  Difference:    +0 bytes, +0 lines
+  No changes in this file.
+
+[2025-03-01 17:39:57.226685] Processed file: Source_Files\LKTRA.txt
+  Original size: 6881 bytes, 388 lines
+  New size:      6881 bytes, 388 lines
+  Difference:    +0 bytes, +0 lines
+  No changes in this file.
+
+[2025-03-01 17:39:57.254033] Processed file: Source_Files\LKTRAGA.txt
+  Original size: 15842 bytes, 931 lines
+  New size:      15842 bytes, 931 lines
+  Difference:    +0 bytes, +0 lines
+  No changes in this file.
+
+[2025-03-01 17:39:57.293929] Processed file: Source_Files\surrounding_AS.txt
+  Original size: 382126 bytes, 16396 lines
+  New size:      382126 bytes, 16396 lines
+  Difference:    +0 bytes, +0 lines
+  Changes:
+    Line 9183: DP 47:60:00 N 15:12:03 E -> DP 48:00:00 N 15:12:03 E
+    Line 9201: DP 47:60:00 N 15:09:57 E -> DP 48:00:00 N 15:09:57 E
+    Line 14291: DP 48:60:00 N 19:29:18 E -> DP 49:00:00 N 19:29:18 E
+
+[2025-03-01 17:39:57.314928] Processed file: Source_Files\LKR-NP.txt
+  Original size: 7641 bytes, 320 lines
+  New size:      7641 bytes, 320 lines
+  Difference:    +0 bytes, +0 lines
+  No changes in this file.
+
+[2025-03-01 17:39:57.326337] Processed file: Source_Files\LKRMZ.txt
+  Original size: 1048 bytes, 52 lines
+  New size:      1048 bytes, 52 lines
+  Difference:    +0 bytes, +0 lines
+  No changes in this file.
+
+[2025-03-01 17:39:57.335711] Processed file: Source_Files\LKTMA above FL95.txt
+  Original size: 7553 bytes, 312 lines
+  New size:      7553 bytes, 312 lines
+  Difference:    +0 bytes, +0 lines
+  No changes in this file.
+
+[2025-03-01 17:39:57.346318] Processed file: Source_Files\LKTRA above FL95.txt
+  Original size: 3645 bytes, 182 lines
+  New size:      3645 bytes, 182 lines
+  Difference:    +0 bytes, +0 lines
+  No changes in this file.
+
+[2025-03-01 17:39:57.356591] Processed file: Source_Files\LKTSA above FL95.txt
+  Original size: 11332 bytes, 481 lines
+  New size:      11332 bytes, 481 lines
+  Difference:    +0 bytes, +0 lines
+  No changes in this file.
+
+[2025-03-01 17:39:57.367068] Processed file: Source_Files\NOTAMS.txt
+  Original size: 3537 bytes, 210 lines
+  New size:      3537 bytes, 210 lines
+  Difference:    +0 bytes, +0 lines
+  No changes in this file.
+
+[2025-03-01 17:39:57.377614] Processed file: Source_Files\LKTSA all seasons.txt
+  Original size: 4006 bytes, 221 lines
+  New size:      4006 bytes, 221 lines
+  Difference:    +0 bytes, +0 lines
+  No changes in this file.
+
+[2025-03-01 17:39:57.395663] Processed file: Source_Files\LKTSA summer OFF.txt
+  Original size: 2684 bytes, 128 lines
+  New size:      2684 bytes, 128 lines
+  Difference:    +0 bytes, +0 lines
+  No changes in this file.
+
+[2025-03-01 17:39:57.405382] Processed file: Source_Files\MTMA Caslav.txt
+  Original size: 1576 bytes, 76 lines
+  New size:      1576 bytes, 76 lines
+  Difference:    +0 bytes, +0 lines
+  No changes in this file.
+
+[2025-03-01 17:39:57.414916] Processed file: Source_Files\FileInfo\copyright.txt
+  Original size: 451 bytes, 6 lines
+  New size:      451 bytes, 6 lines
+  Difference:    +0 bytes, +0 lines
+  No changes in this file.
+
+[2025-03-01 17:39:57.423267] Processed file: Source_Files\FileInfo\effective_date.txt
+  Original size: 110 bytes, 5 lines
+  New size:      110 bytes, 5 lines
+  Difference:    +0 bytes, +0 lines
+  No changes in this file.
+
+[2025-03-01 17:39:57.432797] Processed file: Source_Files\FileInfo\info_CZ_low.txt
+  Original size: 186 bytes, 5 lines
+  New size:      186 bytes, 5 lines
+  Difference:    +0 bytes, +0 lines
+  No changes in this file.
+
+[2025-03-01 17:39:57.441996] Processed file: Source_Files\FileInfo\info_cz_all.txt
+  Original size: 215 bytes, 6 lines
+  New size:      215 bytes, 6 lines
+  Difference:    +0 bytes, +0 lines
+  No changes in this file.
+
+[2025-03-01 17:39:57.451407] Processed file: Source_Files\FileInfo\info_low_plus_CE.txt
+  Original size: 379 bytes, 7 lines
+  New size:      379 bytes, 7 lines
+  Difference:    +0 bytes, +0 lines
+  No changes in this file.
+
+[2025-03-01 17:39:57.461115] Processed file: Source_Files\extra files\Engine Test Area.txt
+  Original size: 305 bytes, 31 lines
+  New size:      305 bytes, 31 lines
+  Difference:    +0 bytes, +0 lines
+  No changes in this file.
+
+[2025-03-01 17:39:57.476666] Processed file: Source_Files\extra files\AZ cup LKTMA.txt
+  Original size: 50011 bytes, 2193 lines
+  New size:      50011 bytes, 2193 lines
+  Difference:    +0 bytes, +0 lines
+  No changes in this file.
+
+[2025-03-01 17:39:57.489822] Processed file: Source_Files\extra files\AZ cup LKTRAGA.txt
+  Original size: 1438 bytes, 70 lines
+  New size:      1438 bytes, 70 lines
+  Difference:    +0 bytes, +0 lines
+  No changes in this file.
+
+[2025-03-01 17:39:57.525994] Processed file: Source_Files\extra files\CZ-FIR-sectors-and-GLD-chat.txt
+  Original size: 19103 bytes, 752 lines
+  New size:      19103 bytes, 752 lines
+  Difference:    +0 bytes, +0 lines
+  No changes in this file.
+
+[2025-03-01 17:39:57.542188] Processed file: Source_Files\extra files\CZ-FL95 ceil.txt
+  Original size: 18689 bytes, 743 lines
+  New size:      18689 bytes, 743 lines
+  Difference:    +0 bytes, +0 lines
+  No changes in this file.
+
+[2025-03-01 17:39:57.559445] Processed file: Source_Files\extra files\CZ-GLD-chat.txt
+  Original size: 28026 bytes, 1103 lines
+  New size:      28026 bytes, 1103 lines
+  Difference:    +0 bytes, +0 lines
+  No changes in this file.
+
+[2025-03-01 17:39:57.573908] Processed file: Source_Files\extra files\Hrensko_CZ_DE.txt
+  Original size: 1790 bytes, 83 lines
+  New size:      1790 bytes, 83 lines
+  Difference:    +0 bytes, +0 lines
+  No changes in this file.
+
+[2025-03-01 17:39:57.593230] Processed file: Source_Files\extra files\Wave Camp 2024 prohibited areas.txt
+  Original size: 78320 bytes, 3034 lines
+  New size:      78320 bytes, 3034 lines
+  Difference:    +0 bytes, +0 lines
+  No changes in this file.
+
+[2025-03-01 17:39:57.612405] Processed file: Source_Files\extra files\Wave Camp 2024 wave areas cz+pl.txt
+  Original size: 61884 bytes, 2424 lines
+  New size:      61884 bytes, 2424 lines
+  Difference:    +0 bytes, +0 lines
+  No changes in this file.
+
+[2025-03-01 17:39:57.626552] Processed file: Source_Files\extra files\AZCUPNOTAMS.txt
+  Original size: 311 bytes, 26 lines
+  New size:      311 bytes, 26 lines
+  Difference:    +0 bytes, +0 lines
+  No changes in this file.
+
+[2025-03-01 17:39:57.643212] Processed file: Source_Files\extra files\CZ+PL Wave inverse areas (cage).txt
+  Original size: 78808 bytes, 3040 lines
+  New size:      78808 bytes, 3040 lines
+  Difference:    +0 bytes, +0 lines
+  No changes in this file.
+
+[2025-03-01 17:39:57.654968] Processed file: Source_Files\extra files\CZ-FL90 ceil.txt
+  Original size: 18526 bytes, 736 lines
+  New size:      18526 bytes, 736 lines
+  Difference:    +0 bytes, +0 lines
+  No changes in this file.
+
+[2025-03-01 17:39:57.674430] Processed file: Source_Files\extra files\MTMA Caslav for competitions.txt
+  Original size: 3362 bytes, 167 lines
+  New size:      3362 bytes, 167 lines
+  Difference:    +0 bytes, +0 lines
+  No changes in this file.
+
+[2025-03-01 17:39:57.683370] Processed file: Source_Files\extra files\PMCR2023_NOTAMs.txt
+  Original size: 298 bytes, 23 lines
+  New size:      298 bytes, 23 lines
+  Difference:    +0 bytes, +0 lines
+  No changes in this file.
+
+[2025-03-01 17:39:57.697053] Processed file: Source_Files\extra files\PPV LKTMA.txt
+  Original size: 50396 bytes, 2212 lines
+  New size:      50396 bytes, 2212 lines
+  Difference:    +0 bytes, +0 lines
+  No changes in this file.
+
+--- Processing finished at 2025-03-01 17:39:57.704206 ---

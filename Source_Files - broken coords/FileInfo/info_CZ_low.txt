@@ -1,0 +1,5 @@
+*************** CZ_low ***************
+
+* This file contains:
+**** Dropzones: users should avoid entering dropzones without coordination with ATZ
+**** Notams: regularly published NOTAMs

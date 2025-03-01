@@ -21,7 +21,7 @@ class Convertor:
         re.compile(r'(?P<lat_deg>([0-8][0-9]|\d))\s?(?P<lat_min>[0-5]\d)\s?(?P<lat_sec>[0-5]\d(?:[,\.]\d{1,2})?)\s?(?P<lat_hem>[NS])\s?(?P<lon_deg>(1[0-7][0-9]|0[0-8][0-9]|[0-9][0-9]|\d))\s?(?P<lon_min>[0-5]\d)\s?(?P<lon_sec>[0-5]\d(?:[,\.]\d{1,2})?)\s?(?P<lon_hem>[EW])'),
 
         # 49:48:51 N 15:12:06 E - Časový formát
-        re.compile(r'(?P<lat_deg>([0-8][0-9]|\d)):(?P<lat_min>[0-5]\d):(?P<lat_sec>[0-5]\d)\s?(?P<lat_hem>[NS])\s+(?P<lon_deg>(1[0-7][0-9]|0[0-8][0-9]|[0-9][0-9]|\d)):(?P<lon_min>[0-5]\d):(?P<lon_sec>[0-5]\d)\s?(?P<lon_hem>[EW])')
+        re.compile(r'(?P<lat_deg>([0-8][0-9]|\d)):(?P<lat_min>[0-6]\d):(?P<lat_sec>[0-6]\d)\s?(?P<lat_hem>[NS])\s+(?P<lon_deg>(1[0-7][0-9]|0[0-8][0-9]|[0-9][0-9]|\d)):(?P<lon_min>[0-6]\d):(?P<lon_sec>[0-6]\d)\s?(?P<lon_hem>[EW])')
     ]
 
     @staticmethod

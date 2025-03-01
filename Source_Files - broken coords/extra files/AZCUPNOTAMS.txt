@@ -1,0 +1,26 @@
+***** (c) 2023 Jan Zahradka ************
+***** Last update 18MAY23 **************
+
+
+AC R
+AN NTM-MEDLOV
+AH FL 95
+AL 0 AGL
+V X=49:46:01 N 017:04:27 E
+DC 8 *NM
+
+
+AC R
+AN NTM-BILA-HORA
+AH FL 95
+AL 0 AGL
+V X=49:42:50 N 016:59:14 E
+DC 8 *NM
+
+
+AC R
+AN NTM-SOBESLAV
+AH FL 95
+AL 0 AGL
+V X=49:14:48 N 014:42:49 E
+DC 3 *NM

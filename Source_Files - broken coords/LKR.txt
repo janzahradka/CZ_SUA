@@ -1,0 +1,22 @@
+
+*****************************************
+******* LKAA R (Restricted Areas) *******
+
+*This section contains all CZ SUA Restricted Areas (LKR) except LKR national parks (birds). It's useful to have them in separate section for easy excluding during exports.
+*Single restricted areas are activated daily by AUP (Airspace Update Plan) report
+
+*Setting colour and line of R airspace
+AC R
+SP 0,2,0,127,0
+SB -1,-1,-1
+
+
+AC R
+AN LKR9 PRAHA 127.58 120.53 124.68
+AH 5000 MSL
+AL 0 AGL
+V X=50:04:59 N 014:26:07 E
+DC 3.0 *NM
+
+******* LKAA R (Restricted Areas) *******
+*****************************************

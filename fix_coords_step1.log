@@ -1,0 +1,330 @@
+--- Processing started at 2025-03-01 17:36:02.542119 ---
+
+[2025-03-01 17:36:02.547264] Processed file: Source_Files - kopie\DROPZONES.txt
+  Original size: 4914 bytes, 388 lines
+  New size:      4914 bytes, 388 lines
+  Difference:    +0 bytes, +0 lines
+  No changes in this file.
+
+[2025-03-01 17:36:02.560231] Processed file: Source_Files - kopie\LKCTR.txt
+  Original size: 12012 bytes, 535 lines
+  New size:      12012 bytes, 535 lines
+  Difference:    +0 bytes, +0 lines
+  No changes in this file.
+
+[2025-03-01 17:36:02.572728] Processed file: Source_Files - kopie\LKD.txt
+  Original size: 1250 bytes, 97 lines
+  New size:      1250 bytes, 97 lines
+  Difference:    +0 bytes, +0 lines
+  No changes in this file.
+
+[2025-03-01 17:36:02.585384] Processed file: Source_Files - kopie\LKP.txt
+  Original size: 1419 bytes, 108 lines
+  New size:      1419 bytes, 108 lines
+  Difference:    +0 bytes, +0 lines
+  No changes in this file.
+
+[2025-03-01 17:36:02.597967] Processed file: Source_Files - kopie\LKPGZ.txt
+  Original size: 1544 bytes, 132 lines
+  New size:      1544 bytes, 132 lines
+  Difference:    +0 bytes, +0 lines
+  No changes in this file.
+
+[2025-03-01 17:36:02.609938] Processed file: Source_Files - kopie\LKR.txt
+  Original size: 598 bytes, 22 lines
+  New size:      598 bytes, 22 lines
+  Difference:    +0 bytes, +0 lines
+  No changes in this file.
+
+[2025-03-01 17:36:02.626276] Processed file: Source_Files - kopie\LKTMA.txt
+  Original size: 47350 bytes, 2060 lines
+  New size:      47350 bytes, 2060 lines
+  Difference:    +0 bytes, +0 lines
+  Changes:
+    Line 34: DP 48:55:46 N 014:07:60 E -> DP 48:55:46 N 014:08:00 E
+
+[2025-03-01 17:36:02.655755] Processed file: Source_Files - kopie\LKTRA.txt
+  Original size: 6881 bytes, 388 lines
+  New size:      6881 bytes, 388 lines
+  Difference:    +0 bytes, +0 lines
+  No changes in this file.
+
+[2025-03-01 17:36:02.669339] Processed file: Source_Files - kopie\LKTRAGA.txt
+  Original size: 15842 bytes, 931 lines
+  New size:      15842 bytes, 931 lines
+  Difference:    +0 bytes, +0 lines
+  Changes:
+    Line 246: DB 49:59:05 N 015:06:05 E, 50:02:60 N 015:09:17 E -> DB 49:59:05 N 015:06:05 E, 50:03:00 N 015:09:17 E
+    Line 273: DB 49:57:20 N 015:11:58 E, 50:02:60 N 015:09:17 E -> DB 49:57:20 N 015:11:58 E, 50:03:00 N 015:09:17 E
+    Line 287: DB 49:57:20 N 015:11:58 E, 50:02:60 N 015:09:17 E -> DB 49:57:20 N 015:11:58 E, 50:03:00 N 015:09:17 E
+    Line 298: DP 50:02:60 N 015:09:17 E -> DP 50:03:00 N 015:09:17 E
+    Line 311: DP 50:02:60 N 015:09:17 E -> DP 50:03:00 N 015:09:17 E
+    Line 622: DB 50:13:50 N 014:09:48 E, 50:09:60 N 014:03:36 E -> DB 50:13:50 N 014:09:48 E, 50:10:00 N 014:03:36 E
+
+[2025-03-01 17:36:02.711934] Processed file: Source_Files - kopie\surrounding_AS.txt
+  Original size: 382126 bytes, 16396 lines
+  New size:      382126 bytes, 16396 lines
+  Difference:    +0 bytes, +0 lines
+  Changes:
+    Line 54: DP 48:18:60 N 11:09:51 E -> DP 48:19:00 N 11:09:51 E
+    Line 61: DP 48:15:60 N 11:10:33 E -> DP 48:16:00 N 11:10:33 E
+    Line 310: DP 48:15:60 N 12:34:03 E -> DP 48:16:00 N 12:34:03 E
+    Line 531: DP 47:58:60 N 11:07:00 E -> DP 47:59:00 N 11:07:00 E
+    Line 635: DP 48:06:60 N 12:30:18 E -> DP 48:07:00 N 12:30:18 E
+    Line 818: DP 48:06:60 N 11:24:33 E -> DP 48:07:00 N 11:24:33 E
+    Line 825: DP 48:07:60 N 11:26:51 E -> DP 48:08:00 N 11:26:51 E
+    Line 836: DP 48:12:60 N 12:24:04 E -> DP 48:13:00 N 12:24:04 E
+    Line 986: DP 48:04:60 N 11:05:18 E -> DP 48:05:00 N 11:05:18 E
+    Line 1313: DP 48:28:60 N 11:11:30 E -> DP 48:29:00 N 11:11:30 E
+    Line 1416: DP 48:36:60 N 11:21:03 E -> DP 48:37:00 N 11:21:03 E
+    Line 1469: DP 48:43:60 N 12:21:47 E -> DP 48:44:00 N 12:21:47 E
+    Line 1727: DP 48:40:60 N 11:38:36 E -> DP 48:41:00 N 11:38:36 E
+    Line 1855: DP 48:43:60 N 12:21:47 E -> DP 48:44:00 N 12:21:47 E
+    Line 1928: DP 48:36:60 N 11:11:34 E -> DP 48:37:00 N 11:11:34 E
+    Line 2072: DP 48:40:60 N 10:59:06 E -> DP 48:41:00 N 10:59:06 E
+    Line 2325: DP 49:40:60 N 10:42:52 E -> DP 49:41:00 N 10:42:52 E
+    Line 2449: DP 49:21:60 N 11:37:47 E -> DP 49:22:00 N 11:37:47 E
+    Line 2595: DP 49:33:60 N 11:00:11 E -> DP 49:34:00 N 11:00:11 E
+    Line 2646: DP 49:24:60 N 11:04:57 E -> DP 49:25:00 N 11:04:57 E
+    Line 2647: DP 49:24:60 N 11:04:33 E -> DP 49:25:00 N 11:04:33 E
+    Line 2785: DP 49:35:60 N 10:45:20 E -> DP 49:36:00 N 10:45:20 E
+    Line 2849: DP 49:43:60 N 10:29:16 E -> DP 49:44:00 N 10:29:16 E
+    Line 3488: DP 49:21:60 N 11:37:47 E -> DP 49:22:00 N 11:37:47 E
+    Line 3551: DP 49:21:60 N 11:37:47 E -> DP 49:22:00 N 11:37:47 E
+    Line 4105: DP 51:21:60 N 11:34:05 E -> DP 51:22:00 N 11:34:05 E
+    Line 4201: DP 49:52:60 N 11:49:44 E -> DP 49:53:00 N 11:49:44 E
+    Line 4235: DP 49:52:60 N 11:44:48 E -> DP 49:53:00 N 11:44:48 E
+    Line 4297: DP 51:22:60 N 12:41:09 E -> DP 51:23:00 N 12:41:09 E
+    Line 4714: DP 48:43:60 N 12:22:00 E -> DP 48:44:00 N 12:22:00 E
+    Line 4960: DP 48:47:60 N 12:18:41 E -> DP 48:48:00 N 12:18:41 E
+    Line 4961: DP 48:47:60 N 12:19:19 E -> DP 48:48:00 N 12:19:19 E
+    Line 4962: DP 48:47:60 N 12:19:56 E -> DP 48:48:00 N 12:19:56 E
+    Line 5004: DP 48:43:60 N 12:16:10 E -> DP 48:44:00 N 12:16:10 E
+    Line 5245: DP 51:35:60 N 12:31:33 E -> DP 51:36:00 N 12:31:33 E
+    Line 5258: DP 51:32:60 N 12:31:14 E -> DP 51:33:00 N 12:31:14 E
+    Line 5268: DP 51:32:60 N 12:27:20 E -> DP 51:33:00 N 12:27:20 E
+    Line 5281: DP 51:35:60 N 12:27:00 E -> DP 51:36:00 N 12:27:00 E
+    Line 5426: DP 48:22:60 N 12:40:38 E -> DP 48:23:00 N 12:40:38 E
+    Line 5875: DP 48:31:60 N 13:23:10 E -> DP 48:32:00 N 13:23:10 E
+    Line 5909: DP 48:31:60 N 13:18:22 E -> DP 48:32:00 N 13:18:22 E
+    Line 6412: DP 51:13:60 N 14:27:18 E -> DP 51:14:00 N 14:27:18 E
+    Line 6520: DP 51:42:60 N 14:26:37 E -> DP 51:43:00 N 14:26:37 E
+    Line 6562: DP 51:42:60 N 14:24:09 E -> DP 51:43:00 N 14:24:09 E
+    Line 6803: DP 50:57:60 N 15:41:32 E -> DP 50:58:00 N 15:41:32 E
+    Line 6933: DP 51:12:60 N 17:06:57 E -> DP 51:13:00 N 17:06:57 E
+    Line 7094: DP 51:44:60 N 16:28:34 E -> DP 51:45:00 N 16:28:34 E
+    Line 7149: DP 51:17:60 N 16:44:29 E -> DP 51:18:00 N 16:44:29 E
+    Line 7181: DP 51:17:60 N 16:43:19 E -> DP 51:18:00 N 16:43:19 E
+    Line 7466: DP 50:26:60 N 18:01:07 E -> DP 50:27:00 N 18:01:07 E
+    Line 7507: DP 50:35:60 N 17:59:53 E -> DP 50:36:00 N 17:59:53 E
+    Line 8154: DP 50:03:60 N 19:09:49 E -> DP 50:04:00 N 19:09:49 E
+    Line 8208: DP 50:02:60 N 19:12:55 E -> DP 50:03:00 N 19:12:55 E
+    Line 8234: DP 50:02:60 N 19:09:43 E -> DP 50:03:00 N 19:09:43 E
+    Line 8595: DP 49:26:60 N 19:47:55 E -> DP 49:27:00 N 19:47:55 E
+    Line 8975: DP 48:17:60 N 14:08:04 E -> DP 48:18:00 N 14:08:04 E
+    Line 9183: DP 47:59:60 N 15:12:03 E -> DP 47:60:00 N 15:12:03 E
+    Line 9201: DP 47:59:60 N 15:09:57 E -> DP 47:60:00 N 15:09:57 E
+    Line 9233: DP 48:45:60 N 15:53:08 E -> DP 48:46:00 N 15:53:08 E
+    Line 9479: DP 48:32:60 N 16:22:48 E -> DP 48:33:00 N 16:22:48 E
+    Line 9526: DP 48:32:60 N 16:22:48 E -> DP 48:33:00 N 16:22:48 E
+    Line 12342: DP 48:30:60 N 17:04:44 E -> DP 48:31:00 N 17:04:44 E
+    Line 12782: DP 48:27:60 N 17:26:52 E -> DP 48:28:00 N 17:26:52 E
+    Line 12804: DP 48:27:60 N 17:22:38 E -> DP 48:28:00 N 17:22:38 E
+    Line 12934: DP 48:28:60 N 17:42:07 E -> DP 48:29:00 N 17:42:07 E
+    Line 12946: DP 48:28:60 N 17:39:17 E -> DP 48:29:00 N 17:39:17 E
+    Line 14014: DP 48:47:60 N 19:10:21 E -> DP 48:48:00 N 19:10:21 E
+    Line 14036: DP 48:47:60 N 19:06:05 E -> DP 48:48:00 N 19:06:05 E
+    Line 14065: DP 48:25:60 N 19:22:02 E -> DP 48:26:00 N 19:22:02 E
+    Line 14291: DP 48:59:60 N 19:29:18 E -> DP 48:60:00 N 19:29:18 E
+    Line 14469: DP 48:42:60 N 19:58:57 E -> DP 48:43:00 N 19:58:57 E
+    Line 14497: DP 48:42:60 N 19:56:01 E -> DP 48:43:00 N 19:56:01 E
+    Line 14730: DP 51:21:60 N 11:47:30 E -> DP 51:22:00 N 11:47:30 E
+    Line 14787: DP 51:25:60 N 11:33:46 E -> DP 51:26:00 N 11:33:46 E
+    Line 15623: DP 48:30:60 N 17:53:33 E -> DP 48:31:00 N 17:53:33 E
+    Line 15649: DP 48:35:57 N 17:60:00 E -> DP 48:35:57 N 18:00:00 E
+
+[2025-03-01 17:36:02.736550] Processed file: Source_Files - kopie\LKR-NP.txt
+  Original size: 7641 bytes, 320 lines
+  New size:      7641 bytes, 320 lines
+  Difference:    +0 bytes, +0 lines
+  No changes in this file.
+
+[2025-03-01 17:36:02.748020] Processed file: Source_Files - kopie\LKRMZ.txt
+  Original size: 1048 bytes, 52 lines
+  New size:      1048 bytes, 52 lines
+  Difference:    +0 bytes, +0 lines
+  Changes:
+    Line 28: DP 48:55:46 N 014:07:60 E -> DP 48:55:46 N 014:08:00 E
+
+[2025-03-01 17:36:02.760509] Processed file: Source_Files - kopie\LKTMA above FL95.txt
+  Original size: 7553 bytes, 312 lines
+  New size:      7553 bytes, 312 lines
+  Difference:    +0 bytes, +0 lines
+  Changes:
+    Line 146: DP 49:33:60 N 14:38:36 E -> DP 49:34:00 N 14:38:36 E
+    Line 271: DP 50:17:60 N 13:24:53 E -> DP 50:18:00 N 13:24:53 E
+
+[2025-03-01 17:36:02.774426] Processed file: Source_Files - kopie\LKTRA above FL95.txt
+  Original size: 3645 bytes, 182 lines
+  New size:      3645 bytes, 182 lines
+  Difference:    +0 bytes, +0 lines
+  Changes:
+    Line 121: DP 50:33:60 N 15:02:57 E -> DP 50:34:00 N 15:02:57 E
+    Line 161: DP 48:54:60 N 14:07:57 E -> DP 48:55:00 N 14:07:57 E
+
+[2025-03-01 17:36:02.786947] Processed file: Source_Files - kopie\LKTSA above FL95.txt
+  Original size: 11332 bytes, 481 lines
+  New size:      11332 bytes, 481 lines
+  Difference:    +0 bytes, +0 lines
+  No changes in this file.
+
+[2025-03-01 17:36:02.800421] Processed file: Source_Files - kopie\NOTAMS.txt
+  Original size: 3537 bytes, 210 lines
+  New size:      3537 bytes, 210 lines
+  Difference:    +0 bytes, +0 lines
+  Changes:
+    Line 131: DP 50:20:60 N 016:21:26 E -> DP 50:21:00 N 016:21:26 E
+    Line 173: DP 49:21:60 N 014:08:30 E -> DP 49:22:00 N 014:08:30 E
+    Line 190: DP 49:21:60 N 014:08:30 E -> DP 49:22:00 N 014:08:30 E
+    Line 204: DP 49:21:60 N 014:08:30 E -> DP 49:22:00 N 014:08:30 E
+
+[2025-03-01 17:36:02.813004] Processed file: Source_Files - kopie\LKTSA all seasons.txt
+  Original size: 4006 bytes, 221 lines
+  New size:      4006 bytes, 221 lines
+  Difference:    +0 bytes, +0 lines
+  No changes in this file.
+
+[2025-03-01 17:36:02.834330] Processed file: Source_Files - kopie\LKTSA summer OFF.txt
+  Original size: 2684 bytes, 128 lines
+  New size:      2684 bytes, 128 lines
+  Difference:    +0 bytes, +0 lines
+  No changes in this file.
+
+[2025-03-01 17:36:02.845956] Processed file: Source_Files - kopie\MTMA Caslav.txt
+  Original size: 1576 bytes, 76 lines
+  New size:      1576 bytes, 76 lines
+  Difference:    +0 bytes, +0 lines
+  No changes in this file.
+
+[2025-03-01 17:36:02.858118] Processed file: Source_Files - kopie\FileInfo\copyright.txt
+  Original size: 451 bytes, 6 lines
+  New size:      451 bytes, 6 lines
+  Difference:    +0 bytes, +0 lines
+  No changes in this file.
+
+[2025-03-01 17:36:02.868579] Processed file: Source_Files - kopie\FileInfo\effective_date.txt
+  Original size: 110 bytes, 5 lines
+  New size:      110 bytes, 5 lines
+  Difference:    +0 bytes, +0 lines
+  No changes in this file.
+
+[2025-03-01 17:36:02.878896] Processed file: Source_Files - kopie\FileInfo\info_CZ_low.txt
+  Original size: 186 bytes, 5 lines
+  New size:      186 bytes, 5 lines
+  Difference:    +0 bytes, +0 lines
+  No changes in this file.
+
+[2025-03-01 17:36:02.889810] Processed file: Source_Files - kopie\FileInfo\info_cz_all.txt
+  Original size: 215 bytes, 6 lines
+  New size:      215 bytes, 6 lines
+  Difference:    +0 bytes, +0 lines
+  No changes in this file.
+
+[2025-03-01 17:36:02.899549] Processed file: Source_Files - kopie\FileInfo\info_low_plus_CE.txt
+  Original size: 379 bytes, 7 lines
+  New size:      379 bytes, 7 lines
+  Difference:    +0 bytes, +0 lines
+  No changes in this file.
+
+[2025-03-01 17:36:02.910935] Processed file: Source_Files - kopie\extra files\Engine Test Area.txt
+  Original size: 305 bytes, 31 lines
+  New size:      305 bytes, 31 lines
+  Difference:    +0 bytes, +0 lines
+  No changes in this file.
+
+[2025-03-01 17:36:02.924462] Processed file: Source_Files - kopie\extra files\AZ cup LKTMA.txt
+  Original size: 50011 bytes, 2193 lines
+  New size:      50011 bytes, 2193 lines
+  Difference:    +0 bytes, +0 lines
+  No changes in this file.
+
+[2025-03-01 17:36:02.936424] Processed file: Source_Files - kopie\extra files\AZ cup LKTRAGA.txt
+  Original size: 1438 bytes, 70 lines
+  New size:      1438 bytes, 70 lines
+  Difference:    +0 bytes, +0 lines
+  No changes in this file.
+
+[2025-03-01 17:36:02.957492] Processed file: Source_Files - kopie\extra files\CZ-FIR-sectors-and-GLD-chat.txt
+  Original size: 19103 bytes, 752 lines
+  New size:      19103 bytes, 752 lines
+  Difference:    +0 bytes, +0 lines
+  No changes in this file.
+
+[2025-03-01 17:36:02.971337] Processed file: Source_Files - kopie\extra files\CZ-FL95 ceil.txt
+  Original size: 18689 bytes, 743 lines
+  New size:      18689 bytes, 743 lines
+  Difference:    +0 bytes, +0 lines
+  No changes in this file.
+
+[2025-03-01 17:36:02.984413] Processed file: Source_Files - kopie\extra files\CZ-GLD-chat.txt
+  Original size: 28026 bytes, 1103 lines
+  New size:      28026 bytes, 1103 lines
+  Difference:    +0 bytes, +0 lines
+  No changes in this file.
+
+[2025-03-01 17:36:02.994726] Processed file: Source_Files - kopie\extra files\Hrensko_CZ_DE.txt
+  Original size: 1790 bytes, 83 lines
+  New size:      1790 bytes, 83 lines
+  Difference:    +0 bytes, +0 lines
+  No changes in this file.
+
+[2025-03-01 17:36:03.012407] Processed file: Source_Files - kopie\extra files\Wave Camp 2024 prohibited areas.txt
+  Original size: 78320 bytes, 3034 lines
+  New size:      78320 bytes, 3034 lines
+  Difference:    +0 bytes, +0 lines
+  No changes in this file.
+
+[2025-03-01 17:36:03.033285] Processed file: Source_Files - kopie\extra files\Wave Camp 2024 wave areas cz+pl.txt
+  Original size: 61884 bytes, 2424 lines
+  New size:      61884 bytes, 2424 lines
+  Difference:    +0 bytes, +0 lines
+  No changes in this file.
+
+[2025-03-01 17:36:03.046877] Processed file: Source_Files - kopie\extra files\AZCUPNOTAMS.txt
+  Original size: 311 bytes, 26 lines
+  New size:      311 bytes, 26 lines
+  Difference:    +0 bytes, +0 lines
+  No changes in this file.
+
+[2025-03-01 17:36:03.064169] Processed file: Source_Files - kopie\extra files\CZ+PL Wave inverse areas (cage).txt
+  Original size: 78808 bytes, 3040 lines
+  New size:      78808 bytes, 3040 lines
+  Difference:    +0 bytes, +0 lines
+  No changes in this file.
+
+[2025-03-01 17:36:03.078416] Processed file: Source_Files - kopie\extra files\CZ-FL90 ceil.txt
+  Original size: 18526 bytes, 736 lines
+  New size:      18526 bytes, 736 lines
+  Difference:    +0 bytes, +0 lines
+  No changes in this file.
+
+[2025-03-01 17:36:03.090313] Processed file: Source_Files - kopie\extra files\MTMA Caslav for competitions.txt
+  Original size: 3362 bytes, 167 lines
+  New size:      3362 bytes, 167 lines
+  Difference:    +0 bytes, +0 lines
+  No changes in this file.
+
+[2025-03-01 17:36:03.109675] Processed file: Source_Files - kopie\extra files\PMCR2023_NOTAMs.txt
+  Original size: 298 bytes, 23 lines
+  New size:      298 bytes, 23 lines
+  Difference:    +0 bytes, +0 lines
+  No changes in this file.
+
+[2025-03-01 17:36:03.124293] Processed file: Source_Files - kopie\extra files\PPV LKTMA.txt
+  Original size: 50396 bytes, 2212 lines
+  New size:      50396 bytes, 2212 lines
+  Difference:    +0 bytes, +0 lines
+  Changes:
+    Line 43: DP 48:55:46 N 014:07:60 E -> DP 48:55:46 N 014:08:00 E
+
+--- Processing finished at 2025-03-01 17:36:03.131615 ---
