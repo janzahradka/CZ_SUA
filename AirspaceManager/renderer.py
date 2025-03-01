@@ -8,10 +8,33 @@ from shapely.geometry import Polygon
 from shapely.ops import transform
 import pyproj
 
+def get_color(airspace_class):
+    """
+    Returns a color based on airspace_class.
+    C - purple
+    D - red
+    R - orange
+    Q - brown
+    E - green
+    GS - white
+    Default: blue
+    """
+    mapping = {
+        "C": "purple",
+        "D": "red",
+        "R": "orange",
+        "Q": "brown",
+        "E": "green",
+        "GS": "white"
+    }
+    return mapping.get(airspace_class, "blue")
+
 def polygon_style_function(feature):
+    # Use the precomputed defaultColor property
+    color = feature["properties"].get("defaultColor", "blue")
     return {
-        'fillColor': 'green',
-        'color': 'green',
+        'fillColor': color,
+        'color': color,
         'fillOpacity': 0.4,
         'weight': 2
     }
@@ -40,8 +63,8 @@ class HoverScript(MacroElement):
             layer.on('mouseout', function(e) {
                 document.getElementById('infoBox').innerHTML = "Hover over an airspace...";
                 layer.setStyle({
-                    fillColor: 'green',
-                    color: 'green',
+                    fillColor: feature.properties.defaultColor,
+                    color: feature.properties.defaultColor,
                     fillOpacity: 0.4,
                     weight: 2
                 });
@@ -131,7 +154,7 @@ class Renderer:
 
     def render_map(self):
         map_object = folium.Map(location=[50.0, 15.0], zoom_start=8)
-        # Přidáme do HTML div pro infoBox
+        # Přidáme infoBox do HTML
         info_html = """
         <div id="infoBox" style="position: fixed; top: 10px; right: 10px; width: 300px;
              padding: 10px; background-color: white; border: 1px solid gray;
@@ -141,7 +164,6 @@ class Renderer:
         </div>
         """
         map_object.get_root().html.add_child(folium.Element(info_html))
-
         all_coordinates = []
         airspaces_with_area = []
         for airspace in self.airspaces:
@@ -173,6 +195,9 @@ class Renderer:
             print(f"{idx}. Area: {area:.2f}\n{airspace}\n")
         for airspace, area in airspaces_with_area:
             popup_content = self.build_popup_content(airspace)
+            # Předáme také airspace_class a defaultColor
+            airspace_class = airspace.airspace_class if hasattr(airspace, "airspace_class") else ""
+            default_color = get_color(airspace_class)
             draw_commands = airspace.draw_commands
             polygon_points = []
             has_polygon = False
@@ -195,7 +220,11 @@ class Renderer:
                 geo_coords = [[lon, lat] for (lat, lon) in polygon_points]
                 polygon_geojson = {
                     "type": "Feature",
-                    "properties": {"popup": popup_content},
+                    "properties": {
+                        "popup": popup_content,
+                        "airspace_class": airspace_class,
+                        "defaultColor": default_color
+                    },
                     "geometry": {"type": "Polygon", "coordinates": [geo_coords]}
                 }
                 popup = folium.GeoJsonPopup(fields=["popup"], labels=False)
@@ -207,6 +236,8 @@ class Renderer:
                 )
                 geojson.add_child(HoverScript())
                 geojson.add_to(map_object)
+            # Ujistíme se, že i u geometrie z kruhu předáme defaultColor, pokud by bylo potřeba:
+            # (V metodě render_circle níže jsme defaultColor prozatím prázdné – lze jej rozšířit podobně.)
         if all_coordinates:
             lats = [coord[0] for coord in all_coordinates]
             lons = [coord[1] for coord in all_coordinates]
@@ -237,9 +268,14 @@ class Renderer:
         for pt in circle_points:
             all_coordinates.append(pt)
         geo_coords = [[pt[1], pt[0]] for pt in circle_points]
+        # Pokud máte airspace_class i u kruhu, můžete jej předat – zde ponecháváme prázdné
         polygon_geojson = {
             "type": "Feature",
-            "properties": {"popup": popup_content if popup_content else ""},
+            "properties": {
+                "popup": popup_content if popup_content else "",
+                "airspace_class": "",
+                "defaultColor": get_color("")
+            },
             "geometry": {"type": "Polygon", "coordinates": [geo_coords]}
         }
         popup = folium.GeoJsonPopup(fields=["popup"], labels=False)
