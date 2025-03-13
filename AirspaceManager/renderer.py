@@ -235,13 +235,11 @@ class Renderer:
             south = min(lats)
             east = max(lons)
             west = min(lons)
-            margin_factor = 1.0
-            lat_margin = (north - south) * margin_factor
-            lon_margin = (east - west) * margin_factor
-            north += lat_margin
-            south -= lat_margin
-            east += lon_margin
-            west -= lon_margin
+            # margin = 0.05 # adds margin to each direction for propper zooming
+            # north += margin
+            # south -= margin
+            # east += margin
+            # west -= margin
             map_object.fit_bounds([(south, west), (north, east)])
         map_object.save("airspace_map.html")
         webbrowser.open("airspace_map.html")
@@ -303,7 +301,7 @@ class Renderer:
         if airspace.category:
             content += f"Category: <b>{airspace.category}</b><br>"
         if airspace.frequencies:
-            content += f"Frequencies: <b>{airspace.frequencies}</b><br>"
+            content += f"Frequencies: <b>{ ' '.join(frequency for frequency in airspace.frequencies)}</b><br>"
         if airspace.station_name:
             content += f"Station: <b>{airspace.station_name}</b><br>"
         if airspace.upper_limit:

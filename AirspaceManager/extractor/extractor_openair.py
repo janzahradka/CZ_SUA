@@ -82,9 +82,7 @@ class ExtractorOpenAir(Extractor):
         for line in self.lines:
             if line.startswith("AN "):
                 name = line.split("AN ")[1].strip()
-                frequency_pattern = r'\b(1[1-3][0-9]\.\d{1,3})\b'
-                cleaned_name = re.sub(frequency_pattern, '', name).strip()
-                self.name = cleaned_name
+                self.name = name
                 break  # bude jen jeden AN v prostoru
         return self.name
 

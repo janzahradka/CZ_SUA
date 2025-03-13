@@ -1,6 +1,13 @@
 from AirspaceManager.extractor.convertor import Convertor
+import re
 
 class AirspaceFormatter:
+    COMMON_RADIO_STATIONS = {
+        '126.100' : 'Praha Information (W)',
+        '136.175' : 'Praha Information (E)',
+        '119.375' : 'Ostrava Radar'
+    }
+
     def __init__(self, airspace):
         self.airspace = airspace
 
@@ -12,6 +19,8 @@ class AirspaceFormatter:
             lines.append(f"AC {self.airspace.airspace_class}")
 
         if self.airspace.name:
+            frequency_pattern = r'\b(1[1-3][0-9]\.\d{1,3})\b'
+            cleaned_name = re.sub(frequency_pattern, '', self.airspace.name).strip()
             if self.airspace.frequencies:
                 for frequency in self.airspace.frequencies:
                     self.airspace.name += f" {frequency}"
@@ -25,6 +34,12 @@ class AirspaceFormatter:
 
         if self.airspace.station_name:
             lines.append(f"AG {self.airspace.station_name}")
+        else:
+            # pokud je první frekvence v COMMON_RADIO_STATION, pak naplní station name
+            if self.airspace.frequencies:
+                if self.airspace.frequencies[0] in self.COMMON_RADIO_STATIONS:
+                    self.airspace.station_name = self.COMMON_RADIO_STATIONS[self.airspace.frequencies[0]]
+                    lines.append(f"AG {self.airspace.station_name}")
 
         if self.airspace.lower_limit and self.airspace.upper_limit:
             lines.append(f"AL {self._format_vertical_limit(self.airspace.lower_limit)}")

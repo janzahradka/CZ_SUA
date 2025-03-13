@@ -1,6 +1,5 @@
-# main.py
 import tkinter as tk
-from tkinter import scrolledtext, messagebox, ttk
+from tkinter import scrolledtext, messagebox, ttk, simpledialog
 import pyperclip
 import webbrowser
 import folium
@@ -69,13 +68,27 @@ class AirspaceApp:
 
         self.plain_text_tab = ttk.Frame(self.input_notebook)
         self.input_notebook.add(self.plain_text_tab, text="plain text")
-        self.plain_text = scrolledtext.ScrolledText(self.plain_text_tab, wrap=tk.WORD, font=("JetBrains Mono", 12))
+        self.plain_text = scrolledtext.ScrolledText(
+            self.plain_text_tab, wrap=tk.WORD,
+            font=("JetBrains Mono", 12), undo=True
+        )
         self.plain_text.pack(fill=tk.BOTH, expand=True)
+        # Vazby pro undo/redo a vyhledávání
+        self.plain_text.bind("<Control-z>", lambda event: self.plain_text.edit_undo())
+        self.plain_text.bind("<Control-y>", lambda event: self.plain_text.edit_redo())
+        self.plain_text.bind("<Control-f>", self.search_text)
 
         self.openair_tab = ttk.Frame(self.input_notebook)
         self.input_notebook.add(self.openair_tab, text="OpenAir")
-        self.openair_text = scrolledtext.ScrolledText(self.openair_tab, wrap=tk.WORD, font=("JetBrains Mono", 12))
+        self.openair_text = scrolledtext.ScrolledText(
+            self.openair_tab, wrap=tk.WORD,
+            font=("JetBrains Mono", 12), undo=True
+        )
         self.openair_text.pack(fill=tk.BOTH, expand=True)
+        # Vazby pro undo/redo a vyhledávání
+        self.openair_text.bind("<Control-z>", lambda event: self.openair_text.edit_undo())
+        self.openair_text.bind("<Control-y>", lambda event: self.openair_text.edit_redo())
+        self.openair_text.bind("<Control-f>", self.search_text)
 
     def create_right_panel(self, parent):
         # Velký nadpis
@@ -90,11 +103,13 @@ class AirspaceApp:
         clear_output_btn = tk.Button(right_toolbar, text="Clear Output", font=("Roboto", 12), command=self.clear_output)
         clear_output_btn.pack(side=tk.LEFT, padx=2, pady=2)
 
-        self.add_to_multi_button = tk.Button(right_toolbar, text="Add to multi", font=("Roboto", 12),
-                                             command=self.transfer_to_multi_output, state=tk.DISABLED)
+        self.add_to_multi_button = tk.Button(
+            right_toolbar, text="Add to multi", font=("Roboto", 12),
+            command=self.transfer_to_multi_output, state=tk.DISABLED
+        )
         self.add_to_multi_button.pack(side=tk.LEFT, padx=2, pady=2)
 
-        # V metodě create_right_panel, v nástrojové liště:
+        # Filler pro posunutí tlačítka "Show Map" doprava
         filler = tk.Label(right_toolbar, text="")
         filler.pack(side=tk.LEFT, expand=True, fill=tk.X)
 
@@ -115,6 +130,23 @@ class AirspaceApp:
         self.output_notebook.add(self.multi_tab, text="multi")
         self.multi_output = scrolledtext.ScrolledText(self.multi_tab, wrap=tk.WORD, font=("JetBrains Mono", 12))
         self.multi_output.pack(fill=tk.BOTH, expand=True)
+
+    def search_text(self, event=None):
+        # Určíme widget, ve kterém bylo stisknuto Ctrl+F
+        widget = event.widget if event is not None else None
+        if widget is None:
+            return
+        search_term = simpledialog.askstring("Hledat", "Zadejte hledaný text:")
+        if search_term:
+            widget.tag_remove("found", "1.0", tk.END)
+            pos = widget.search(search_term, "1.0", tk.END)
+            if pos:
+                end = f"{pos}+{len(search_term)}c"
+                widget.tag_add("found", pos, end)
+                widget.tag_config("found", background="yellow")
+            else:
+                messagebox.showinfo("Hledat", "Text nebyl nalezen.")
+        return "break"
 
     def paste_from_clipboard(self):
         try:

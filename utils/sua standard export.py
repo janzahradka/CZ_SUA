@@ -96,7 +96,7 @@ cz_all_xcsoar = [
      'LKTSA all seasons.txt',
      'LKTSA summer OFF.txt',
      'LKTSA above FL95.txt',
-     'extra files/CZ-FL95 ceil.txt',
+     # 'extra files/CZ-FL95 ceil.txt',
      'NOTAMS.txt'
  ]
 
@@ -110,7 +110,7 @@ def export(effective, label, filenames, path):
                     outfile.write(line)
 
 if __name__ == "__main__":
-    effective_date = '24-08-07' # YY-MM-DD
+    effective_date = '25-02-20' # YY-MM-DD
     confirmed = False
     while not confirmed:
         answer = input(f'Effective date "{effective_date}" correct? [Y/N] ').lower()
