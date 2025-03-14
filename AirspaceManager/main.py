@@ -46,7 +46,7 @@ class AirspaceApp:
         left_toolbar = tk.Frame(parent, bd=1, relief=tk.RAISED)
         left_toolbar.pack(side=tk.TOP, fill=tk.X, padx=5, pady=5)
 
-        # Levé tlačítka
+        # Levá tlačítka
         paste_btn = tk.Button(left_toolbar, text="Paste from Clipboard", font=("Roboto", 12),
                               command=self.paste_from_clipboard)
         paste_btn.pack(side=tk.LEFT, padx=2, pady=2)
@@ -66,11 +66,12 @@ class AirspaceApp:
         self.input_notebook = ttk.Notebook(parent)
         self.input_notebook.pack(fill=tk.BOTH, expand=True, padx=5, pady=5)
 
+        # Tab pro "plain text"
         self.plain_text_tab = ttk.Frame(self.input_notebook)
         self.input_notebook.add(self.plain_text_tab, text="plain text")
         self.plain_text = scrolledtext.ScrolledText(
             self.plain_text_tab, wrap=tk.WORD,
-            font=("JetBrains Mono", 12), undo=True
+            font=("JetBrains Mono", 12), undo=True  # Undo podpora
         )
         self.plain_text.pack(fill=tk.BOTH, expand=True)
         # Vazby pro undo/redo a vyhledávání
@@ -78,11 +79,12 @@ class AirspaceApp:
         self.plain_text.bind("<Control-y>", lambda event: self.plain_text.edit_redo())
         self.plain_text.bind("<Control-f>", self.search_text)
 
+        # Tab pro "OpenAir"
         self.openair_tab = ttk.Frame(self.input_notebook)
         self.input_notebook.add(self.openair_tab, text="OpenAir")
         self.openair_text = scrolledtext.ScrolledText(
             self.openair_tab, wrap=tk.WORD,
-            font=("JetBrains Mono", 12), undo=True
+            font=("JetBrains Mono", 12), undo=True  # Undo podpora
         )
         self.openair_text.pack(fill=tk.BOTH, expand=True)
         # Vazby pro undo/redo a vyhledávání
@@ -121,32 +123,54 @@ class AirspaceApp:
         self.output_notebook = ttk.Notebook(parent)
         self.output_notebook.pack(fill=tk.BOTH, expand=True, padx=5, pady=5)
 
+        # Tab "single"
         self.single_tab = ttk.Frame(self.output_notebook)
         self.output_notebook.add(self.single_tab, text="single")
-        self.single_output = scrolledtext.ScrolledText(self.single_tab, wrap=tk.WORD, font=("JetBrains Mono", 12))
+        self.single_output = scrolledtext.ScrolledText(
+            self.single_tab, wrap=tk.WORD, font=("JetBrains Mono", 12), undo=True  # Undo podpora
+        )
         self.single_output.pack(fill=tk.BOTH, expand=True)
+        # Undo/Redo a Hledání
+        self.single_output.bind("<Control-z>", lambda event: self.single_output.edit_undo())
+        self.single_output.bind("<Control-y>", lambda event: self.single_output.edit_redo())
+        self.single_output.bind("<Control-f>", self.search_text)
 
+        # Tab "multi"
         self.multi_tab = ttk.Frame(self.output_notebook)
         self.output_notebook.add(self.multi_tab, text="multi")
-        self.multi_output = scrolledtext.ScrolledText(self.multi_tab, wrap=tk.WORD, font=("JetBrains Mono", 12))
+        self.multi_output = scrolledtext.ScrolledText(
+            self.multi_tab, wrap=tk.WORD, font=("JetBrains Mono", 12), undo=True  # Undo podpora
+        )
         self.multi_output.pack(fill=tk.BOTH, expand=True)
+        # Undo/Redo a Hledání
+        self.multi_output.bind("<Control-z>", lambda event: self.multi_output.edit_undo())
+        self.multi_output.bind("<Control-y>", lambda event: self.multi_output.edit_redo())
+        self.multi_output.bind("<Control-f>", self.search_text)
 
     def search_text(self, event=None):
         # Určíme widget, ve kterém bylo stisknuto Ctrl+F
         widget = event.widget if event is not None else None
         if widget is None:
-            return
+            return "break"  # Zabrání defaultnímu chování Ctrl+F
+
+        # Dialog pro zadání hledaného výrazu
         search_term = simpledialog.askstring("Hledat", "Zadejte hledaný text:")
         if search_term:
+            # Odstranit předchozí značky "found"
             widget.tag_remove("found", "1.0", tk.END)
-            pos = widget.search(search_term, "1.0", tk.END)
-            if pos:
-                end = f"{pos}+{len(search_term)}c"
-                widget.tag_add("found", pos, end)
+            # Vyhledání textu
+            start_pos = widget.search(search_term, "1.0", tk.END)
+            if start_pos:
+                end_pos = f"{start_pos}+{len(search_term)}c"
+                # Zvýrazní najitý text
+                widget.tag_add("found", start_pos, end_pos)
                 widget.tag_config("found", background="yellow")
+                widget.mark_set("insert", end_pos)  # Posune kurzor na konec nalezeného výrazu
+                widget.see(start_pos)  # Zajistí zobrazení nalezeného výrazu
             else:
+                # Zobrazí hlášení, že text nebyl nalezen
                 messagebox.showinfo("Hledat", "Text nebyl nalezen.")
-        return "break"
+        return "break"  # Zabrání standardnímu hledání
 
     def paste_from_clipboard(self):
         try:

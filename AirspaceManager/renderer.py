@@ -22,9 +22,7 @@ def get_color(airspace_class):
     }
     return mapping.get(airspace_class, "blue")
 
-
 def polygon_style_function(feature):
-    # Použijeme předdefinovanou barvu z vlastností
     color = feature["properties"].get("defaultColor", "blue")
     return {
         'fillColor': color,
@@ -73,10 +71,10 @@ class HoverScript(MacroElement):
     """)
 
 class Renderer:
-    """Renderer for drawing airspaces on a map using Folium"""
+    """Renderer pro vykreslení vzdušných prostorů do mapy pomocí Folia."""
 
     def __init__(self, airspaces):
-        self.airspaces = airspaces  # List of Airspace objects
+        self.airspaces = airspaces  # List of Airspace objektů
 
     def get_coordinate(self, coord_input):
         if isinstance(coord_input, dict):
@@ -125,16 +123,6 @@ class Renderer:
             arc_points.append((to_deg(lat), to_deg(lon)))
         return arc_points
 
-    @staticmethod
-    def compute_polygon_area(polygon_points):
-        if len(polygon_points) < 4:
-            return 0
-        coords = [(lon, lat) for (lat, lon) in polygon_points]
-        poly = Polygon(coords)
-        transformer = pyproj.Transformer.from_crs("EPSG:4326", "EPSG:3857", always_xy=True)
-        poly_m = transform(transformer.transform, poly)
-        return poly_m.area
-
     def approximate_circle_polygon(self, center, radius_m, num_points=50):
         lat, lon = center
         points = []
@@ -146,80 +134,159 @@ class Renderer:
         points.append(points[0])
         return points
 
+    @staticmethod
+    def compute_polygon_area(polygon_points):
+        if len(polygon_points) < 4:
+            return 0
+        coords = [(lon, lat) for (lat, lon) in polygon_points]
+        poly = Polygon(coords)
+        transformer = pyproj.Transformer.from_crs("EPSG:4326", "EPSG:32633", always_xy=True)
+        poly_m = transform(transformer.transform, poly)
+        return poly_m.area / 1e6 # km²
+
+    def get_rendering_polygons(self, airspace):
+        """
+        Pro daný airspace projde drawing_commands a vrátí kompletní pole polygon_points.
+        Převádí typy příkazů: "polygon_point", "circle" i "arc" na jednotný polygon.
+        """
+        polygon_points = []
+        circle_polygon = None
+        arc_points = []
+        for command in airspace.draw_commands:
+            if command["type"] == "circle":
+                coord = self.get_coordinate(command["circle_center_coordinate"])
+                if coord:
+                    lat = coord["lat"]
+                    lon = coord["lon"]
+                    radius_nm = float(command["circle_radius"])
+                    radius_m = radius_nm * 1852
+                    polygon_points = self.approximate_circle_polygon((lat, lon), radius_m, num_points=50)
+                    continue
+            elif command["type"] == "polygon_point":
+                coord = self.get_coordinate(command["polygon_point_coordinate"])
+                if coord:
+                    polygon_points.append((coord["lat"], coord["lon"]))
+            elif command["type"] == "arc":
+                center = self.get_coordinate(command["arc_center_coordinate"])
+                start = self.get_coordinate(command["arc_start_point_coordinate"])
+                end = self.get_coordinate(command["arc_end_point_coordinate"])
+                if center and start and end:
+                    center_coords = (center["lat"], center["lon"])
+                    start_coords = (start["lat"], start["lon"])
+                    end_coords = (end["lat"], end["lon"])
+                    direction = command["arc_direction"]
+                    arc_segment = self.calculate_arc_points(center_coords, start_coords, end_coords, direction)
+                    polygon_points.extend(arc_segment)
+
+        if polygon_points:
+            if polygon_points[0] != polygon_points[-1]:
+                polygon_points.append(polygon_points[0])
+            return polygon_points
+        else:
+            return []
+
+    def process_airspace(self, airspace):
+        """
+        Zpracuje daný airspace – získá polygon, spočítá plochu a sestaví obsah popupu.
+        """
+        polygon_points = self.get_rendering_polygons(airspace)
+        if polygon_points and len(polygon_points) >= 4:
+            area = Renderer.compute_polygon_area(polygon_points)
+        else:
+            area = 0
+        popup_content = self.build_popup_content(airspace, area=area)
+        airspace_class = getattr(airspace, "airspace_class", "")
+        default_color = get_color(airspace_class)
+        return {
+            "airspace": airspace,
+            "polygon_points": polygon_points,
+            "area": area,
+            "popup": popup_content,
+            "airspace_class": airspace_class,
+            "default_color": default_color
+        }
+
     def render_map(self):
         map_object = folium.Map(location=[50.0, 15.0], zoom_start=8)
+
+        # CSS styly v `<style>` tagu
+        inline_css = """
+        <style>
+          .custom-popup {
+              margin-top: 150px; /* Posun popup okna */
+              background-color: white;
+              border: 1px solid gray;
+              padding: 10px;
+              font-size: 14px;
+              border-radius: 5px;
+              box-shadow: 2px 2px 5px rgba(0,0,0,0.3);
+              max-height: 200px;
+              max-width: 300px;
+              overflow-y: auto; /* Scroll při dlouhém obsahu */
+          }
+
+          #infoBox {
+              position: fixed;
+              top: 10px;                 /* Umístění nahoře */
+              right: 10px;               /* Umístění vpravo */
+              width: 300px;              /* Šířka panelu */
+              padding: 10px;             /* Vnitřní odsazení */
+              background-color: white;   /* Barva pozadí */
+              border: 1px solid gray;    /* Barva a styl okraje */
+              z-index: 1000;             /* Zajištění viditelnosti nad ostatními prvky */
+              font-size: 14px;           /* Velikost písma */
+              border-radius: 10px;       /* Zaoblené rohy */
+              box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.5); /* Přidání stínu */
+          }
+        </style>
+        """
+
+        # Přidání CSS stylů do HTML šablony
+        map_object.get_root().html.add_child(folium.Element(inline_css))
+
         info_html = """
-        <div id="infoBox" style="position: fixed; top: 10px; right: 10px; width: 300px;
-             padding: 10px; background-color: white; border: 1px solid gray;
-             z-index: 1000; font-size: 14px;">
+        <div id="infoBox">
           <b>Airspace Details</b><br>
           Hover over an airspace...
         </div>
         """
         map_object.get_root().html.add_child(folium.Element(info_html))
+        processed_airspaces = []
         all_coordinates = []
-        airspaces_with_area = []
+        # Zpracování každého vzdušného prostoru najednou
         for airspace in self.airspaces:
-            polygon_points = []
-            found_circle = False
-            circle_area = 0
-            for command in airspace.draw_commands:
-                if command["type"] == "polygon_point":
-                    coord = self.get_coordinate(command["polygon_point_coordinate"])
-                    if coord:
-                        polygon_points.append((coord["lat"], coord["lon"]))
-                elif command["type"] == "circle":
-                    found_circle = True
-                    radius_nm = float(command["circle_radius"])
-                    radius_m = radius_nm * 1852
-                    circle_area = np.pi * (radius_m ** 2)
-            if polygon_points:
-                if polygon_points[0] != polygon_points[-1]:
-                    polygon_points.append(polygon_points[0])
-                area = Renderer.compute_polygon_area(polygon_points)
-            elif found_circle:
-                area = circle_area
-            else:
-                area = 0
-            airspaces_with_area.append((airspace, area))
-        airspaces_with_area.sort(key=lambda x: x[1], reverse=True)
+            processed = self.process_airspace(airspace)
+            processed_airspaces.append(processed)
+            if processed["polygon_points"]:
+                all_coordinates.extend(processed["polygon_points"])
+        # Seřazení podle plochy (od největší)
+        processed_airspaces.sort(key=lambda x: x["area"], reverse=True)
         print("Computed order of airspaces (Order, Area, Airspace):")
-        for idx, (airspace, area) in enumerate(airspaces_with_area, start=1):
-            print(f"{idx}. Area: {area:.2f}\n{airspace}\n")
-        for airspace, area in airspaces_with_area:
-            popup_content = self.build_popup_content(airspace)
-            airspace_class = airspace.airspace_class if hasattr(airspace, "airspace_class") else ""
-            default_color = get_color(airspace_class)
-            draw_commands = airspace.draw_commands
-            polygon_points = []
-            has_polygon = False
-            for command in draw_commands:
-                if command["type"] == "polygon_point":
-                    coord = self.get_coordinate(command["polygon_point_coordinate"])
-                    if coord is None:
-                        continue
-                    lat = coord["lat"]
-                    lon = coord["lon"]
-                    polygon_points.append((lat, lon))
-                    all_coordinates.append((lat, lon))
-                    has_polygon = True
-                elif command["type"] == "circle":
-                    self.render_circle(map_object, command, all_coordinates, popup_content, airspace_class)
-                elif command["type"] == "arc":
-                    self.render_arc(map_object, command, polygon_points, all_coordinates)
-            if has_polygon:
-                polygon_points.append(polygon_points[0])
+        for idx, proc in enumerate(processed_airspaces, start=1):
+            print(f"{idx}. Area: {proc['area']:.2f} km²\n{proc['airspace']}\n")
+        # Vykreslení každého prostoru do mapy
+        for proc in processed_airspaces:
+            polygon_points = proc["polygon_points"]
+            if polygon_points and len(polygon_points) >= 3:
+                # Převod souřadnic (lat, lon) na formát GeoJSON ([lon, lat])
                 geo_coords = [[lon, lat] for (lat, lon) in polygon_points]
                 polygon_geojson = {
                     "type": "Feature",
                     "properties": {
-                        "popup": popup_content,
-                        "airspace_class": airspace_class,
-                        "defaultColor": default_color
+                        "popup": proc["popup"],
+                        "airspace_class": proc["airspace_class"],
+                        "defaultColor": proc["default_color"]
                     },
                     "geometry": {"type": "Polygon", "coordinates": [geo_coords]}
                 }
-                popup = folium.GeoJsonPopup(fields=["popup"], labels=False)
+                popup = folium.GeoJsonPopup(
+                    fields=["popup"],
+                    labels=False,
+                    popup_options={
+                        "maxWidth": "300",  # maximální šířka pop-upu
+                        "className": "custom-popup"
+                    }
+                )
                 geojson = folium.GeoJson(
                     polygon_geojson,
                     style_function=polygon_style_function,
@@ -228,6 +295,7 @@ class Renderer:
                 )
                 geojson.add_child(HoverScript())
                 geojson.add_to(map_object)
+        # Nastavení zorného pole mapy podle souřadnic
         if all_coordinates:
             lats = [coord[0] for coord in all_coordinates]
             lons = [coord[1] for coord in all_coordinates]
@@ -235,64 +303,11 @@ class Renderer:
             south = min(lats)
             east = max(lons)
             west = min(lons)
-            # margin = 0.05 # adds margin to each direction for propper zooming
-            # north += margin
-            # south -= margin
-            # east += margin
-            # west -= margin
             map_object.fit_bounds([(south, west), (north, east)])
         map_object.save("airspace_map.html")
         webbrowser.open("airspace_map.html")
 
-    def render_circle(self, map_object, command, all_coordinates, popup_content=None, airspace_class=""):
-        coord = self.get_coordinate(command["circle_center_coordinate"])
-        if coord is None:
-            return
-        lat = coord["lat"]
-        lon = coord["lon"]
-        radius_nm = float(command["circle_radius"])
-        radius_m = radius_nm * 1852
-        circle_points = self.approximate_circle_polygon((lat, lon), radius_m, num_points=50)
-        for pt in circle_points:
-            all_coordinates.append(pt)
-        geo_coords = [[pt[1], pt[0]] for pt in circle_points]
-        polygon_geojson = {
-            "type": "Feature",
-            "properties": {
-                "popup": popup_content if popup_content else "",
-                "airspace_class": airspace_class,
-                "defaultColor": get_color(airspace_class)
-            },
-            "geometry": {"type": "Polygon", "coordinates": [geo_coords]}
-        }
-        popup = folium.GeoJsonPopup(fields=["popup"], labels=False)
-        geojson = folium.GeoJson(
-            polygon_geojson,
-            style_function=polygon_style_function,
-            highlight_function=constant_highlight,
-            popup=popup,
-        )
-        geojson.add_child(HoverScript())
-        geojson.add_to(map_object)
-
-    def render_arc(self, map_object, command, polygon_points, all_coordinates):
-        center = self.get_coordinate(command["arc_center_coordinate"])
-        start = self.get_coordinate(command["arc_start_point_coordinate"])
-        end = self.get_coordinate(command["arc_end_point_coordinate"])
-        if center is None or start is None or end is None:
-            return
-        center_coords = (center["lat"], center["lon"])
-        start_coords = (start["lat"], start["lon"])
-        end_coords = (end["lat"], end["lon"])
-        direction = command["arc_direction"]
-        arc_points = self.calculate_arc_points(center_coords, start_coords, end_coords, direction)
-        if polygon_points:
-            polygon_points.append(polygon_points[-1])
-        polygon_points.extend(arc_points)
-        polygon_points.append(end_coords)
-        all_coordinates.extend(arc_points)
-
-    def build_popup_content(self, airspace):
+    def build_popup_content(self, airspace, area):
         content = ""
         if airspace.name:
             content += f"Name: <b>{airspace.name}</b><br>"
@@ -308,4 +323,6 @@ class Renderer:
             content += f"Upper Limit: <b>{airspace.format_limit(airspace.upper_limit)}</b><br>"
         if airspace.lower_limit:
             content += f"Lower Limit: <b>{airspace.format_limit(airspace.lower_limit)}</b><br>"
+        if area is not None:
+            content += f"Area: <b>{area:.2f} km²</b><br>"
         return content
