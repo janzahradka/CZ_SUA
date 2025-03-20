@@ -111,13 +111,14 @@ class AirspaceApp:
         )
         self.add_to_multi_button.pack(side=tk.LEFT, padx=2, pady=2)
 
-        # Filler pro posunutí tlačítka "Show Map" doprava
-        filler = tk.Label(right_toolbar, text="")
-        filler.pack(side=tk.LEFT, expand=True, fill=tk.X)
-
-        # Tlačítko "Show Map" nyní volá show_map_handler
         map_btn = tk.Button(right_toolbar, text="Show Map", font=("Roboto", 12), command=self.show_map_handler)
         map_btn.pack(side=tk.RIGHT, padx=2, pady=2)
+
+        self.title_entry = tk.Entry(right_toolbar, font=("Roboto", 12), width=30)
+        self.title_entry.pack(side=tk.RIGHT, padx=5, pady=5)
+
+        title_label = tk.Label(right_toolbar, text="Map Title:", font=("Roboto", 12))
+        title_label.pack(side=tk.RIGHT, padx=5, pady=5)
 
         # Notebook pro pravý panel s kartami "single" a "multi"
         self.output_notebook = ttk.Notebook(parent)
@@ -257,23 +258,48 @@ class AirspaceApp:
         else:
             self.add_to_multi_button.config(state=tk.DISABLED)
 
+    def get_map_title_and_filename(self):
+        """
+        Retrieves the map title from the input field and generates a safe filename.
+        Returns a tuple (map_title, filename).
+        """
+        map_title = self.title_entry.get().strip()
+        if not map_title:
+            map_title = "Untitled Map"
+
+        # Vytvoření bezpečného názvu souboru na základě map_title
+        sanitized_title = "".join(c if c.isalnum() or c in (" ", "_", "-") else "_" for c in map_title)
+        sanitized_title = sanitized_title.strip().replace(" ", "_")
+        filename = f"{sanitized_title}.html"
+
+        return map_title, filename
+
     def show_map(self):
         """
-        Retrieves the content from the 'single' output tab (which is in OpenAir format),
-        converts it into an Airspace object, and then uses Renderer to display the space on a map.
-        """
+            Retrieves the content from the 'single' output tab (which is in OpenAir format),
+            converts it into an Airspace object, and then uses Renderer to display the space on a map.
+            """
         single_content = self.single_output.get(1.0, tk.END).strip()
         if not single_content:
             messagebox.showwarning("Warning", "Single output is empty.")
             return
+
+        # Získání názvu mapy
+        map_title = self.title_entry.get().strip()
+        if not map_title:
+            map_title = "Untitled Map"
+            return
+
         try:
             # Convert the OpenAir formatted text into an Airspace object
             from controller import airspace_from_openair
             airspace_obj = airspace_from_openair(single_content)
 
-            # Use the Renderer to render the map.
-            renderer = Renderer([airspace_obj])  # Note: renderer expects a list of Airspace objects.
-            renderer.render_map()
+            map_title, filename = self.get_map_title_and_filename()
+
+            # Renderování mapy s názvem
+            renderer = Renderer([airspace_obj])  # Použití Renderer s jedním airspace objektem
+            renderer.render_map(title=map_title, filename=filename)
         except Exception as e:
             messagebox.showerror("Error", f"Error rendering map: {e}")
 
@@ -314,9 +340,11 @@ class AirspaceApp:
                 messagebox.showwarning("Warning", "No valid airspaces found in multi output.")
                 return
 
-            from renderer import Renderer
+            map_title, filename = self.get_map_title_and_filename()
+
             renderer = Renderer(airspaces)
-            renderer.render_map()
+            renderer.render_map(title=map_title, filename=filename)
+
         except Exception as e:
             messagebox.showerror("Error", f"Error rendering multi map: {e}")
 
