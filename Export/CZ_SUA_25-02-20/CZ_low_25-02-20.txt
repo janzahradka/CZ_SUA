@@ -4160,7 +4160,6 @@ DP 49:23:41 N 014:36:43 E
 
 AC R
 AN LKTRA93 PREROV 136.175
-AY Temporary Reserved Area
 AF 136.175
 AG Praha Information (E)
 AL 4000 MSL
@@ -4171,7 +4170,6 @@ DC 3.0 *NM
 
 AC R
 AN LKTRA94 PIVIN 136.175
-AY Temporary Reserved Area
 AF 136.175
 AG Praha Information (E)
 AL 3500 MSL
@@ -4192,7 +4190,6 @@ DP 49:25:42 N 17:19:42 E
 
 AC R
 AN LKTRA95 PRASLAVICE 136.175
-AY Temporary Reserved Area
 AF 136.175
 AG Praha Information (E)
 AL 3500 MSL
@@ -4212,7 +4209,6 @@ DP 49:35:59 N 17:23:51 E
 
 AC R
 AN LKTRA96 TROUBKY 136.175
-AY Temporary Reserved Area
 AF 136.175
 AG Praha Information (E)
 AL 3500 MSL

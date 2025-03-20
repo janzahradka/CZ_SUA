@@ -1,7 +1,7 @@
 import folium
 import webbrowser
 import numpy as np
-from extractor.convertor import Convertor
+from AirspaceManager.extractor.convertor import Convertor
 from folium import MacroElement
 from jinja2 import Template
 from shapely.geometry import Polygon
@@ -207,7 +207,7 @@ class Renderer:
             "default_color": default_color
         }
 
-    def render_map(self, title=None, filename=None):
+    def render_map(self, title=None, filename=None, output_dir="html"):
         # Výchozí hodnota pro titulek
         if not title or title.strip() == "":
             title = "Untitled Map"
@@ -216,63 +216,66 @@ class Renderer:
         sanitized_title = "".join(c if c.isalnum() or c in (" ", "_") else "_" for c in title).strip().replace(" ", "_")
         filename = filename or f"{sanitized_title}.html"
 
+        # Kontrola a vytvoření cílové složky
+        if not os.path.exists(output_dir):
+            os.makedirs(output_dir)  # Vytvoření adresáře, pokud neexistuje
+
+        # Kompletní cesta k souboru
+        filepath = os.path.join(output_dir, filename)
+
         map_object = folium.Map(location=[50.0, 15.0], zoom_start=8)
 
         # CSS styly
         inline_css = """
         <style>
-                 .custom-popup {
-                     background-color: white;
-                     border: 1px solid gray;
-                     padding: 10px;
-                     font-size: 14px;
-                     border-radius: 5px;
-                     box-shadow: 2px 2px 5px rgba(0,0,0,0.3);
-                     max-height: 200px;
-                     max-width: 300px;
-                     overflow-y: auto;
-                 }
-                
-                 .leaflet-popup {
-                     bottom: 30px !important;
-                 }
-                
-                  #titleBox {
-                      position: fixed;
-                      top: 10px;                 /* Umístění nahoře */
-                      right: 10px;               /* Umístění vpravo */
-                      width: 300px;              /* Šířka panelu */
-                      padding: 10px;             /* Vnitřní odsazení */
-                      background-color: white;   /* Barva pozadí */
-                      border: 1px solid gray;    /* Barva a styl okraje */
-                      z-index: 1000;             /* Zajištění viditelnosti nad ostatními prvky */
-                      font-size: 18px;           /* Velikost písma */
-                      border-radius: 10px;       /* Zaoblené rohy */
-                      box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.5); /* Přidání stínu */
-                  }
-                
-                  #infoBox {
-                      position: fixed;
-                      top: 70px;                 /* Umístění nahoře */
-                      right: 10px;               /* Umístění vpravo */
-                      width: 300px;              /* Šířka panelu */
-                      padding: 10px;             /* Vnitřní odsazení */
-                      background-color: white;   /* Barva pozadí */
-                      border: 1px solid gray;    /* Barva a styl okraje */
-                      z-index: 1000;             /* Zajištění viditelnosti nad ostatními prvky */
-                      font-size: 14px;           /* Velikost písma */
-                      border-radius: 10px;       /* Zaoblené rohy */
-                      box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.5); /* Přidání stínu */
-                  }     
-                             
-
+             .custom-popup {
+                 background-color: white;
+                 border: 1px solid gray;
+                 padding: 10px;
+                 font-size: 14px;
+                 border-radius: 5px;
+                 box-shadow: 2px 2px 5px rgba(0,0,0,0.3);
+                 max-height: 200px;
+                 max-width: 300px;
+                 overflow-y: auto;
+             }
+            
+             .leaflet-popup {
+                 bottom: 30px !important;
+             }
+            
+              #titleBox {
+                  position: fixed;
+                  top: 10px;                 /* Umístění nahoře */
+                  right: 10px;               /* Umístění vpravo */
+                  width: 300px;              /* Šířka panelu */
+                  padding: 10px;             /* Vnitřní odsazení */
+                  background-color: white;   /* Barva pozadí */
+                  border: 1px solid gray;    /* Barva a styl okraje */
+                  z-index: 1000;             /* Zajištění viditelnosti nad ostatními prvky */
+                  font-size: 18px;           /* Velikost písma */
+                  border-radius: 10px;       /* Zaoblené rohy */
+                  box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.5); /* Přidání stínu */
+              }
+            
+              #infoBox {
+                  position: fixed;
+                  top: 70px;                 /* Umístění nahoře */
+                  right: 10px;               /* Umístění vpravo */
+                  width: 300px;              /* Šířka panelu */
+                  padding: 10px;             /* Vnitřní odsazení */
+                  background-color: white;   /* Barva pozadí */
+                  border: 1px solid gray;    /* Barva a styl okraje */
+                  z-index: 1000;             /* Zajištění viditelnosti nad ostatními prvky */
+                  font-size: 14px;           /* Velikost písma */
+                  border-radius: 10px;       /* Zaoblené rohy */
+                  box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.5); /* Přidání stínu */
+              }     
         </style>
         """
-
-        # Přidání CSS stylů do HTML šablony
         map_object.get_root().html.add_child(folium.Element(inline_css))
 
-        # JavaScript pro přepsání `bottom` hodnoty
+        # Přidání JavaScriptu
         custom_js = """
            <script>
                document.addEventListener("DOMContentLoaded", function() {
@@ -302,6 +305,7 @@ class Renderer:
         </div>
         """
         map_object.get_root().html.add_child(folium.Element(info_html))
+
         processed_airspaces = []
         all_coordinates = []
         # Zpracování každého vzdušného prostoru najednou
@@ -355,8 +359,8 @@ class Renderer:
             east = max(lons)
             west = min(lons)
             map_object.fit_bounds([(south, west), (north, east)])
-        map_object.save(filename)
-        webbrowser.open(f"file://{os.path.realpath(filename)}")
+        map_object.save(filepath)
+        webbrowser.open(f"file://{os.path.realpath(filepath)}")
 
     def build_popup_content(self, airspace, area):
         content = ""

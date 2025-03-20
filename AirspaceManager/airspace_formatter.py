@@ -27,7 +27,8 @@ class AirspaceFormatter:
             lines.append(f"AN {self.airspace.name}")
 
         if self.airspace.category:
-            lines.append(f"AY {self.airspace.category}")
+            if self.airspace.category == 'GSEC': # AY is still not supported enough, GSEC seems to be ok
+                lines.append(f"AY {self.airspace.category}")
 
         if self.airspace.frequencies:
             lines.append(f"AF {self.airspace.frequencies[0]}") # Do AF tagu pouze první frekvence

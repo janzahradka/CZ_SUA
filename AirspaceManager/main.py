@@ -3,7 +3,7 @@ from tkinter import scrolledtext, messagebox, ttk, simpledialog
 import pyperclip
 import webbrowser
 import folium
-from controller import process_plain_text, process_openair_text  # Logika z controller.py
+from controller import process_plain_text, process_openair_text, airspace_from_openair, split_openair_blocks
 from renderer import Renderer
 
 
@@ -324,9 +324,8 @@ class AirspaceApp:
             messagebox.showwarning("Warning", "Multi output field is empty.")
             return
         try:
-            from controller import airspace_from_openair  # Funkce převádějící OpenAir text na Airspace objekt
-            # Split multi output into blocks using triple newlines as separator
-            blocks = multi_content.split("\n\n\n")
+            # Split multi output into blocks
+            blocks = split_openair_blocks(multi_content)
             airspaces = []
             for block in blocks:
                 block = block.strip()
