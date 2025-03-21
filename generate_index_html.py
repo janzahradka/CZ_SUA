@@ -3,7 +3,8 @@ import os
 
 def generate_index(directory, root_directory, relative_path=""):
     """
-    Rekurzivně generuje index.html ve všech složkách, přičemž bere v úvahu nadřazené složky, breadcrumb navigaci a akce u souborů.
+    Rekurzivně generuje index.html ve všech složkách, přičemž bere v úvahu nadřazené složky, breadcrumb navigaci,
+    akce u souborů a automaticky vylučuje index.html z výpisu.
     """
     # Získej seznam složek a souborů
     entries = os.listdir(directory)
@@ -14,7 +15,7 @@ def generate_index(directory, root_directory, relative_path=""):
         full_path = os.path.join(directory, entry)
         if os.path.isdir(full_path):
             directories.append(entry)
-        else:
+        elif entry != "index.html":  # Vyloučíme index.html
             files.append(entry)
 
     # Sestav cesty pro navigaci zpět (breadcrumb)
@@ -65,7 +66,7 @@ def generate_index(directory, root_directory, relative_path=""):
         folder_path = os.path.join(relative_path, folder)
         html_content += f"""
         <tr>
-            <td><a href="{folder}/">📁 {folder}</a></td> <!-- Unicode symbol 📁 pro složku -->
+            <td><a href="{folder}/">📁 {folder}</a></td>
             <td></td>
         </tr>
         """
@@ -103,7 +104,7 @@ def generate_index(directory, root_directory, relative_path=""):
 
         html_content += f"""
         <tr>
-            <td>📄 {file}</td> <!-- Unicode symbol 📄 pro obecný soubor -->
+            <td>📄 {file}</td>
             <td>{action}</td>
         </tr>
         """
@@ -130,7 +131,7 @@ def generate_index(directory, root_directory, relative_path=""):
 
 # Spustit generování pro hlavní složku (např. ./docs/public)
 if __name__ == "__main__":
-    root_directory = "./docs/public"  # Nastav kořenový adresář
+    root_directory = "./docs/public"  # Nastav kořenový adresář public
     if not os.path.exists(root_directory):
         print(f"Složka {root_directory} neexistuje. Ujisti se, že cesta je správná.")
     else:
