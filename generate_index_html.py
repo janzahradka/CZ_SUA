@@ -4,6 +4,7 @@ import os
 def generate_index(directory, root_directory, relative_path=""):
     """
     Rekurzivně generuje index.html ve všech složkách, přičemž bere v úvahu nadřazené složky, breadcrumb navigaci a akce u souborů.
+    Dále vytvoří kopii index.html v kořenové složce (např. /docs/index.html), pokud generujeme pro /docs/public.
     """
     # Získej seznam složek a souborů
     entries = os.listdir(directory)
@@ -65,7 +66,7 @@ def generate_index(directory, root_directory, relative_path=""):
         folder_path = os.path.join(relative_path, folder)
         html_content += f"""
         <tr>
-            <td><a href="{folder}/">📁 {folder}</a></td> <!-- Unicode symbol 📁 pro složku -->
+            <td><a href="{folder}/">📁 {folder}</a></td>
             <td></td>
         </tr>
         """
@@ -103,7 +104,7 @@ def generate_index(directory, root_directory, relative_path=""):
 
         html_content += f"""
         <tr>
-            <td>📄 {file}</td> <!-- Unicode symbol 📄 pro obecný soubor -->
+            <td>📄 {file}</td>
             <td>{action}</td>
         </tr>
         """
@@ -123,6 +124,13 @@ def generate_index(directory, root_directory, relative_path=""):
 
     print(f"Vygenerován soubor: {index_path}")
 
+    # Vytvoření kopie index.html v /docs/ pokud se generuje pro /docs/public/
+    if directory == os.path.abspath(root_directory) and relative_path == "":
+        parent_index_path = os.path.join(os.path.dirname(root_directory), "index.html")
+        with open(parent_index_path, "w", encoding="utf-8") as f:
+            f.write(html_content)
+        print(f"Vygenerován soubor: {parent_index_path}")
+
     # Rekurzivně generuj index.html pro podadresáře
     for folder in directories:
         generate_index(os.path.join(directory, folder), root_directory, os.path.join(relative_path, folder))
@@ -130,7 +138,7 @@ def generate_index(directory, root_directory, relative_path=""):
 
 # Spustit generování pro hlavní složku (např. ./docs/public)
 if __name__ == "__main__":
-    root_directory = "./docs/public"  # Nastav kořenový adresář
+    root_directory = "./docs/public"  # Nastav kořenový adresář public
     if not os.path.exists(root_directory):
         print(f"Složka {root_directory} neexistuje. Ujisti se, že cesta je správná.")
     else:
