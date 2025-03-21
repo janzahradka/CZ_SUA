@@ -23,13 +23,13 @@ def generate_index(directory, content_root_directory, relative_path_from_content
         elif entry != "index.html":  # Ignorovat existující index.html
             files.append(entry)  # Soubory jdou sem
 
-    # Řazení adresářů abecedně vzestupně
-    directories = sorted(directories)
+    # Řazení adresářů sestupně (nejnovější nahoře)
+    directories = sorted(directories, reverse=True)
 
     # Řazení souborů:
-    # 1. Nejprve podle přípony (od nejmenší do největší)
-    # 2. Poté abecedně uvnitř stejné přípony
-    files = sorted(files, key=lambda x: (os.path.splitext(x)[1].lower(), x.lower()))
+    # 1. Nejdříve podle přípony (sestupně)
+    # 2. Poté abecedně uvnitř stejné přípony (sestupně)
+    files = sorted(files, key=lambda x: (os.path.splitext(x)[1].lower(), x.lower()), reverse=True)
 
     # Vypočítání relativní cesty od content_root_directory
     relative_url_from_content_root = os.path.relpath(directory, content_root_directory).replace(os.sep, "/")
