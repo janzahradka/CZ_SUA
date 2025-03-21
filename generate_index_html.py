@@ -31,7 +31,7 @@ def generate_index(directory, content_root_directory, relative_path_from_content
         parent_url += "/"
 
     # Sestavení breadcrumb navigace
-    breadcrumb = f'<a href="{BASE_URL}">🏠 Domů</a>'
+    breadcrumb = f'<a href="{BASE_URL}{CONTENT_ROOT}">🏠 Domů</a>'  # Domů vždy zahrnuje /public na začátku
     if relative_url_from_content_root:
         parts = relative_url_from_content_root.split("/")
         cumulative_url = f"{BASE_URL}{CONTENT_ROOT}"
