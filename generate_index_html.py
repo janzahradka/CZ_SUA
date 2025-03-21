@@ -83,18 +83,11 @@ def generate_index(directory, content_root_directory, relative_path_from_content
             margin: 5px 2px;
             cursor: pointer;
             border-radius: 5px;
+            background-color: #008CBA;
         }}
         
         button:hover {{
-            opacity: 0.8;
-        }}
-        
-        button[title="Preview"] {{
-            background-color: #4CAF50; /* Zelená pro náhled */
-        }}
-        
-        button[title="Download"] {{
-            background-color: #008CBA; /* Modrá pro stažení */
+            box-shadow: 0px 4px 8px 0px rgba(0, 0, 0, 0.2);
         }}
 
     </style>
