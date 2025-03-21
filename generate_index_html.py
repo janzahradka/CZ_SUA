@@ -3,9 +3,9 @@ import os
 
 def generate_index(directory, root_directory, relative_path=""):
     """
-    Rekurzivně generuje index.html ve všech složkách s podporou breadcrumb navigace a správných akcí u souborů.
+    Rekurzivně generuje index.html ve všech složkách s podporou konzistentních relativních odkazů
     """
-    # Získání seznamu složek a souborů
+    # Získání všech vstupů v adresáři
     entries = os.listdir(directory)
     files = []
     directories = []
@@ -14,17 +14,23 @@ def generate_index(directory, root_directory, relative_path=""):
         full_path = os.path.join(directory, entry)
         if os.path.isdir(full_path):
             directories.append(entry)
-        elif entry != "index.html":  # Vyloučí index.html ze seznamu
+        elif entry != "index.html":  # Vyloučit již existující `index.html`
             files.append(entry)
 
-    # Sestavení breadcrumb navigace (bez obsahu kořenového adresáře)
+    # Určení parent_url podle relativní cesty od root_directory
+    parent_url = "/" + relative_path.replace(os.sep, "/")  # Převést na URL-cestu
+    if not parent_url.endswith("/"):
+        parent_url += "/"
+
+    # Navigace (breadcrumb)
     breadcrumb = '<a href="/">🏠 Domů</a>'
     path_parts = relative_path.split(os.sep) if relative_path else []
-    breadcrumb_path = ""
+    cumulative_path = ""
     for part in path_parts:
         if part:
-            breadcrumb_path = os.path.join(breadcrumb_path, part)
-            breadcrumb += f' > <a href="{breadcrumb_path}/">{part}</a>'
+            cumulative_path = os.path.join(cumulative_path, part)
+            cumulative_url = "/" + cumulative_path.replace(os.sep, "/")
+            breadcrumb += f' > <a href="{cumulative_url}/">{part}</a>'
 
     # HTML hlavička
     html_content = f"""<!DOCTYPE html>
@@ -62,41 +68,40 @@ def generate_index(directory, root_directory, relative_path=""):
 
     # Generování složek
     for folder in sorted(directories):
-        folder_path = os.path.join(relative_path, folder)
+        folder_url = parent_url + folder + "/"
         html_content += f"""
         <tr>
-            <td><a href="{folder}/">📁 {folder}</a></td>
+            <td><a href="{folder_url}">📁 {folder}</a></td>
             <td></td>
         </tr>
         """
 
     # Generování souborů
     for file in sorted(files):
-        file_relative_path = os.path.join(relative_path, file)
+        file_url = parent_url + file  # Soubor URL
         file_name, file_ext = os.path.splitext(file)
         file_ext = file_ext.lower()
 
         # Ikony a akce podle typu souboru
         if file_ext in [".html", ".htm", ".md"]:
-            # Odkaz pro otevření v prohlížeči
+            # Otevření v okně prohlížeče
             action = f"""
-                <a href="{file_relative_path}" target="_blank" title="Open in browser">🌐</a>
+                <a href="{file_url}" target="_blank" title="Open in browser">🌐</a>
             """
         elif file_ext in [".txt", ".cub"]:
-            # Náhled a stažení
-            preview_file = f"html/{file_name}.html"  # Cesta k náhledu
+            # Náhled a stažení souboru
+            preview_file_url = parent_url + "html/" + file_name + ".html"  # Náhled
             preview_icon = ""
-            if os.path.exists(os.path.join(directory, "html", f"{file_name}.html")):  # Náhled existuje
+            if os.path.exists(os.path.join(directory, "html", f"{file_name}.html")):
                 preview_icon = f"""
-                    <a href="{os.path.join(relative_path, preview_file)}" target="_blank" title="Open preview">🔍</a>
+                <a href="{preview_file_url}" target="_blank" title="Open preview">🔍</a>
                 """
             download_icon = f"""
-                <a href="{file_relative_path}" download title="Download">⬇️</a>
+                <a href="{file_url}" download title="Download">⬇️</a>
             """
             action = f"{preview_icon} {download_icon}"
         else:
-            # Žádné speciální akce pro ostatní typy souborů
-            action = ""
+            action = ""  # Pro ostatní typy souborů nejsou specifické akce
 
         html_content += f"""
         <tr>
@@ -113,23 +118,23 @@ def generate_index(directory, root_directory, relative_path=""):
 </html>
 """
 
-    # Uložení jako index.html ve složce
+    # Uložení index.html do dané složky
     index_path = os.path.join(directory, "index.html")
     with open(index_path, "w", encoding="utf-8") as f:
         f.write(html_content)
 
     print(f"Vygenerován soubor: {index_path}")
 
-    # Rekurzivně generovat pro podadresáře
+    # Rekurzivní generování pro podadresáře
     for folder in directories:
         generate_index(os.path.join(directory, folder), root_directory, os.path.join(relative_path, folder))
 
 
-# Spuštění generování pro root /docs/public
+# Spuštění generování pro root directory
 if __name__ == "__main__":
-    root_directory = "./docs/public"
+    root_directory = "docs/public"
     if not os.path.exists(root_directory):
-        print(f"Složka {root_directory} neexistuje. Zkontrolujte cestu.")
+        print(f"Chyba: Složka {root_directory} neexistuje. Zkontrolujte cestu.")
     else:
         generate_index(root_directory, root_directory)
         print("Generování dokončeno.")
