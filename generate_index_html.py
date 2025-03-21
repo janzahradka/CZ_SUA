@@ -4,7 +4,7 @@ import os
 def generate_index(directory, root_directory, relative_path=""):
     """
     Rekurzivně generuje index.html ve všech složkách, přičemž bere v úvahu nadřazené složky, breadcrumb navigaci,
-    akce u souborů a automaticky vylučuje index.html z výpisu.
+    akce u souborů, a automaticky vylučuje index.html z výpisu.
     """
     # Získej seznam složek a souborů
     entries = os.listdir(directory)
@@ -86,10 +86,13 @@ def generate_index(directory, root_directory, relative_path=""):
             </a>
             """
         elif file_ext in [".txt", ".cub"]:
+            # Oprava generování cest pro náhledy
+            preview_folder = os.path.join(relative_path, "html")  # Složka `html` ve stejné relativní cestě
+            preview_file_path = os.path.join(preview_folder, f"{file_name}.html")
             preview_link = ""
             if os.path.exists(os.path.join(directory, "html", f"{file_name}.html")):
                 preview_link = f"""
-                <a href="{relative_path}/html/{file_name}.html" target="_blank" title="Náhled">
+                <a href="{preview_file_path}" target="_blank" title="Náhled">
                     🔍
                 </a>
                 """
