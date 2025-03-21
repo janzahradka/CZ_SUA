@@ -74,15 +74,15 @@ def generate_index(directory, content_root_directory, relative_path_from_content
     </style>
 </head>
 <body>
-    <h1>Soubory vzdušeného prostoru ČR</h1>
+    <h1>Airspace files for gliding in Czechia</h1>
     <div class="breadcrumb">
         {breadcrumb}
     </div>
     <table>
         <thead>
             <tr>
-                <th>Název</th>
-                <th class="actions">Akce</th>
+                <th>Name</th>
+                <th class="actions">Action</th>
             </tr>
         </thead>
         <tbody>
