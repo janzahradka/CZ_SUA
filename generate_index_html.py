@@ -15,10 +15,19 @@ def generate_index(directory, content_root_directory, relative_path_from_content
 
     for entry in entries:
         full_path = os.path.join(directory, entry)
+        # Rozdělení na adresáře a soubory
         if os.path.isdir(full_path):
-            directories.append(entry)
+            directories.append(entry)  # Adresáře jdou sem
         elif entry != "index.html":  # Ignorovat existující index.html
-            files.append(entry)
+            files.append(entry)  # Soubory jdou sem
+
+    # Řazení adresářů abecedně vzestupně
+    directories = sorted(directories)
+
+    # Řazení souborů:
+    # 1. Nejprve podle přípony (od nejmenší do největší)
+    # 2. Poté abecedně uvnitř stejné přípony
+    files = sorted(files, key=lambda x: (os.path.splitext(x)[1].lower(), x.lower()))
 
     # Vypočítání relativní cesty od content_root_directory
     relative_url_from_content_root = os.path.relpath(directory, content_root_directory).replace(os.sep, "/")
@@ -52,7 +61,7 @@ def generate_index(directory, content_root_directory, relative_path_from_content
         th, td {{ padding: 10px; text-align: left; border-bottom: 1px solid #ddd; }}
         th {{ background-color: #4CAF50; color: white; }}
         tr:hover {{ background-color: #f1f1f1; }}
-        td.actions {{ text-align: left; }}  /* Zarovnání akcí doleva */
+        td.actions {{ text-align: left; }}
         a {{ color: #4CAF50; text-decoration: none; }}
         a:hover {{ text-decoration: underline; }}
         .breadcrumb {{ margin-bottom: 20px; }}
@@ -77,8 +86,8 @@ def generate_index(directory, content_root_directory, relative_path_from_content
         <tbody>
     """
 
-    # Odkazy na podsložky
-    for folder in sorted(directories):
+    # Odkazy na podsložky (adresáře)
+    for folder in directories:
         folder_url = f"{parent_url}{folder}/"
         html_content += f"""
         <tr>
@@ -88,7 +97,7 @@ def generate_index(directory, content_root_directory, relative_path_from_content
         """
 
     # Odkazy na soubory
-    for file in sorted(files):
+    for file in files:
         file_url = f"{parent_url}{file}"
         file_name, file_ext = os.path.splitext(file)
         file_ext = file_ext.lower()
