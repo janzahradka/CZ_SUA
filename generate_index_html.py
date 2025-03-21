@@ -7,7 +7,7 @@ CONTENT_ROOT = "public/"  # Kořen obsahu
 
 def generate_index(directory, content_root_directory, relative_path_from_content_root=""):
     """
-    Rekurzivně generuje index.html s odkazy odpovídajícími formátu GitHub Pages.
+    Rekurzivně generuje index.html v zadaném adresáři s odkazy na soubory/složky a odpovídajícími akcemi.
     """
     entries = os.listdir(directory)
     files = []
@@ -17,13 +17,13 @@ def generate_index(directory, content_root_directory, relative_path_from_content
         full_path = os.path.join(directory, entry)
         if os.path.isdir(full_path):
             directories.append(entry)
-        elif entry != "index.html":  # Ignorovat případný existující index.html
+        elif entry != "index.html":  # Ignorovat existující index.html
             files.append(entry)
 
     # Vypočítání relativní cesty od content_root_directory
     relative_url_from_content_root = os.path.relpath(directory, content_root_directory).replace(os.sep, "/")
     if relative_url_from_content_root == ".":
-        relative_url_from_content_root = ""  # Kořen public/ má prázdnou relativní část
+        relative_url_from_content_root = ""  # Pro kořenový adresář nastavíme prázdnou relativní část
 
     # Sestavení parent_url
     parent_url = f"{BASE_URL}{CONTENT_ROOT}{relative_url_from_content_root}"
@@ -31,7 +31,7 @@ def generate_index(directory, content_root_directory, relative_path_from_content
         parent_url += "/"
 
     # Sestavení breadcrumb navigace
-    breadcrumb = f'<a href="{BASE_URL}{CONTENT_ROOT}">🏠 Domů</a>'  # Domů vždy zahrnuje /public na začátku
+    breadcrumb = f'<a href="{BASE_URL}{CONTENT_ROOT}">🏠 Domů</a>'  # Domů vždy začíná BASE_URL + /public/
     if relative_url_from_content_root:
         parts = relative_url_from_content_root.split("/")
         cumulative_url = f"{BASE_URL}{CONTENT_ROOT}"
@@ -39,7 +39,7 @@ def generate_index(directory, content_root_directory, relative_path_from_content
             cumulative_url += f"{part}/"
             breadcrumb += f' > <a href="{cumulative_url}">{part}</a>'
 
-    # Vytvoření HTML souboru
+    # Vytvoření začátku HTML souboru
     html_content = f"""<!DOCTYPE html>
 <html lang="cs">
 <head>
@@ -48,13 +48,18 @@ def generate_index(directory, content_root_directory, relative_path_from_content
     <title>Obsah adresáře: {relative_path_from_content_root or 'Kořenový adresář'}</title>
     <style>
         body {{ font-family: Arial, sans-serif; padding: 20px; background-color: #f4f4f9; }}
-        table {{ width: 100%; border-collapse: collapse; }}
+        table {{ width: 100%; border-collapse: collapse; margin-top: 20px; }}
         th, td {{ padding: 10px; text-align: left; border-bottom: 1px solid #ddd; }}
         th {{ background-color: #4CAF50; color: white; }}
         tr:hover {{ background-color: #f1f1f1; }}
+        td.actions {{ text-align: right; }}
         a {{ color: #4CAF50; text-decoration: none; }}
         a:hover {{ text-decoration: underline; }}
         .breadcrumb {{ margin-bottom: 20px; }}
+        @media (max-width: 600px) {{
+            table {{ font-size: 14px; }}
+            th, td {{ padding: 8px; }}
+        }}
     </style>
 </head>
 <body>
@@ -66,7 +71,7 @@ def generate_index(directory, content_root_directory, relative_path_from_content
         <thead>
             <tr>
                 <th>Název</th>
-                <th>Odkaz</th>
+                <th class="actions">Akce</th>
             </tr>
         </thead>
         <tbody>
@@ -78,21 +83,36 @@ def generate_index(directory, content_root_directory, relative_path_from_content
         html_content += f"""
         <tr>
             <td><a href="{folder_url}">📁 {folder}</a></td>
-            <td><a href="{folder_url}">Otevřít</a></td>
+            <td></td>
         </tr>
         """
 
     # Odkazy na soubory
     for file in sorted(files):
         file_url = f"{parent_url}{file}"
+        file_name, file_ext = os.path.splitext(file)
+        file_ext = file_ext.lower()
+        actions = ""
+
+        if file_ext in [".html", ".htm", ".md"]:
+            # Ikona prohlížeče
+            actions = f'<a href="{file_url}" target="_blank" title="Open in browser">🌐</a>'
+        elif file_ext in [".txt", ".cub"]:
+            # Ikona náhledu (pokud existuje) a ikona stažení
+            html_preview_path = os.path.join(directory, "html", f"{file_name}.html")
+            html_preview_url = f"{parent_url}html/{file_name}.html"
+            if os.path.exists(html_preview_path):
+                actions += f'<a href="{html_preview_url}" target="_blank" title="Open preview">🔍</a> '
+            actions += f'<a href="{file_url}" download title="Download">⬇️</a>'
+
         html_content += f"""
         <tr>
             <td>📄 {file}</td>
-            <td><a href="{file_url}" target="_blank" title="Otevřít v prohlížeči">🌐 Otevřít</a></td>
+            <td class="actions">{actions}</td>
         </tr>
         """
 
-    # Konec HTML obsahu
+    # Uzavření HTML obsahu
     html_content += """
         </tbody>
     </table>
