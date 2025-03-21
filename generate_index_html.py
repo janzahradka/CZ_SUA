@@ -77,6 +77,7 @@ def generate_index(directory, content_root_directory, relative_path_from_content
     <div class="breadcrumb">
         {breadcrumb}
     </div>
+    <h1>Soubory vzdušeného prostoru ČR</h1>
     <table>
         <thead>
             <tr>
@@ -127,10 +128,28 @@ def generate_index(directory, content_root_directory, relative_path_from_content
         </tr>
         """
 
+
     # Uzavření HTML obsahu
     html_content += """
         </tbody>
     </table>
+"""
+    html_content += """
+            <hr>
+            <footer>
+                <p>
+                    This content was created on behalf of <a href="https://www.aeroklub.cz/" target="_blank">Aeroklub České Republiky</a>, it is free to use.<br>
+                    It's optimised for Gliding and provides info for avoiding unintentional incidents.<br>
+                    The usage of this content is free of charge.<br>
+                    Freely share this for any kind of general aviation purposes including commercial devices such as planning tools, IGC loggers, navigation devices, etc.<br>
+                    Updates are released on a regular basis on page <a href="https://www.aeroklub.cz/vzdusny-prostor/" target="_blank">www.aeroklub.cz/vzdusny-prostor/</a>.
+                </p>
+                <p>
+                    (c) 2025 Jan Zahradka
+                </p>
+            </footer>
+        """
+    html_content += """
 </body>
 </html>
 """
