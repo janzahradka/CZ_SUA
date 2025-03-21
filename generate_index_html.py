@@ -71,6 +71,32 @@ def generate_index(directory, content_root_directory, relative_path_from_content
             table {{ font-size: 14px; }}
             th, td {{ padding: 8px; }}
         }}
+                
+         button {{
+            border: none;
+            color: white;
+            padding: 10px 15px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 14px;
+            margin: 5px 2px;
+            cursor: pointer;
+            border-radius: 5px;
+        }}
+        
+        button:hover {{
+            opacity: 0.8;
+        }}
+        
+        button[title="Preview"] {{
+            background-color: #4CAF50; /* Zelená pro náhled */
+        }}
+        
+        button[title="Download"] {{
+            background-color: #008CBA; /* Modrá pro stažení */
+        }}
+
     </style>
 </head>
 <body>
@@ -106,15 +132,22 @@ def generate_index(directory, content_root_directory, relative_path_from_content
         actions = ""
 
         if file_ext in [".html", ".htm", ".md"]:
-            # Ikona pro prohlížeč nebo přímo dokument
-            actions = f'<a href="{file_url}" target="_blank" title="Otevřít">🌍️</a>'
+            actions += f'''
+                <button onclick="window.open('{file_url}','_blank')"
+                    title="Open">🌍️ Open</button>
+                '''
         elif file_ext in [".txt", ".cub"]:
             # Ikona náhledu (pokud existuje) a ikona uložení
             html_preview_path = os.path.join(directory, "html", f"{file_name}.html")
             html_preview_url = f"{parent_url}html/{file_name}.html"
             if os.path.exists(html_preview_path):
-                actions += f'<a href="{html_preview_url}" target="_blank" title="Náhled obsahu">🗺️</a> '
-            actions += f'<a href="{file_url}" download title="Uložit soubor">💾</a>'
+                actions += f'''
+                    <button onclick="window.open('{html_preview_url}', '_blank')"
+                        title="Map Preview">🗺️ Preview</button>
+                    '''
+            actions += f'''
+                    <button onclick="window.location.href='{file_url}'" title="Download">💾 Download</button>
+                    '''
 
         if file_ext in [".txt", ".html", ".htm", ".md"]:
             file_tag = f'<a href="{file_url}" target="_blank" title="Otevřít">📄 {file}</a>'

@@ -18,6 +18,32 @@
             table { font-size: 14px; }
             th, td { padding: 8px; }
         }
+                
+         button {
+            border: none;
+            color: white;
+            padding: 10px 15px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 14px;
+            margin: 5px 2px;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+        
+        button:hover {
+            opacity: 0.8;
+        }
+        
+        button[title="Preview"] {
+            background-color: #4CAF50; /* Zelená pro náhled */
+        }
+        
+        button[title="Download"] {
+            background-color: #008CBA; /* Modrá pro stažení */
+        }
+
     </style>
 </head>
 <body>
@@ -41,37 +67,70 @@
         
         <tr>
             <td><a href="https://janzahradka.github.io/CZ_SUA/public/CZ_SUA_25-02-20/CZ_low_plus_CE_25-02-20.txt" target="_blank" title="Otevřít">📄 CZ_low_plus_CE_25-02-20.txt</a></td>
-            <td class="actions"><a href="https://janzahradka.github.io/CZ_SUA/public/CZ_SUA_25-02-20/html/CZ_low_plus_CE_25-02-20.html" target="_blank" title="Náhled obsahu">🗺️</a> <a href="https://janzahradka.github.io/CZ_SUA/public/CZ_SUA_25-02-20/CZ_low_plus_CE_25-02-20.txt" download title="Uložit soubor">💾</a></td>
+            <td class="actions">
+                    <button onclick="window.open('https://janzahradka.github.io/CZ_SUA/public/CZ_SUA_25-02-20/html/CZ_low_plus_CE_25-02-20.html', '_blank')"
+                        title="Map Preview">🗺️ Preview</button>
+                    
+                    <button onclick="window.location.href='https://janzahradka.github.io/CZ_SUA/public/CZ_SUA_25-02-20/CZ_low_plus_CE_25-02-20.txt'" title="Download">💾 Download</button>
+                    </td>
         </tr>
         
         <tr>
             <td><a href="https://janzahradka.github.io/CZ_SUA/public/CZ_SUA_25-02-20/CZ_low_25-02-20.txt" target="_blank" title="Otevřít">📄 CZ_low_25-02-20.txt</a></td>
-            <td class="actions"><a href="https://janzahradka.github.io/CZ_SUA/public/CZ_SUA_25-02-20/html/CZ_low_25-02-20.html" target="_blank" title="Náhled obsahu">🗺️</a> <a href="https://janzahradka.github.io/CZ_SUA/public/CZ_SUA_25-02-20/CZ_low_25-02-20.txt" download title="Uložit soubor">💾</a></td>
+            <td class="actions">
+                    <button onclick="window.open('https://janzahradka.github.io/CZ_SUA/public/CZ_SUA_25-02-20/html/CZ_low_25-02-20.html', '_blank')"
+                        title="Map Preview">🗺️ Preview</button>
+                    
+                    <button onclick="window.location.href='https://janzahradka.github.io/CZ_SUA/public/CZ_SUA_25-02-20/CZ_low_25-02-20.txt'" title="Download">💾 Download</button>
+                    </td>
         </tr>
         
         <tr>
             <td><a href="https://janzahradka.github.io/CZ_SUA/public/CZ_SUA_25-02-20/CZ_all_25-02-20.txt" target="_blank" title="Otevřít">📄 CZ_all_25-02-20.txt</a></td>
-            <td class="actions"><a href="https://janzahradka.github.io/CZ_SUA/public/CZ_SUA_25-02-20/html/CZ_all_25-02-20.html" target="_blank" title="Náhled obsahu">🗺️</a> <a href="https://janzahradka.github.io/CZ_SUA/public/CZ_SUA_25-02-20/CZ_all_25-02-20.txt" download title="Uložit soubor">💾</a></td>
+            <td class="actions">
+                    <button onclick="window.open('https://janzahradka.github.io/CZ_SUA/public/CZ_SUA_25-02-20/html/CZ_all_25-02-20.html', '_blank')"
+                        title="Map Preview">🗺️ Preview</button>
+                    
+                    <button onclick="window.location.href='https://janzahradka.github.io/CZ_SUA/public/CZ_SUA_25-02-20/CZ_all_25-02-20.txt'" title="Download">💾 Download</button>
+                    </td>
         </tr>
         
         <tr>
             <td><a href="https://janzahradka.github.io/CZ_SUA/public/CZ_SUA_25-02-20/ReadMe.md" target="_blank" title="Otevřít">📄 ReadMe.md</a></td>
-            <td class="actions"><a href="https://janzahradka.github.io/CZ_SUA/public/CZ_SUA_25-02-20/ReadMe.md" target="_blank" title="Otevřít">🌍️</a></td>
+            <td class="actions">
+                <button onclick="window.open('https://janzahradka.github.io/CZ_SUA/public/CZ_SUA_25-02-20/ReadMe.md','_blank')"
+                    title="Open">🌍️ Open</button>
+                </td>
         </tr>
         
         <tr>
             <td>📄 CZ_low_plus_CE_25-02-20.cub</td>
-            <td class="actions"><a href="https://janzahradka.github.io/CZ_SUA/public/CZ_SUA_25-02-20/html/CZ_low_plus_CE_25-02-20.html" target="_blank" title="Náhled obsahu">🗺️</a> <a href="https://janzahradka.github.io/CZ_SUA/public/CZ_SUA_25-02-20/CZ_low_plus_CE_25-02-20.cub" download title="Uložit soubor">💾</a></td>
+            <td class="actions">
+                    <button onclick="window.open('https://janzahradka.github.io/CZ_SUA/public/CZ_SUA_25-02-20/html/CZ_low_plus_CE_25-02-20.html', '_blank')"
+                        title="Map Preview">🗺️ Preview</button>
+                    
+                    <button onclick="window.location.href='https://janzahradka.github.io/CZ_SUA/public/CZ_SUA_25-02-20/CZ_low_plus_CE_25-02-20.cub'" title="Download">💾 Download</button>
+                    </td>
         </tr>
         
         <tr>
             <td>📄 CZ_low_25-02-20.cub</td>
-            <td class="actions"><a href="https://janzahradka.github.io/CZ_SUA/public/CZ_SUA_25-02-20/html/CZ_low_25-02-20.html" target="_blank" title="Náhled obsahu">🗺️</a> <a href="https://janzahradka.github.io/CZ_SUA/public/CZ_SUA_25-02-20/CZ_low_25-02-20.cub" download title="Uložit soubor">💾</a></td>
+            <td class="actions">
+                    <button onclick="window.open('https://janzahradka.github.io/CZ_SUA/public/CZ_SUA_25-02-20/html/CZ_low_25-02-20.html', '_blank')"
+                        title="Map Preview">🗺️ Preview</button>
+                    
+                    <button onclick="window.location.href='https://janzahradka.github.io/CZ_SUA/public/CZ_SUA_25-02-20/CZ_low_25-02-20.cub'" title="Download">💾 Download</button>
+                    </td>
         </tr>
         
         <tr>
             <td>📄 CZ_all_25-02-20.cub</td>
-            <td class="actions"><a href="https://janzahradka.github.io/CZ_SUA/public/CZ_SUA_25-02-20/html/CZ_all_25-02-20.html" target="_blank" title="Náhled obsahu">🗺️</a> <a href="https://janzahradka.github.io/CZ_SUA/public/CZ_SUA_25-02-20/CZ_all_25-02-20.cub" download title="Uložit soubor">💾</a></td>
+            <td class="actions">
+                    <button onclick="window.open('https://janzahradka.github.io/CZ_SUA/public/CZ_SUA_25-02-20/html/CZ_all_25-02-20.html', '_blank')"
+                        title="Map Preview">🗺️ Preview</button>
+                    
+                    <button onclick="window.location.href='https://janzahradka.github.io/CZ_SUA/public/CZ_SUA_25-02-20/CZ_all_25-02-20.cub'" title="Download">💾 Download</button>
+                    </td>
         </tr>
         
         </tbody>
