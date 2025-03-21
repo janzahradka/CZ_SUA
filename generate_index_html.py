@@ -117,7 +117,7 @@ def generate_index(directory, content_root_directory, relative_path_from_content
         if file_ext in [".txt", ".html", ".htm", ".md"]:
             file_tag = f'📄 {file}'
         else:
-            file_tag = f'<a href="{file_url}" target="_blank" title="Otevřít>📄 {file}</a>'
+            file_tag = f'<a href="{file_url}" target="_blank" title="Otevřít">📄 {file}</a>'
 
         html_content += f"""
         <tr>
