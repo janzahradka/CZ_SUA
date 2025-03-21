@@ -1,7 +1,9 @@
 import os
 
 # Konstanty
-BASE_URL = "https://janzahradka.github.io/CZ_SUA/"  # Základní URL pro GitHub Pages
+
+PROJECT_URL_ALIAS = "CZ_SUA/"
+BASE_URL = "https://janzahradka.github.io/%s" % PROJECT_URL_ALIAS  # Základní URL pro GitHub Pages
 CONTENT_ROOT = "public/"  # Kořen obsahu
 
 
@@ -54,7 +56,7 @@ def generate_index(directory, content_root_directory, relative_path_from_content
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Obsah adresáře: {relative_path_from_content_root or 'Kořenový adresář'}</title>
+    <title>{relative_path_from_content_root or PROJECT_URL_ALIAS}</title>
     <style>
         body {{ font-family: Arial, sans-serif; padding: 20px; background-color: #f4f4f9; }}
         table {{ width: 100%; border-collapse: collapse; margin-top: 20px; }}
@@ -75,7 +77,6 @@ def generate_index(directory, content_root_directory, relative_path_from_content
     <div class="breadcrumb">
         {breadcrumb}
     </div>
-    <h1>Obsah adresáře</h1>
     <table>
         <thead>
             <tr>
