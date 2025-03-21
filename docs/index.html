@@ -1,90 +1,23 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Procházet adresář</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            line-height: 1.6;
-            margin: 0;
-            padding: 0;
-            background-color: #f4f4f9;
-            color: #333;
-        }
-        header {
-            background: #4CAF50;
-            color: #fff;
-            padding: 1rem 2rem;
-            text-align: center;
-        }
-        ul {
-            list-style: none;
-            padding: 0;
-        }
-        li {
-            margin: 0.5rem 0;
-        }
-        a {
-            text-decoration: none;
-            color: #4CAF50;
-        }
-        a:hover {
-            text-decoration: underline;
-        }
-        main {
-            padding: 2rem;
-        }
-    </style>
-</head>
-<body>
-    <header>
-        <h1>Procházet adresář</h1>
-        <p>Klikni na soubor nebo složku pro otevření.</p>
-    </header>
-    <main>
-        <ul id="file-list">
-            <li>Načítání obsahu adresáře...</li>
-        </ul>
-    </main>
-    <script>
-        // Dynamicky naplní seznam souborů v aktuálním adresáři
-        document.addEventListener("DOMContentLoaded", function() {
-            const fileList = document.getElementById("file-list");
-
-            fetch(".") // Tato URL by měla vrátit obsah adresáře
-                .then(response => {
-                    if (!response.ok) {
-                        throw new Error("Chyba při načítání adresáře");
-                    }
-                    return response.text();
-                })
-                .then(data => {
-                    // Vytvoření z DOMParseru
-                    const parser = new DOMParser();
-                    const htmlDocument = parser.parseFromString(data, "text/html");
-
-                    // Vyhledáme soubory a složky z vrácené HTML stránky
-                    const links = htmlDocument.querySelectorAll("a");
-
-                    fileList.innerHTML = ""; // Vyresetujeme seznam
-
-                    links.forEach(link => {
-                        const listItem = document.createElement("li");
-                        const anchor = document.createElement("a");
-                        anchor.href = link.getAttribute("href");
-                        anchor.textContent = link.textContent;
-
-                        listItem.appendChild(anchor);
-                        fileList.appendChild(listItem);
-                    });
-                })
-                .catch(error => {
-                    console.error(error);
-                    fileList.innerHTML = "<li>Chyba při načítání adresáře.</li>";
-                });
-        });
-    </script>
-</body>
-</html>
+   <html lang="cs">
+   <head>
+       <meta charset="UTF-8">
+       <meta name="viewport" content="width=device-width, initial-scale=1.0">
+       <title>Adresářový obsah</title>
+       <style>
+           body { font-family: Arial, sans-serif; padding: 20px; background-color: #f4f4f9; }
+           h1 { color: #4CAF50; }
+           ul { list-style: none; margin: 0; padding: 0; }
+           li { margin: 10px 0; }
+           a { color: #4CAF50; text-decoration: none; }
+           a:hover { text-decoration: underline; }
+       </style>
+   </head>
+   <body>
+       <h1>Seznam adresářů a souborů</h1>
+       <ul>
+   <li><a href="AIRSPACE DESCRIPTION LANGUAGE.txt">AIRSPACE DESCRIPTION LANGUAGE.txt</a></li><li><a href="public/CZ_SUA_25-02-20/">CZ_SUA_25-02-20/</a></li><li><a href="index.html">index.html</a></li>
+       </ul>
+   </body>
+   </html>
+   
