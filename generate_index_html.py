@@ -52,7 +52,7 @@ def generate_index(directory, content_root_directory, relative_path_from_content
         th, td {{ padding: 10px; text-align: left; border-bottom: 1px solid #ddd; }}
         th {{ background-color: #4CAF50; color: white; }}
         tr:hover {{ background-color: #f1f1f1; }}
-        td.actions {{ text-align: right; }}
+        td.actions {{ text-align: left; }}  /* Zarovnání akcí doleva */
         a {{ color: #4CAF50; text-decoration: none; }}
         a:hover {{ text-decoration: underline; }}
         .breadcrumb {{ margin-bottom: 20px; }}
@@ -83,7 +83,7 @@ def generate_index(directory, content_root_directory, relative_path_from_content
         html_content += f"""
         <tr>
             <td><a href="{folder_url}">📁 {folder}</a></td>
-            <td></td>
+            <td class="actions"></td>
         </tr>
         """
 
