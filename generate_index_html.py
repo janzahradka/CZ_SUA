@@ -104,19 +104,24 @@ def generate_index(directory, content_root_directory, relative_path_from_content
         actions = ""
 
         if file_ext in [".html", ".htm", ".md"]:
-            # Ikona prohlížeče
-            actions = f'<a href="{file_url}" target="_blank" title="Open in browser">🌐</a>'
+            # Ikona pro prohlížeč nebo přímo dokument
+            actions = f'<a href="{file_url}" target="_blank" title="Otevřít">🌍️</a>'
         elif file_ext in [".txt", ".cub"]:
-            # Ikona náhledu (pokud existuje) a ikona stažení
+            # Ikona náhledu (pokud existuje) a ikona uložení
             html_preview_path = os.path.join(directory, "html", f"{file_name}.html")
             html_preview_url = f"{parent_url}html/{file_name}.html"
             if os.path.exists(html_preview_path):
-                actions += f'<a href="{html_preview_url}" target="_blank" title="Open preview">🔍</a> '
-            actions += f'<a href="{file_url}" download title="Download">⬇️</a>'
+                actions += f'<a href="{html_preview_url}" target="_blank" title="Náhled obsahu">🗺️</a> '
+            actions += f'<a href="{file_url}" download title="Uložit soubor">💾</a>'
+
+        if file_ext in [".txt", ".html", ".htm", ".md"]:
+            file_tag = f'📄 {file}'
+        else:
+            file_tag = f'<a href="{file_url} target="_blank" title="Otevřít>📄 {file}</a>'
 
         html_content += f"""
         <tr>
-            <td>📄 {file}</td>
+            <td>{file_tag}</td>
             <td class="actions">{actions}</td>
         </tr>
         """
