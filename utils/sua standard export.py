@@ -178,7 +178,7 @@ def generate_html_maps(export_files, export_path):
 
 
 if __name__ == "__main__":
-    effective_date = '25-02-20' # YY-MM-DD
+    effective_date = '25-03-25' # YY-MM-DD
     confirmed = False
     while not confirmed:
         answer = input(f'Effective date "{effective_date}" correct? [Y/N] ').lower()
