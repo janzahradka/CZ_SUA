@@ -21,7 +21,21 @@ class Convertor:
         re.compile(r'(?P<lat_deg>([0-8][0-9]|\d))\s?(?P<lat_min>[0-5]\d)\s?(?P<lat_sec>[0-5]\d(?:[,\.]\d{1,2})?)\s?(?P<lat_hem>[NS])\s?(?P<lon_deg>(1[0-7][0-9]|0[0-8][0-9]|[0-9][0-9]|\d))\s?(?P<lon_min>[0-5]\d)\s?(?P<lon_sec>[0-5]\d(?:[,\.]\d{1,2})?)\s?(?P<lon_hem>[EW])'),
 
         # 49:48:51 N 15:12:06 E - Časový formát
-        re.compile(r'(?P<lat_deg>([0-8][0-9]|\d)):(?P<lat_min>[0-6]\d):(?P<lat_sec>[0-6]\d)\s?(?P<lat_hem>[NS])\s+(?P<lon_deg>(1[0-7][0-9]|0[0-8][0-9]|[0-9][0-9]|\d)):(?P<lon_min>[0-6]\d):(?P<lon_sec>[0-6]\d)\s?(?P<lon_hem>[EW])')
+        re.compile(r'(?P<lat_deg>([0-8][0-9]|\d)):(?P<lat_min>[0-6]\d):(?P<lat_sec>[0-6]\d)\s?(?P<lat_hem>[NS])\s+(?P<lon_deg>(1[0-7][0-9]|0[0-8][0-9]|[0-9][0-9]|\d)):(?P<lon_min>[0-6]\d):(?P<lon_sec>[0-6]\d)\s?(?P<lon_hem>[EW])'),
+
+        # 49° 22' 03.00 014° 03' 32.00
+        re.compile(
+            r'(?P<lat_deg>[0-8]?\d)°\s?(?P<lat_min>[0-5]?\d)\'\s?(?P<lat_sec>[0-5]?\d(?:\.\d{1,2})?)'
+            r'(?:\s?(?P<lat_hem>[NS]))?\s+'  # Volitelná hemisféra pro latitude, se skupinou
+            r'(?P<lon_deg>(1[0-7][0-9]|0?[0-9][0-9]|\d))°\s?(?P<lon_min>[0-5]?\d)\'\s?(?P<lon_sec>[0-5]?\d(?:\.\d{1,2})?)'
+            r'(?:\s?(?P<lon_hem>[EW]))?'  # Volitelná hemisféra pro longitude, se skupinou
+        ),
+        # 49° 20' 59.00'' N, 014° 03' 33.00'' E
+        re.compile(
+            r'(?P<lat_deg>[0-8]?\d)°\s?(?P<lat_min>[0-5]?\d)\'\s?(?P<lat_sec>[0-5]?\d(?:\.\d{1,2})?)\'\'?\s?(?P<lat_hem>[NS]),?\s+'
+            r'(?P<lon_deg>(1[0-7][0-9]|0?[0-9][0-9]|\d))°\s?(?P<lon_min>[0-5]?\d)\'\s?(?P<lon_sec>[0-5]?\d(?:\.\d{1,2})?)\'\'?\s?(?P<lon_hem>[EW])'
+        )
+
     ]
 
     @staticmethod
