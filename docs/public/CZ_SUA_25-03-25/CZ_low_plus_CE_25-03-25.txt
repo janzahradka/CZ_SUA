@@ -5365,19 +5365,6 @@ V X= 48:57:20 N 017:16:28 E
 DC 0.3 *NM
 
 
-AC R
-AN LKTSA60 PISEK
-AF 126.10
-AG PRAHA INFORMATION
-AH 1000 AGL
-AL 0 AGL
-DP 49:20:28 N 014:04:32 E
-V X=49:20:22 N 014:06:50 E *ARP AD LKPISK
-V D=+
-DB 49:20:28 N 014:04:32 E, 49:19:06 N 014:08:04 E
-DP 49:19:49 N 014:06:37 E
-DP 49:20:28 N 014:04:32 E
-
 
 ***** LKAA TSA (Temporary Segregated Areas - all seasons) *******
 *****************************************************************

@@ -1,7 +1,0 @@
-*************** CZ low plus CE ***************
-
-* This file contains:
-**** CZ Airspace Files BELOW FL95 valid from effective date
-**** Airspace of the czech neighbours (warning: this part is not updated on regular basis, users should check the situation before the flight at local authorities)
-**** Dropzones: users should avoid entering dropzones without coordination with ATZ
-

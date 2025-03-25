@@ -1,6 +1,0 @@
-*************** CZ_all ***************
-
-* This file contains:
-**** CZ All Airspace including above FL95 valid from effective date
-**** Dropzones: users should avoid entering dropzones without coordination with ATZ
-
