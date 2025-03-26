@@ -70,7 +70,7 @@ def generate_special_table(directory, files):
         <thead>
             <tr>
                 <th>Title</th>
-                <th>Note</th>
+                <th>Description</th>
                 <th>Download .txt</th>
                 <th>Download .cub</th>
                 <th>Preview</th>
@@ -100,10 +100,10 @@ def generate_special_table(directory, files):
         table_content += f"""
         <tr>
             <td>{file}</td>
+            <td>{description}</td>
             <td><a href="{file}">💾 Download</a></td>
             <td>{cub_button}</td>
             <td>{html_preview_button}</td>
-            <td>{description}</td>
         </tr>
         """
 
