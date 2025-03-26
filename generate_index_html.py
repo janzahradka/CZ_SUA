@@ -1,10 +1,116 @@
 import os
+import re
+
 
 # Konstanty
 
 PROJECT_URL_ALIAS = "CZ_SUA/"
 BASE_URL = "https://janzahradka.github.io/%s" % PROJECT_URL_ALIAS  # Základní URL pro GitHub Pages
 CONTENT_ROOT = "public/"  # Kořen obsahu
+
+def extract_last_changes(content_root_directory):
+    """
+    Extrahuje poslední změny z README.md
+    """
+    readme_path = os.path.join(content_root_directory, "readme.md")
+
+    if not os.path.exists(readme_path):
+        return ""
+
+    with open(readme_path, "r", encoding="utf-8") as f:
+        lines = f.readlines()
+
+    changes_start = None
+    for i, line in enumerate(lines):
+        if "Changes History" in line:
+            changes_start = i + 1
+            break
+
+    if changes_start is None:
+        return ""
+
+    # Najdi poslední záznam změn
+    changes = []
+    last_date = None
+
+    for line in lines[changes_start:]:
+        match = re.match(r"(\d{2}[A-Z]{3}\d{2})", line)
+        if match:
+            date = match.group(1)
+            if last_date is None:
+                last_date = date
+            if date == last_date:
+                changes.append(line)
+            else:
+                break
+
+    if not changes:
+        return ""
+
+    changes_html = "<h2>Poslední změny</h2><ul>"
+    for change in changes:
+        changes_html += f"<li>{change.strip()}</li>"
+    changes_html += "</ul>"
+
+    return changes_html
+
+
+def generate_special_table(directory, files):
+    """
+    Generuje speciální tabulku pro CZ_low, CZ_low_plus_CE a CZ_all soubory.
+    """
+    descriptions = [
+        "Tento soubor stáhněte pro běžné plachtění",
+        "Soubor obsahuje i nejbližší zahraniční prostory (nenahrazuje zahraniční informační zdroje)",
+        "Včetně vysokých prostorů nad FL95."
+    ]
+
+    table_content = """
+    <h2>Doporučené soubory vzdušného prostoru</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>Název souboru</th>
+                <th>Stáhnout .txt</th>
+                <th>Stáhnout .cub</th>
+                <th>Zobrazit náhled</th>
+                <th>Popis</th>
+            </tr>
+        </thead>
+        <tbody>
+    """
+
+    for file, description in zip(files, descriptions):
+        file_name, _ = os.path.splitext(file)
+
+        # .cub tlačítko
+        cub_button = (
+            f'<a href="{file_name}.cub">Stáhnout .cub</a>'
+            if os.path.exists(os.path.join(directory, f"{file_name}.cub"))
+            else "N/A"
+        )
+
+        # Náhled tlačítko
+        html_preview_button = (
+            f'<a href="html/{file_name}.html" target="_blank">Zobrazit náhled</a>'
+            if os.path.exists(os.path.join(directory, "html", f"{file_name}.html"))
+            else "N/A"
+        )
+
+        # Řádek tabulky
+        table_content += f"""
+        <tr>
+            <td>{file}</td>
+            <td><a href="{file}">Stáhnout .txt</a></td>
+            <td>{cub_button}</td>
+            <td>{html_preview_button}</td>
+            <td>{description}</td>
+        </tr>
+        """
+
+    table_content += "</tbody></table>"
+
+    return table_content
 
 
 def generate_index(directory, content_root_directory, relative_path_from_content_root=""):
@@ -42,7 +148,7 @@ def generate_index(directory, content_root_directory, relative_path_from_content
         parent_url += "/"
 
     # Sestavení breadcrumb navigace
-    breadcrumb = f'<a href="{BASE_URL}{CONTENT_ROOT}">🏠 Domů</a>'  # Domů vždy začíná BASE_URL + /public/
+    breadcrumb = f'<a href="{BASE_URL}{CONTENT_ROOT}">🏠 Home</a>'  # Domů vždy začíná BASE_URL + /public/
     if relative_url_from_content_root:
         parts = relative_url_from_content_root.split("/")
         cumulative_url = f"{BASE_URL}{CONTENT_ROOT}"
@@ -52,7 +158,7 @@ def generate_index(directory, content_root_directory, relative_path_from_content
 
     # Vytvoření začátku HTML souboru
     html_content = f"""<!DOCTYPE html>
-<html lang="cs">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -97,62 +203,76 @@ def generate_index(directory, content_root_directory, relative_path_from_content
     <div class="breadcrumb">
         {breadcrumb}
     </div>
-    <table>
-        <thead>
-            <tr>
-                <th>Name</th>
-                <th class="actions">Action</th>
-            </tr>
-        </thead>
-        <tbody>
     """
+    # Změny z README.md
+    changes_html = extract_last_changes(content_root_directory)
+    if changes_html:
+        html_content += changes_html
 
-    # Odkazy na podsložky (adresáře)
-    for folder in directories:
-        folder_url = f"{parent_url}{folder}/"
+    # Detekce speciálních souborů
+    cz_low_file = next((f for f in files if re.match(r"CZ_low_\d{2}-\d{2}-\d{2}(.)*\.txt", f)), None)
+    cz_low_plus_file = next((f for f in files if re.match(r"CZ_low_plus_CE_\d{2}-\d{2}-\d{2}(.)*\.txt", f)), None)
+    cz_all_file = next((f for f in files if re.match(r"CZ_all_\d{2}-\d{2}-\d{2}(.)*\.txt", f)), None)
+
+    if cz_low_file and cz_low_plus_file and cz_all_file:
+        html_content += generate_special_table(directory, [cz_low_file, cz_low_plus_file, cz_all_file])
+    else:
         html_content += f"""
-        <tr>
-            <td><a href="{folder_url}">📁 {folder}</a></td>
-            <td class="actions"></td>
-        </tr>
+        <table>
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th class="actions">Action</th>
+                </tr>
+            </thead>
+            <tbody>
         """
+        # Odkazy na podsložky (adresáře)
+        for folder in directories:
+            folder_url = f"{parent_url}{folder}/"
+            html_content += f"""
+            <tr>
+                <td><a href="{folder_url}">📁 {folder}</a></td>
+                <td class="actions"></td>
+            </tr>
+            """
 
-    # Odkazy na soubory
-    for file in files:
-        file_url = f"{parent_url}{file}"
-        file_name, file_ext = os.path.splitext(file)
-        file_ext = file_ext.lower()
-        actions = ""
+        # Odkazy na soubory
+        for file in files:
+            file_url = f"{parent_url}{file}"
+            file_name, file_ext = os.path.splitext(file)
+            file_ext = file_ext.lower()
+            actions = ""
 
-        if file_ext in [".html", ".htm", ".md"]:
-            actions += f'''
-                <button onclick="window.open('{file_url}','_blank')"
-                    title="Open">🌍️ Open</button>
-                '''
-        elif file_ext in [".txt", ".cub"]:
-            # Ikona náhledu (pokud existuje) a ikona uložení
-            html_preview_path = os.path.join(directory, "html", f"{file_name}.html")
-            html_preview_url = f"{parent_url}html/{file_name}.html"
-            if os.path.exists(html_preview_path):
+            if file_ext in [".html", ".htm", ".md"]:
                 actions += f'''
-                    <button onclick="window.open('{html_preview_url}', '_blank')"
-                        title="Map Preview">🗺️ Preview</button>
+                    <button onclick="window.open('{file_url}','_blank')"
+                        title="Open">🌍️ Open</button>
                     '''
-            actions += f'''
-                    <button onclick="window.location.href='{file_url}'" title="Download">💾 Download</button>
-                    '''
+            elif file_ext in [".txt", ".cub"]:
+                # Ikona náhledu (pokud existuje) a ikona uložení
+                html_preview_path = os.path.join(directory, "html", f"{file_name}.html")
+                html_preview_url = f"{parent_url}html/{file_name}.html"
+                if os.path.exists(html_preview_path):
+                    actions += f'''
+                        <button onclick="window.open('{html_preview_url}', '_blank')"
+                            title="Map Preview">🗺️ Preview</button>
+                        '''
+                actions += f'''
+                        <button onclick="window.location.href='{file_url}'" title="Download">💾 Download</button>
+                        '''
 
-        if file_ext in [".txt", ".html", ".htm", ".md"]:
-            file_tag = f'<a href="{file_url}" target="_blank" title="Otevřít">📄 {file}</a>'
-        else:
-            file_tag = f'📄 {file}'
+            if file_ext in [".txt", ".html", ".htm", ".md"]:
+                file_tag = f'<a href="{file_url}" target="_blank" title="Otevřít">📄 {file}</a>'
+            else:
+                file_tag = f'📄 {file}'
 
-        html_content += f"""
-        <tr>
-            <td>{file_tag}</td>
-            <td class="actions">{actions}</td>
-        </tr>
-        """
+            html_content += f"""
+            <tr>
+                <td>{file_tag}</td>
+                <td class="actions">{actions}</td>
+            </tr>
+            """
 
 
     # Uzavření HTML obsahu
