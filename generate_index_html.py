@@ -99,7 +99,7 @@ def generate_special_table(directory, files):
         # Řádek tabulky
         table_content += f"""
         <tr>
-            <td>{file}</td>
+            <td><strong>{file_name}</strong></td>
             <td>{description}</td>
             <td><a href="{file}">💾 Download</a></td>
             <td>{cub_button}</td>
