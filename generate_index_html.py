@@ -195,6 +195,12 @@ def generate_index(directory, content_root_directory, relative_path_from_content
         button:hover {{
             box-shadow: 0px 4px 8px 0px rgba(0, 0, 0, 0.2);
         }}
+    footer {{
+        font-size: 10px; /* Menší písmo */
+        text-align: center; /* Zarovnání na střed */
+        margin-top: 20px; /* Volitelně: odstup od obsahu */
+        color: #666; /* Mírně šedý text */
+    }}
 
     </style>
 </head>
