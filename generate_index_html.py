@@ -49,6 +49,7 @@ def extract_last_changes(content_root_directory, relative_path_from_content_root
 
     changes_html = "<h2>Last updates</h2><ul>"
     for change in changes:
+        change = change.replace("* ", "")
         changes_html += f"<li>{change.strip()}</li>"
     changes_html += "</ul>"
 
