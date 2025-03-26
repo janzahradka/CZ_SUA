@@ -8,11 +8,11 @@ PROJECT_URL_ALIAS = "CZ_SUA/"
 BASE_URL = "https://janzahradka.github.io/%s" % PROJECT_URL_ALIAS  # Základní URL pro GitHub Pages
 CONTENT_ROOT = "public/"  # Kořen obsahu
 
-def extract_last_changes(content_root_directory):
+def extract_last_changes(content_root_directory, relative_path_from_content_root=""):
     """
     Extrahuje poslední změny z README.md
     """
-    readme_path = os.path.join(content_root_directory, "readme.md")
+    readme_path = os.path.join(content_root_directory, relative_path_from_content_root, "ReadMe.md")
 
     if not os.path.exists(readme_path):
         return ""
@@ -34,7 +34,7 @@ def extract_last_changes(content_root_directory):
     last_date = None
 
     for line in lines[changes_start:]:
-        match = re.match(r"(\d{2}[A-Z]{3}\d{2})", line)
+        match = re.search(r"(\d{2}[A-Z]{3}\d{2})", line)
         if match:
             date = match.group(1)
             if last_date is None:
@@ -47,7 +47,7 @@ def extract_last_changes(content_root_directory):
     if not changes:
         return ""
 
-    changes_html = "<h2>Poslední změny</h2><ul>"
+    changes_html = "<h2>Last updates</h2><ul>"
     for change in changes:
         changes_html += f"<li>{change.strip()}</li>"
     changes_html += "</ul>"
@@ -204,7 +204,7 @@ def generate_index(directory, content_root_directory, relative_path_from_content
     </div>
     """
     # Změny z README.md
-    changes_html = extract_last_changes(content_root_directory)
+    changes_html = extract_last_changes(content_root_directory, relative_path_from_content_root=relative_path_from_content_root)
     if changes_html:
         html_content += changes_html
 
