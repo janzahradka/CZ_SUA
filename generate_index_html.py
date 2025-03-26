@@ -61,7 +61,7 @@ def generate_special_table(directory, files):
     """
     descriptions = [
         "Airspace below FL95, mostly recommended for gliding in Czechia.",
-        "Contains the same as above plus closest abroad airspace. ",
+        "Contains the same as above plus closest abroad airspace. Recommended as a basefile for competitions.",
         "All CZ airspace including above FL95. Recommended for databases."
     ]
 
