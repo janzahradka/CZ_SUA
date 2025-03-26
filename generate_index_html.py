@@ -60,21 +60,20 @@ def generate_special_table(directory, files):
     Generuje speciální tabulku pro CZ_low, CZ_low_plus_CE a CZ_all soubory.
     """
     descriptions = [
-        "Tento soubor stáhněte pro běžné plachtění",
-        "Soubor obsahuje i nejbližší zahraniční prostory (nenahrazuje zahraniční informační zdroje)",
-        "Včetně vysokých prostorů nad FL95."
+        "Airspace below FL95, mostly recommended for gliding in Czechia.",
+        "Contains the same as above plus closest abroad airspace. ",
+        "All CZ airspace including above FL95. Recommended for databases."
     ]
 
     table_content = """
-    <h2>Doporučené soubory vzdušného prostoru</h2>
     <table>
         <thead>
             <tr>
-                <th>Název souboru</th>
-                <th>Stáhnout .txt</th>
-                <th>Stáhnout .cub</th>
-                <th>Zobrazit náhled</th>
-                <th>Popis</th>
+                <th>Title</th>
+                <th>Note</th>
+                <th>Download .txt</th>
+                <th>Download .cub</th>
+                <th>Preview</th>
             </tr>
         </thead>
         <tbody>
@@ -85,14 +84,14 @@ def generate_special_table(directory, files):
 
         # .cub tlačítko
         cub_button = (
-            f'<a href="{file_name}.cub">Stáhnout .cub</a>'
+            f'<a href="{file_name}.cub">💾 Download</a>'
             if os.path.exists(os.path.join(directory, f"{file_name}.cub"))
             else "N/A"
         )
 
         # Náhled tlačítko
         html_preview_button = (
-            f'<a href="html/{file_name}.html" target="_blank">Zobrazit náhled</a>'
+            f'<a href="html/{file_name}.html" target="_blank">🗺️ Preview</a>'
             if os.path.exists(os.path.join(directory, "html", f"{file_name}.html"))
             else "N/A"
         )
@@ -101,7 +100,7 @@ def generate_special_table(directory, files):
         table_content += f"""
         <tr>
             <td>{file}</td>
-            <td><a href="{file}">Stáhnout .txt</a></td>
+            <td><a href="{file}">💾 Download</a></td>
             <td>{cub_button}</td>
             <td>{html_preview_button}</td>
             <td>{description}</td>
