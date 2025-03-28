@@ -146,6 +146,105 @@ def generate_special_table(directory, files, descriptions):
 
     return table_content
 
+def generate_directory_and_file_table(directories, files, directory, parent_url):
+    """
+    Generuje HTML tabulku pro výpis adresářů a souborů s odpovídajícími odkazy a akcemi.
+
+    :param directories: Seznam adresářů
+    :param files: Seznam souborů
+    :param directory: Cesta k aktuálnímu adresáři
+    :param parent_url: Relativní URL aktuálního adresáře
+    :return: HTML obsah tabulky
+    """
+    html_content = """
+    <table>
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th class="actions">Action</th>
+            </tr>
+        </thead>
+        <tbody>
+    """
+    # Odkazy na podsložky (adresáře)
+    for folder in directories:
+        folder_url = f"{parent_url}{folder}/"
+        html_content += f"""
+        <tr>
+            <td><a href="{folder_url}">📁 {folder}</a></td>
+            <td class="actions"></td>
+        </tr>
+        """
+
+    # Odkazy na soubory
+    for file in files:
+        file_url = f"{parent_url}{file}"
+        file_name, file_ext = os.path.splitext(file)
+        file_ext = file_ext.lower()
+        actions = ""
+
+        if file_ext in [".html", ".htm", ".md"]:
+            actions += f'''
+                <button onclick="window.open('{file_url}','_blank')"
+                    title="Open">🌍️ Open</button>
+                '''
+        elif file_ext in [".txt", ".cub"]:
+            # Ikona náhledu (pokud existuje) a ikona uložení
+            html_preview_path = os.path.join(directory, "html", f"{file_name}.html")
+            html_preview_url = f"{parent_url}html/{file_name}.html"
+            if os.path.exists(html_preview_path):
+                actions += f'''
+                    <button onclick="window.open('{html_preview_url}', '_blank')"
+                        title="Map Preview">🗺️ Preview</button>
+                    '''
+            actions += f'''
+                    <button onclick="window.location.href='{file_url}'" title="Download">💾 Download</button>
+                    '''
+
+        if file_ext in [".txt", ".html", ".htm", ".md"]:
+            file_tag = f'<a href="{file_url}" target="_blank" title="Otevřít">📄 {file}</a>'
+        else:
+            file_tag = f'📄 {file}'
+
+        html_content += f"""
+        <tr>
+            <td>{file_tag}</td>
+            <td class="actions">{actions}</td>
+        </tr>
+        """
+
+    # Uzavření tabulky
+    html_content += """
+        </tbody>
+    </table>
+    """
+    return html_content
+
+
+def filter_files_for_special_table(files, special_files_patterns):
+    """
+    Odstraní z pole `files` všechny soubory odpovídající zadaným vzorcům, včetně jejich variant
+    (.txt, .cub, .html).
+
+    :param files: Seznam všech souborů v aktuálním adresáři
+    :param special_files_patterns: Seznam regulárních výrazů pro identifikaci zvláštních souborů
+                                   (např. CZ_low, CZ_low_plus_CE, CZ_all)
+    :return: Filtrovaný seznam souborů
+    """
+    # Identifikace všech odpovídajících souborů
+    special_files = set()
+
+    for pattern in special_files_patterns:
+        for file in files:
+            if re.match(pattern, file):
+                base_name, _ = os.path.splitext(file)
+                # Přidej všechny možnosti (.txt, .cub, .html) do seznamu odstraněných souborů
+                special_files.update([f"{base_name}.txt", f"{base_name}.cub", f"{base_name}.html"])
+
+    # Vytvoření filtrovaného seznamu bez vyhrazených souborů
+    filtered_files = [file for file in files if file not in special_files]
+
+    return filtered_files
 
 
 
@@ -254,91 +353,46 @@ def generate_index(directory, content_root_directory, relative_path_from_content
     # Detekce speciálních souborů
     special_files = []
     descriptions = []
+    special_file_patterns = [
+        r"CZ_low_\d{2}-\d{2}-\d{2}.*\.txt",
+        r"CZ_low_plus_CE_\d{2}-\d{2}-\d{2}.*\.txt",
+        r"CZ_all_\d{2}-\d{2}-\d{2}.*\.txt"
+    ]
 
     # Přidávání nalezených souborů a odpovídajících popisů
-    cz_low_file = next((f for f in files if re.match(r"CZ_low_\d{2}-\d{2}-\d{2}(.)*\.txt", f)), None)
+    cz_low_file = next((f for f in files if re.match(special_file_patterns[0], f)), None)
     if cz_low_file:
         special_files.append(cz_low_file)
         descriptions.append("Airspace below FL95, mostly <b>recommended for gliding in Czechia</b>.")
 
-    cz_low_plus_file = next((f for f in files if re.match(r"CZ_low_plus_CE_\d{2}-\d{2}-\d{2}(.)*\.txt", f)), None)
+    cz_low_plus_file = next((f for f in files if re.match(special_file_patterns[1], f)), None)
     if cz_low_plus_file:
         special_files.append(cz_low_plus_file)
         descriptions.append(
             "Contains the same as above plus the closest abroad airspace. <b>Recommended as a basefile for competitions</b>.")
 
-    cz_all_file = next((f for f in files if re.match(r"CZ_all_\d{2}-\d{2}-\d{2}(.)*\.txt", f)), None)
+    cz_all_file = next((f for f in files if re.match(special_file_patterns[2], f)), None)
     if cz_all_file:
         special_files.append(cz_all_file)
         descriptions.append("All CZ airspace including above FL95. <b>Recommended for databases</b>.")
 
+    # Filtrování souborů - odstranění speciálních souborů a jejich variant
+    files = filter_files_for_special_table(files, special_file_patterns)
+
     # Pokud existuje alespoň jeden speciální soubor, vygeneruj speciální tabulku
-    if special_files:
-        html_content += generate_special_table(directory, special_files, descriptions)
+    if relative_path_from_content_root == "":
+        if special_files:
+            html_content += "<h2>Actual files</h2>"
+            html_content += generate_special_table(directory, special_files, descriptions)
+            html_content += generate_directory_and_file_table(directories, files, directory, parent_url)
+        else:
+            html_content += generate_directory_and_file_table(directories, files, directory, parent_url)
     else:
-        html_content += f"""
-        <table>
-            <thead>
-                <tr>
-                    <th>Name</th>
-                    <th class="actions">Action</th>
-                </tr>
-            </thead>
-            <tbody>
-        """
-        # Odkazy na podsložky (adresáře)
-        for folder in directories:
-            folder_url = f"{parent_url}{folder}/"
-            html_content += f"""
-            <tr>
-                <td><a href="{folder_url}">📁 {folder}</a></td>
-                <td class="actions"></td>
-            </tr>
-            """
+        if special_files:
+            html_content += generate_special_table(directory, special_files, descriptions)
+        else:
+            html_content += generate_directory_and_file_table(directories, files, directory, parent_url)
 
-        # Odkazy na soubory
-        for file in files:
-            file_url = f"{parent_url}{file}"
-            file_name, file_ext = os.path.splitext(file)
-            file_ext = file_ext.lower()
-            actions = ""
-
-            if file_ext in [".html", ".htm", ".md"]:
-                actions += f'''
-                    <button onclick="window.open('{file_url}','_blank')"
-                        title="Open">🌍️ Open</button>
-                    '''
-            elif file_ext in [".txt", ".cub"]:
-                # Ikona náhledu (pokud existuje) a ikona uložení
-                html_preview_path = os.path.join(directory, "html", f"{file_name}.html")
-                html_preview_url = f"{parent_url}html/{file_name}.html"
-                if os.path.exists(html_preview_path):
-                    actions += f'''
-                        <button onclick="window.open('{html_preview_url}', '_blank')"
-                            title="Map Preview">🗺️ Preview</button>
-                        '''
-                actions += f'''
-                        <button onclick="window.location.href='{file_url}'" title="Download">💾 Download</button>
-                        '''
-
-            if file_ext in [".txt", ".html", ".htm", ".md"]:
-                file_tag = f'<a href="{file_url}" target="_blank" title="Otevřít">📄 {file}</a>'
-            else:
-                file_tag = f'📄 {file}'
-
-            html_content += f"""
-            <tr>
-                <td>{file_tag}</td>
-                <td class="actions">{actions}</td>
-            </tr>
-            """
-
-
-    # Uzavření HTML obsahu
-    html_content += """
-        </tbody>
-    </table>
-"""
     html_content += """
             <hr>
             <footer>
