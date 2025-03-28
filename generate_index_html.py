@@ -389,6 +389,7 @@ def generate_index(directory, content_root_directory, relative_path_from_content
         if special_files:
             html_content += "<h2>Actual files</h2>"
             html_content += generate_special_table(directory, special_files, descriptions)
+            html_content += "<h2>Other contents</h2>"
             html_content += generate_directory_and_file_table(directories, files, directory, parent_url)
         else:
             html_content += generate_directory_and_file_table(directories, files, directory, parent_url)
@@ -396,7 +397,6 @@ def generate_index(directory, content_root_directory, relative_path_from_content
     else:
         # Pokud existuje alespoň jeden speciální soubor, vygeneruj speciální tabulku
         if special_files:
-            html_content += "<h2>Other contents</h2>"
             html_content += generate_special_table(directory, special_files, descriptions)
         else:
             html_content += generate_directory_and_file_table(directories, files, directory, parent_url)
