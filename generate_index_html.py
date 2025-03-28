@@ -113,19 +113,19 @@ def generate_special_table(directory, files):
 
         # .cub tlačítko
         cub_button = (
-            f'<a href="{file_name}.cub dowlnoad">💾 Download</a>'
+            f'<a href="{file_name}.cub" dowlnoad>💾 Download</a>'
             if os.path.exists(os.path.join(directory, f"{file_name}.cub"))
             else "N/A"
         )
 
         txt_view_button = (
-            f'<a href="{file_name}.txt">📄 Open</a>'
+            f'<a href="{file_name}.txt" target="_blank">📄 Open</a>'
             if os.path.exists(os.path.join(directory, f"{file_name}.txt"))
             else "N/A"
         )
 
         txt_download_button = (
-            f'<a href="{file_name}.txt download">💾 Download</a>'
+            f'<a href="{file_name}.txt" download>💾 Download</a>'
             if os.path.exists(os.path.join(directory, f"{file_name}.txt"))
             else "N/A"
         )
