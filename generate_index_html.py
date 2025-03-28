@@ -264,6 +264,10 @@ def generate_index(directory, content_root_directory, relative_path_from_content
         elif entry != "index.html":  # Ignorovat existující index.html
             files.append(entry)  # Soubory jdou sem
 
+    # Filtrování adresáře "html", pokud jsme v kořenovém adresáři
+    if relative_path_from_content_root == "":
+        directories = [d for d in directories if d != "html"]
+
     # Řazení adresářů sestupně (nejnovější nahoře)
     directories = sorted(directories, reverse=True)
 
