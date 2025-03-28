@@ -185,8 +185,7 @@ def generate_directory_and_file_table(directories, files, directory, parent_url)
 
         if file_ext in [".html", ".htm", ".md"]:
             actions += f'''
-                <button onclick="window.open('{file_url}','_blank')"
-                    title="Open">🌍️ Open</button>
+                <a href="{file_url}" target="_blank">📄 Open</a>    
                 '''
         elif file_ext in [".txt", ".cub"]:
             # Ikona náhledu (pokud existuje) a ikona uložení
@@ -194,15 +193,14 @@ def generate_directory_and_file_table(directories, files, directory, parent_url)
             html_preview_url = f"{parent_url}html/{file_name}.html"
             if os.path.exists(html_preview_path):
                 actions += f'''
-                    <button onclick="window.open('{html_preview_url}', '_blank')"
-                        title="Map Preview">🗺️ Preview</button>
+                    <a href="{html_preview_url}" target="_blank">🗺️ Preview</a>
                     '''
             actions += f'''
-                    <button onclick="window.location.href='{file_url}'" title="Download">💾 Download</button>
+                    <a href="{file_url}" download>💾 Download</a>
                     '''
 
         if file_ext in [".txt", ".html", ".htm", ".md"]:
-            file_tag = f'<a href="{file_url}" target="_blank" title="Otevřít">📄 {file}</a>'
+            file_tag = f'<a href="{file_url}" target="_blank" title="Open">📄 {file}</a>'
         else:
             file_tag = f'📄 {file}'
 
@@ -344,7 +342,7 @@ def generate_index(directory, content_root_directory, relative_path_from_content
     </style>
 </head>
 <body>
-    <h1>Airspace files for gliding in Czechia</h1>
+    <h1>Special Use Airspace (SUA) files for gliding in Czechia</h1>
     <div class="breadcrumb">
         {breadcrumb}
     </div>
@@ -387,7 +385,7 @@ def generate_index(directory, content_root_directory, relative_path_from_content
     # pouze pro kořenový adresář
     if relative_path_from_content_root == "":
         if special_files:
-            html_content += "<h2>Actual files</h2>"
+            html_content += "<h2>Actual SUA files</h2>"
             html_content += generate_special_table(directory, special_files, descriptions)
             html_content += "<h2>Other contents</h2>"
             html_content += generate_directory_and_file_table(directories, files, directory, parent_url)
