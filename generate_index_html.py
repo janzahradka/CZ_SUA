@@ -107,26 +107,26 @@ def generate_special_table(directory, files, descriptions):
 
         # .cub tlačítko
         cub_button = (
-            f'<a href="{file_name}.cub" download>💾 Download</a>'
+            f'<a href="{file_name}.cub" download>💾&nbsp;Download</a>'
             if os.path.exists(os.path.join(directory, f"{file_name}.cub"))
             else "N/A"
         )
 
         txt_view_button = (
-            f'<a href="{file_name}.txt" target="_blank">📄 Open</a>'
+            f'<a href="{file_name}.txt" target="_blank">📄&nbsp;Open</a>'
             if os.path.exists(os.path.join(directory, f"{file_name}.txt"))
             else "N/A"
         )
 
         txt_download_button = (
-            f'<a href="{file_name}.txt" download>💾 Download</a>'
+            f'<a href="{file_name}.txt" download>💾&nbsp;Download</a>'
             if os.path.exists(os.path.join(directory, f"{file_name}.txt"))
             else "N/A"
         )
 
         # Náhled tlačítko
         html_preview_button = (
-            f'<a href="html/{file_name}.html" target="_blank">🗺️ Preview</a>'
+            f'<a href="html/{file_name}.html" target="_blank">🗺️&nbsp;Preview</a>'
             if os.path.exists(os.path.join(directory, "html", f"{file_name}.html"))
             else "N/A"
         )
@@ -171,7 +171,7 @@ def generate_directory_and_file_table(directories, files, directory, parent_url)
         folder_url = f"{parent_url}{folder}/"
         html_content += f"""
         <tr>
-            <td><a href="{folder_url}">📁 {folder}</a></td>
+            <td><a href="{folder_url}">📁&nbsp;{folder}</a></td>
             <td class="actions"></td>
         </tr>
         """
@@ -185,7 +185,7 @@ def generate_directory_and_file_table(directories, files, directory, parent_url)
 
         if file_ext in [".html", ".htm", ".md"]:
             actions += f'''
-                <a href="{file_url}" target="_blank">📄 Open</a>    
+                <a href="{file_url}" target="_blank">📄&nbsp;Open</a>    
                 '''
         elif file_ext in [".txt", ".cub"]:
             # Ikona náhledu (pokud existuje) a ikona uložení
@@ -193,14 +193,14 @@ def generate_directory_and_file_table(directories, files, directory, parent_url)
             html_preview_url = f"{parent_url}html/{file_name}.html"
             if os.path.exists(html_preview_path):
                 actions += f'''
-                    <a href="{html_preview_url}" target="_blank">🗺️ Preview</a>
+                    <a href="{html_preview_url}" target="_blank">🗺️&nbsp;Preview</a>
                     '''
             actions += f'''
-                    <a href="{file_url}" download>💾 Download</a>
+                    <a href="{file_url}" download>💾&nbsp;Download</a>
                     '''
 
         if file_ext in [".txt", ".html", ".htm", ".md"]:
-            file_tag = f'<a href="{file_url}" target="_blank" title="Open">📄 {file}</a>'
+            file_tag = f'<a href="{file_url}" target="_blank" title="Open">📄&nbsp;{file}</a>'
         else:
             file_tag = f'📄 {file}'
 
