@@ -203,6 +203,18 @@ V X= 48:57:20 N 017:16:28 E
 DC 0.3 *NM
 
 
+AC R
+AN LKTSA80 MORAVSKE BUDEJOVICE 136.175
+AF 136.175
+AG Praha Information (E)
+AL 0 AGL
+AH 1000 AGL
+DP 49:07:07 N 15:55:13 E
+DP 49:01:43 N 16:06:20 E
+DP 48:54:41 N 15:58:28 E
+DP 49:00:45 N 15:45:23 E
+DP 49:07:07 N 15:55:13 E
+
 
 ***** LKAA TSA (Temporary Segregated Areas - all seasons) *******
 *****************************************************************

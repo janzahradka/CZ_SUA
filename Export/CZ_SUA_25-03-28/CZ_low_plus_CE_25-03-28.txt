@@ -7,8 +7,8 @@
 
 
 ****** (c) 2025 Jan Zahradka ******
-******* Last update 25MAR25 *******
-******** EFFECTIVE 25MAR25 ********
+******* Last update 28MAR25 *******
+******** EFFECTIVE 28MAR25 ********
 
 
 * This file was created on behalf of Aeroklub Ceske Republiky, it is free to use.
@@ -5365,6 +5365,18 @@ V X= 48:57:20 N 017:16:28 E
 DC 0.3 *NM
 
 
+AC R
+AN LKTSA80 MORAVSKE BUDEJOVICE 136.175
+AF 136.175
+AG Praha Information (E)
+AL 0 AGL
+AH 1000 AGL
+DP 49:07:07 N 15:55:13 E
+DP 49:01:43 N 16:06:20 E
+DP 48:54:41 N 15:58:28 E
+DP 49:00:45 N 15:45:23 E
+DP 49:07:07 N 15:55:13 E
+
 
 ***** LKAA TSA (Temporary Segregated Areas - all seasons) *******
 *****************************************************************
@@ -5568,16 +5580,6 @@ DP  49:38:58 N 017:38:17 E
 DP  49:42:16 N 017:43:20 E
 
 
-* NOTAMS 08-09/2023
-
-AC R
-AN NTM-BLUDOV
-AH FL 125
-AL 0 AGL
-V X=49:56:30 N 016:54:27 E
-DC 5.4 *NM / 10km
-
-
 AC R
 AN NTM-REJHOTICE
 AH FL 125
@@ -5618,39 +5620,6 @@ V X=49:57:38 N 017:01:04 E
 DC 5.4 *NM / 10km
 
 
-**** NOTAM ACR 11SEP23 - 14SEP23
-
-AC R
-AN NOTAM-HRADEK
-AH 5000 MSL
-AL 0 AGL
-DP 50:21:51 N 016:16:35 E
-DP 50:22:23 N 016:18:38 E
-DP 50:21:00 N 016:21:26 E
-DP 50:19:32 N 016:23:09 E
-DP 50:18:32 N 016:25:16 E
-DP 50:16:59 N 016:20:56 E
-DP 50:17:57 N 016:15:24 E
-DP 50:21:51 N 016:16:35 E
-
-
-**** NOTAM ACR 11SEP23 - 14SEP23
-
-AC R
-AN NOTAM-NERATOV
-AH 5000 MSL
-AL 0 AGL
-DP 50:12:29 N 016:33:31 E
-DP 50:12:22 N 016:33:13 E
-DP 50:09:51 N 016:32:55 E
-DP 50:09:14 N 016:25:30 E
-DP 50:12:11 N 016:24:23 E
-DP 50:14:05 N 016:26:59 E
-DP 50:14:27 N 016:30:59 E
-DP 50:14:14 N 016:32:09 E
-DP 50:13:14 N 016:33:14 E
-DP 50:12:53 N 016:33:05 E
-DP 50:12:29 N 016:33:31 E
 
 
 **** NOTAM DRONY PRIMOCO
