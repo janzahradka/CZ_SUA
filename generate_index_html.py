@@ -1,5 +1,7 @@
 import os
 import re
+from datetime import datetime
+
 
 
 # Konstanty
@@ -7,6 +9,25 @@ import re
 PROJECT_URL_ALIAS = "CZ_SUA/"
 BASE_URL = "https://janzahradka.github.io/%s" % PROJECT_URL_ALIAS  # Základní URL pro GitHub Pages
 CONTENT_ROOT = "public/"  # Kořen obsahu
+
+
+def extract_date_from_name(name: str) -> datetime:
+    """
+    Z názvu souboru extrahuje datum ve formátu yy-mm-dd a vrátí objekt datetime.date.
+
+    :param name: Název souboru
+    :return: Nalezené datum jako objekt datetime.date nebo None, pokud nenalezeno
+    """
+    # Regulární výraz pro formát yy-mm-dd
+    match = re.search(r"\b(\d{2}-\d{2}-\d{2})\b", name)
+
+    if match:
+        date_str = match.group(1)  # Extrahovaný textový řetězec s datem
+        # Převod na datetime objekt (předpoklad: yy-mm-dd)
+        return datetime.strptime(date_str, "%y-%m-%d").date()
+
+    return None  # Pokud není datum nalezeno, vrátíme None
+
 
 def extract_last_changes(content_root_directory, relative_path_from_content_root=""):
     """
@@ -61,9 +82,9 @@ def generate_special_table(directory, files):
     Generuje speciální tabulku pro CZ_low, CZ_low_plus_CE a CZ_all soubory.
     """
     descriptions = [
-        "Airspace below FL95, mostly recommended for gliding in Czechia.",
-        "Contains the same as above plus closest abroad airspace. Recommended as a basefile for competitions.",
-        "All CZ airspace including above FL95. Recommended for databases."
+        "Airspace below FL95, mostly <b>recommended for gliding in Czechia</b>.",
+        "Contains the same as above plus the closest abroad airspace. <b>Recommended as a basefile for competitions</b>.",
+        "All CZ airspace including above FL95. <b>Recommended for databases</b>."
     ]
 
     table_content = """
@@ -71,10 +92,10 @@ def generate_special_table(directory, files):
         <thead>
             <tr>
                 <th>Title</th>
-                <th>Description</th>
-                <th>Download .txt</th>
-                <th>Download .cub</th>
                 <th>Preview</th>
+                <th>Description</th>
+                <th>TXT</th>
+                <th>CUB</th>
             </tr>
         </thead>
         <tbody>
@@ -85,8 +106,20 @@ def generate_special_table(directory, files):
 
         # .cub tlačítko
         cub_button = (
-            f'<a href="{file_name}.cub">💾 Download</a>'
+            f'<a href="{file_name}.cub dowlnoad">💾 Download</a>'
             if os.path.exists(os.path.join(directory, f"{file_name}.cub"))
+            else "N/A"
+        )
+
+        txt_view_button = (
+            f'<a href="{file_name}.txt">📄 Open</a>'
+            if os.path.exists(os.path.join(directory, f"{file_name}.txt"))
+            else "N/A"
+        )
+
+        txt_download_button = (
+            f'<a href="{file_name}.txt download">💾 Download</a>'
+            if os.path.exists(os.path.join(directory, f"{file_name}.txt"))
             else "N/A"
         )
 
@@ -101,10 +134,10 @@ def generate_special_table(directory, files):
         table_content += f"""
         <tr>
             <td><strong>{file_name}</strong></td>
-            <td>{description}</td>
-            <td><a href="{file}">💾 Download</a></td>
-            <td>{cub_button}</td>
             <td>{html_preview_button}</td>
+            <td>{description}</td>
+            <td>{txt_view_button} {txt_download_button}</td>
+            <td>{cub_button}</td>
         </tr>
         """
 
