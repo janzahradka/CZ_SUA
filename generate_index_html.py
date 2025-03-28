@@ -84,16 +84,10 @@ def extract_last_changes(content_root_directory, relative_path_from_content_root
 
 
 
-def generate_special_table(directory, files):
+def generate_special_table(directory, files, descriptions):
     """
-    Generuje speciální tabulku pro CZ_low, CZ_low_plus_CE a CZ_all soubory.
+    Generuje speciální tabulku pro soubory (např. CZ_low, CZ_low_plus_CE, CZ_all).
     """
-    descriptions = [
-        "Airspace below FL95, mostly <b>recommended for gliding in Czechia</b>.",
-        "Contains the same as above plus the closest abroad airspace. <b>Recommended as a basefile for competitions</b>.",
-        "All CZ airspace including above FL95. <b>Recommended for databases</b>."
-    ]
-
     table_content = """
     <table>
         <thead>
@@ -113,7 +107,7 @@ def generate_special_table(directory, files):
 
         # .cub tlačítko
         cub_button = (
-            f'<a href="{file_name}.cub" dowlnoad>💾 Download</a>'
+            f'<a href="{file_name}.cub" download>💾 Download</a>'
             if os.path.exists(os.path.join(directory, f"{file_name}.cub"))
             else "N/A"
         )
@@ -151,6 +145,8 @@ def generate_special_table(directory, files):
     table_content += "</tbody></table>"
 
     return table_content
+
+
 
 
 def generate_index(directory, content_root_directory, relative_path_from_content_root=""):
@@ -256,12 +252,29 @@ def generate_index(directory, content_root_directory, relative_path_from_content
         html_content += changes_html
 
     # Detekce speciálních souborů
-    cz_low_file = next((f for f in files if re.match(r"CZ_low_\d{2}-\d{2}-\d{2}(.)*\.txt", f)), None)
-    cz_low_plus_file = next((f for f in files if re.match(r"CZ_low_plus_CE_\d{2}-\d{2}-\d{2}(.)*\.txt", f)), None)
-    cz_all_file = next((f for f in files if re.match(r"CZ_all_\d{2}-\d{2}-\d{2}(.)*\.txt", f)), None)
+    special_files = []
+    descriptions = []
 
-    if cz_low_file and cz_low_plus_file and cz_all_file:
-        html_content += generate_special_table(directory, [cz_low_file, cz_low_plus_file, cz_all_file])
+    # Přidávání nalezených souborů a odpovídajících popisů
+    cz_low_file = next((f for f in files if re.match(r"CZ_low_\d{2}-\d{2}-\d{2}(.)*\.txt", f)), None)
+    if cz_low_file:
+        special_files.append(cz_low_file)
+        descriptions.append("Airspace below FL95, mostly <b>recommended for gliding in Czechia</b>.")
+
+    cz_low_plus_file = next((f for f in files if re.match(r"CZ_low_plus_CE_\d{2}-\d{2}-\d{2}(.)*\.txt", f)), None)
+    if cz_low_plus_file:
+        special_files.append(cz_low_plus_file)
+        descriptions.append(
+            "Contains the same as above plus the closest abroad airspace. <b>Recommended as a basefile for competitions</b>.")
+
+    cz_all_file = next((f for f in files if re.match(r"CZ_all_\d{2}-\d{2}-\d{2}(.)*\.txt", f)), None)
+    if cz_all_file:
+        special_files.append(cz_all_file)
+        descriptions.append("All CZ airspace including above FL95. <b>Recommended for databases</b>.")
+
+    # Pokud existuje alespoň jeden speciální soubor, vygeneruj speciální tabulku
+    if special_files:
+        html_content += generate_special_table(directory, special_files, descriptions)
     else:
         html_content += f"""
         <table>
