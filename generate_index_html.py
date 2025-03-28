@@ -74,7 +74,7 @@ def extract_last_changes(content_root_directory, relative_path_from_content_root
     if not changes:
         return ""
 
-    changes_html = "<h2>Last updates</h2><ul>"
+    changes_html = "<ul>"
     for change in changes:
         change = change.replace("* ", "")
         changes_html += f"<li>{change.strip()}</li>"
@@ -352,6 +352,7 @@ def generate_index(directory, content_root_directory, relative_path_from_content
     # Změny z README.md
     changes_html = extract_last_changes(content_root_directory, relative_path_from_content_root=relative_path_from_content_root)
     if changes_html:
+        html_content += "<h3>Last updates</h3>"
         html_content += changes_html
 
     # Detekce speciálních souborů
@@ -383,15 +384,18 @@ def generate_index(directory, content_root_directory, relative_path_from_content
     # Filtrování souborů - odstranění speciálních souborů a jejich variant
     files = filter_files_for_special_table(files, special_file_patterns)
 
-    # Pokud existuje alespoň jeden speciální soubor, vygeneruj speciální tabulku
+    # pouze pro kořenový adresář
     if relative_path_from_content_root == "":
         if special_files:
             html_content += "<h2>Actual files</h2>"
             html_content += generate_special_table(directory, special_files, descriptions)
             html_content += generate_directory_and_file_table(directories, files, directory, parent_url)
         else:
+            html_content += "<h2>Other contents</h2>"
             html_content += generate_directory_and_file_table(directories, files, directory, parent_url)
+    # jiný než kořenový adresář
     else:
+        # Pokud existuje alespoň jeden speciální soubor, vygeneruj speciální tabulku
         if special_files:
             html_content += generate_special_table(directory, special_files, descriptions)
         else:
