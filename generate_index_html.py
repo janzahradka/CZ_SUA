@@ -38,8 +38,14 @@ def extract_last_changes(content_root_directory, relative_path_from_content_root
     if not os.path.exists(readme_path):
         return ""
 
-    with open(readme_path, "r", encoding="utf-8") as f:
-        lines = f.readlines()
+    # Pokus o robustní otevření souboru, detekce kódování
+    try:
+        with open(readme_path, "r", encoding="utf-8") as f:
+            lines = f.readlines()
+    except UnicodeDecodeError:
+        # Revidujeme kódování a ignorujeme chyby
+        with open(readme_path, "r", encoding="latin-1", errors="replace") as f:
+            lines = f.readlines()
 
     changes_start = None
     for i, line in enumerate(lines):
@@ -75,6 +81,7 @@ def extract_last_changes(content_root_directory, relative_path_from_content_root
     changes_html += "</ul>"
 
     return changes_html
+
 
 
 def generate_special_table(directory, files):
