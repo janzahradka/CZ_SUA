@@ -327,7 +327,7 @@ footer a:hover { color: #01395f; text-decoration: underline; }
 </head>
 <body>
     <header>
-        Special Use Airspace (SUA) Files for Gliding
+        Airspace files for Gliding
     </header>
     <div class="breadcrumb">
         {breadcrumb}
