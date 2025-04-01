@@ -4,53 +4,37 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>CZ_SUA/</title>
+    <link href="https://fonts.googleapis.com/css2?family=Merriweather+Sans:wght@300;400;700&display=swap" rel="stylesheet">
     <style>
-        body { font-family: Arial, sans-serif; padding: 20px; background-color: #f4f4f9; }
-        table { width: 100%; border-collapse: collapse; margin-top: 20px; }
-        th, td { padding: 10px; text-align: left; border-bottom: 1px solid #ddd; }
-        th { background-color: #015283; color: white; }
-        tr:hover { background-color: #f1f1f1; }
-        td.actions { text-align: left; }
-        a { color: #015283; text-decoration: none; }
-        a:hover { text-decoration: underline; }
-        .breadcrumb { margin-bottom: 20px; }
-        @media (max-width: 600px) {
-            table { font-size: 14px; }
-            th, td { padding: 8px; }
-        }
-                
-         button {
-            border: none;
-            color: white;
-            padding: 10px 15px;
-            text-align: center;
-            text-decoration: none;
-            display: inline-block;
-            font-size: 14px;
-            margin: 5px 2px;
-            cursor: pointer;
-            border-radius: 5px;
-            background-color: #008CBA;
-        }
         
-        button:hover {
-            box-shadow: 0px 4px 8px 0px rgba(0, 0, 0, 0.2);
-        }
-    footer {
-        font-size: 10px; /* Menší písmo */
-        text-align: center; /* Zarovnání na střed */
-        margin-top: 20px; /* Volitelně: odstup od obsahu */
-        color: #666; /* Mírně šedý text */
-    }
+body { font-family: 'Merriweather Sans', Arial, sans-serif; background-color: #f4f4f9; padding: 20px; color: #333; }
+header { text-align: center; padding: 20px; background-color: #015283; color: white; font-size: 1.8em; font-weight: bold; }
+table { width: 100%; border-collapse: collapse; margin-top: 20px; background: white; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); }
+th, td { padding: 15px; text-align: left; border-bottom: 1px solid #ddd; }
+th { background-color: #015283; color: white; font-weight: 700; }
+tr:hover { background-color: #e8f0f9; }
+a { color: #015283; text-decoration: none; }
+a:hover { color: #01395f; text-decoration: underline; }
+button { padding: 10px 20px; color: white; background-color: #015283; border: none; border-radius: 5px; cursor: pointer; font-size: 14px; font-family: 'Merriweather Sans', Arial, sans-serif; transition: background-color 0.3s; }
+button:hover { background-color: #01395f; }
+.breadcrumb { margin: 10px 0 20px; font-size: 0.9em; color: #015283; font-weight: 400; }
+.breadcrumb a { color: #015283; }
+.breadcrumb a:hover { text-decoration: underline; color: #01395f; }
+footer { text-align: center; margin-top: 50px; padding: 10px 0; background-color: #f4f4f9; font-size: 0.8em; color: #666; font-weight: 300; }
+footer a { color: #015283; }
+footer a:hover { color: #01395f; text-decoration: underline; }
+@media (max-width: 768px) { table { font-size: 14px; } th, td { padding: 10px; } .breadcrumb { font-size: 0.8em; } }
 
     </style>
 </head>
 <body>
-    <h1>Special Use Airspace (SUA) files for gliding in Czechia</h1>
+    <header>
+        Special Use Airspace (SUA) Files for Gliding
+    </header>
     <div class="breadcrumb">
         <a href="https://janzahradka.github.io/CZ_SUA/public/">🏠 Home</a>
     </div>
-    <h3>Last updates</h3><ul><li>01APR25 updated notams for 2025, added LKTSA80</li><li>01APR25 NTMs DRONY PISEK updated to NTM-LKSTA60A, NTM-LKSTA60B, NTM-LKSTA60C, NTM-LKSTA60D; Removed LKTSA60</li><li>01APR25 AIRAC 2/25Changed: LKP1; Removed: LKD11, LKD13, LKD14, LKTRA90, LKTRA91, LKTRA92; Added: LKTRA93, LKTRA94, LKTRA95, LKTRA96</li></ul><h2>Actual SUA files</h2>
+<h3>Last updates</h3><ul><li>01APR25 updated notams for 2025, added LKTSA80</li><li>01APR25 NTMs DRONY PISEK updated to NTM-LKSTA60A, NTM-LKSTA60B, NTM-LKSTA60C, NTM-LKSTA60D; Removed LKTSA60</li><li>01APR25 AIRAC 2/25Changed: LKP1; Removed: LKD11, LKD13, LKD14, LKTRA90, LKTRA91, LKTRA92; Added: LKTRA93, LKTRA94, LKTRA95, LKTRA96</li></ul><h2>Actual SUA files</h2>
     <table>
         <thead>
             <tr>
@@ -123,7 +107,8 @@
                     It is optimized for Gliding and provides information to help avoid unintentional incidents.<br>
                     The use of this content is completely free of charge.<br>
                     Feel free to share it for any type of general aviation purposes, including commercial devices such as planning tools, IGC loggers, navigation devices, etc.<br>
-                    Updates are regularly released on the page <a href="https://airspace.aeroklub.cz" target="_blank">airspace.aeroklub.cz</a>.
+                    Updates are regularly released on the page <a href="https://airspace.aeroklub.cz" target="_blank">airspace.aeroklub.cz</a>.<br>
+                    In case of any inquiries, please contact us at <a href="mailto:asm@aecr.cz">asm@aecr.cz</a>.
                 </p>
                 <p>
                     &copy; 2025 Jan Zahradka
