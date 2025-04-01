@@ -352,7 +352,7 @@ footer a:hover { color: #01395f; text-decoration: underline; }
     cz_low_file = next((f for f in files if re.match(special_file_patterns[0], f)), None)
     if cz_low_file:
         special_files.append(cz_low_file)
-        descriptions.append("Airspace below FL95, mostly <b>recommended for gliding in Czechia</b>.")
+        descriptions.append("Airspace below FL95, <b>recommended for cross country flights in Czechia</b>.")
 
     cz_low_plus_file = next((f for f in files if re.match(special_file_patterns[1], f)), None)
     if cz_low_plus_file:
