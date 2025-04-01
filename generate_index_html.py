@@ -304,10 +304,10 @@ def generate_index(directory, content_root_directory, relative_path_from_content
         body {{ font-family: Arial, sans-serif; padding: 20px; background-color: #f4f4f9; }}
         table {{ width: 100%; border-collapse: collapse; margin-top: 20px; }}
         th, td {{ padding: 10px; text-align: left; border-bottom: 1px solid #ddd; }}
-        th {{ background-color: #0e288e; color: white; }}
+        th {{ background-color: #015283; color: white; }}
         tr:hover {{ background-color: #f1f1f1; }}
         td.actions {{ text-align: left; }}
-        a {{ color: #0e288e; text-decoration: none; }}
+        a {{ color: #015283; text-decoration: none; }}
         a:hover {{ text-decoration: underline; }}
         .breadcrumb {{ margin-bottom: 20px; }}
         @media (max-width: 600px) {{
