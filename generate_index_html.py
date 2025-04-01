@@ -407,7 +407,7 @@ def generate_index(directory, content_root_directory, relative_path_from_content
                     It is optimized for Gliding and provides information to help avoid unintentional incidents.<br>
                     The use of this content is completely free of charge.<br>
                     Feel free to share it for any type of general aviation purposes, including commercial devices such as planning tools, IGC loggers, navigation devices, etc.<br>
-                    Updates are regularly released on the page <a href="https://airspace.aeroklub.cz</a>.
+                    Updates are regularly released on the page <a href="https://airspace.aeroklub.cz" target="_blank">airspace.aeroklub.cz</a>.
                 </p>
                 <p>
                     &copy; 2025 Jan Zahradka
