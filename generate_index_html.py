@@ -7,7 +7,7 @@ from datetime import datetime
 # Konstanty
 
 PROJECT_URL_ALIAS = "CZ_SUA/"
-BASE_URL = "https://janzahradka.github.io/%s" % PROJECT_URL_ALIAS  # Základní URL pro GitHub Pages
+BASE_URL = "https://airspace.aeroklub.cz/%s" % PROJECT_URL_ALIAS  # Základní URL pro GitHub Pages
 CONTENT_ROOT = "public/"  # Kořen obsahu
 
 
