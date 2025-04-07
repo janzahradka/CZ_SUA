@@ -190,9 +190,10 @@ def generate_directory_and_file_table(directories, files, directory, parent_url)
         elif file_ext in [".txt", ".cub"]:
             # Ikona náhledu (pokud existuje) a ikona uložení
             html_preview_path = os.path.join(directory, "html", f"{file_name}.html")
+            html_preview_url = f"{parent_url}html/{file_name}.html"
             if os.path.exists(html_preview_path):
                 actions += f'''
-                    <a href="{html_preview_path}" target="_blank">🗺️&nbsp;Preview</a>
+                    <a href="{html_preview_url}" target="_blank">🗺️&nbsp;Preview</a>
                     '''
             actions += f'''
                     <a href="{file_url}" download>💾&nbsp;Download</a>
