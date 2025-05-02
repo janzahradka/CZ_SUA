@@ -24,7 +24,7 @@ SB -1,-1,-1
 *DC 2 *NM
 
 
-AC P
+AC Q
 AN NTM-Y0597/25 Modely
 AH 1000 AGL
 AL 0 AGL

@@ -23,7 +23,8 @@ AIRSPACE_TYPE_MAP = [
     {"name_template": "NTM", "AC_tag": "R", "AY_tag": "NOTAM"},
     {"name_template": "PGZ", "AC_tag": "GS", "AY_tag": "Paragliding Zone"},
     {"name_template": "TMA", "AC_tag": "D", "AY_tag": "Terminal Manoeuvring Area"},
-    {"name_template": "TRA GA", "AC_tag": "GS", "AY_tag": "GSEC"}
+    {"name_template": "TRA GA", "AC_tag": "GS", "AY_tag": "GSEC"},
+    {"name_template": "MODELS", "AC_tag": "Q", "AY_tag": "Dangerous Area"}
 ]
 
 class Extractor:

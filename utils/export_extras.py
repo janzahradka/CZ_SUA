@@ -11,7 +11,7 @@ def export(version, label, filenames, path):
 
 
 
-label = 'AZcup25'
+label = 'WWGC2025'
 file_set = [
     'DROPZONES.txt',
     'LKCTR.txt',
@@ -26,13 +26,11 @@ file_set = [
     'extra files/AZ cup LKTRAGA.txt',
     'LKTRA.txt',
     'LKTSA all seasons.txt',
-    'LKTSA summer OFF.txt',
+    # 'LKTSA summer OFF.txt',
     'surrounding_AS.txt',
     'NOTAMS.txt',
-    # 'extra files/AZCUPNOTAMS.txt',
-    # 'extra files/CZ-FL90 ceil.txt',
+    'extra files/competition_area.txt',
     'extra files/Engine Test Area.txt']
-version = '-v4.1'
 
 version = '-v1'
 export_path = f'../Export/{label}{version}/'
