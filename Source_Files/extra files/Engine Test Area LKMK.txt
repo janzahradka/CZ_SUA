@@ -1,0 +1,13 @@
+
+* Engine test area
+
+
+*** LKMK
+AC O
+AN TEST ENGINE
+AH FL95
+AL GND
+V X=49:47:54 N 016:41:16 E
+DC 3 *NM
+
+

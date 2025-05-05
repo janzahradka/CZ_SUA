@@ -11,7 +11,32 @@ def export(version, label, filenames, path):
 
 
 
-label = 'WWGC2025'
+# label = 'WWGC2025'
+# file_set = [
+#     'DROPZONES.txt',
+#     'LKCTR.txt',
+#     'LKD.txt',
+#     'LKP.txt',
+#     'LKPGZ.txt',
+#     'LKR.txt',
+#     # 'LKR-NP.txt',
+#     'LKRMZ.txt',
+#     'LKTMA.txt',
+#     'extra files/AZ cup LKTMA.txt',
+#     'extra files/AZ cup LKTRAGA.txt',
+#     'LKTRA.txt',
+#     'LKTSA all seasons.txt',
+#     # 'LKTSA summer OFF.txt',
+#     'surrounding_AS.txt',
+#     'NOTAMS.txt',
+#     'extra files/competition_area.txt',
+#     'extra files/Engine Test Area LKZB.txt'
+#     ]
+#
+# version = '-v1'
+
+
+label = 'PMCR2025'
 file_set = [
     'DROPZONES.txt',
     'LKCTR.txt',
@@ -21,16 +46,17 @@ file_set = [
     'LKR.txt',
     # 'LKR-NP.txt',
     'LKRMZ.txt',
-    'LKTMA.txt',
-    'extra files/AZ cup LKTMA.txt',
-    'extra files/AZ cup LKTRAGA.txt',
+    # 'LKTMA.txt',
+    'extra files/PPV LKTMA.txt',
     'LKTRA.txt',
     'LKTSA all seasons.txt',
     # 'LKTSA summer OFF.txt',
     'surrounding_AS.txt',
     'NOTAMS.txt',
-    'extra files/competition_area.txt',
-    'extra files/Engine Test Area.txt']
+    'models.txt',
+    # 'extra files/competition_area.txt',
+    'extra files/Engine Test Area LKHB.txt'
+    ]
 
 version = '-v1'
 export_path = f'../Export/{label}{version}/'
