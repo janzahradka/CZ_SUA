@@ -46,8 +46,8 @@ file_set = [
     'LKR.txt',
     # 'LKR-NP.txt',
     'LKRMZ.txt',
-    # 'LKTMA.txt',
-    'extra files/PPV LKTMA.txt',
+    'LKTMA.txt',
+    'extra files/LKTMA MTMA CASLAV PPV.txt',
     'LKTRA.txt',
     'LKTSA all seasons.txt',
     # 'LKTSA summer OFF.txt',
@@ -58,7 +58,7 @@ file_set = [
     'extra files/Engine Test Area LKHB.txt'
     ]
 
-version = '-v1'
+version = '-v2'
 export_path = f'../Export/{label}{version}/'
 
 if os.path.exists(export_path):
