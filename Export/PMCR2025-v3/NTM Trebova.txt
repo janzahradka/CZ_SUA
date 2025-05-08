@@ -1,0 +1,7 @@
+
+AC R
+AN NTM Trebova
+AL 0 AGL
+AH FL95
+V X=49:45:41 N 16:42:43 E
+DC 8.0 *NM
