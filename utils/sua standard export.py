@@ -1,8 +1,10 @@
 from AirspaceManager.renderer import Renderer
 from AirspaceManager.controller import airspace_from_openair, split_openair_blocks
 import os
+import re
 import shutil
 import chardet
+from datetime import datetime
 
 
 
@@ -176,9 +178,33 @@ def generate_html_maps(export_files, export_path):
             print(f"Error generating map for {export_file}: {e}")
 
 
+def get_effective_date(file_path):
+    try:
+        # Otevřít soubor a přečíst obsah
+        with open(file_path, 'r') as file:
+            content = file.read()
 
+        # Použít regulární výraz k nalezení datového úseku
+        match = re.search(r'\*\*\*\*\*\*\*\* EFFECTIVE (\d{2}[A-Z]{3}\d{2}) \*\*\*\*\*\*\*\*', content)
+
+        if not match:
+            raise ValueError("Effective date not found in the file.")
+
+        # Extrahovat nalezené datum
+        date_str = match.group(1)
+
+        # Parsovat datum
+        effective_date = datetime.strptime(date_str, "%d%b%y")
+        return effective_date.strftime("%y-%m-%d")
+
+    except Exception as e:
+        return f"Error reading effective date: {e}"
+
+                    
+                    
 if __name__ == "__main__":
-    effective_date = '25-04-01' # YY-MM-DD
+    # effective_date = '25-04-01' # YY-MM-DD
+    effective_date = get_effective_date('../Source_Files/FileInfo/effective_date.txt')  # YY-MM-DD
     confirmed = False
     while not confirmed:
         answer = input(f'Effective date "{effective_date}" correct? [Y/N] ').lower()
