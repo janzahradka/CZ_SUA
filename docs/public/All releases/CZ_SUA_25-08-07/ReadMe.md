@@ -1,5 +1,6 @@
 
 ***** Changes History *****
+* 18JUL28 deleted Dropzone Erpuzice
 * 10JUL25 added LKD12 LOBODICE
 * 01APR25 updated notams for 2025, added LKTSA80
 * 01APR25 NTMs DRONY PISEK updated to NTM-LKSTA60A, NTM-LKSTA60B, NTM-LKSTA60C, NTM-LKSTA60D; Removed LKTSA60

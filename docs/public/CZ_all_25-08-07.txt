@@ -6,8 +6,8 @@
 
 
 ****** (c) 2025 Jan Zahradka ******
-******* Last update 01APR25 *******
-******** EFFECTIVE 01APR25 ********
+******* Last update 18JUL25 *******
+******** EFFECTIVE 07AUG25 ********
 
 
 * This file was created on behalf of Aeroklub Ceske Republiky, it is free to use.
@@ -58,16 +58,6 @@ AG Lipa RADIO
 AH FL 95
 AL 0 AGL
 V X=50:42:34 N 014:34:00 E
-DC 2 *NM
-
-
-AC Q
-AN DROPZONE Erpuzice 123.490
-AF 123.490
-AG Erpuzice RADIO
-AH FL 95
-AL 0 AGL
-V X=49:48:10 N 013:02:17 E
 DC 2 *NM
 
 
@@ -1032,6 +1022,16 @@ DP 48:49:24 N 16:35:39 E
 DP 48:53:11 N 16:39:05 E
 DP 48:54:07 N 16:36:44 E
 
+
+AC Q
+AN LKD12 LOBODICE
+AL 0 AGL
+AH 500 AGL
+DP 49:24:16 N 17:17:47 E
+DP 49:23:51 N 17:19:11 E
+DP 49:23:35 N 17:18:58 E
+DP 49:24:00 N 17:17:36 E
+DP 49:24:16 N 17:17:47 E
 
 ******* LKAA D (Dangerous Areas) ********
 *****************************************

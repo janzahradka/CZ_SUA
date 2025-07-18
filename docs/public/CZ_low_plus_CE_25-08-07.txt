@@ -7,8 +7,8 @@
 
 
 ****** (c) 2025 Jan Zahradka ******
-******* Last update 01APR25 *******
-******** EFFECTIVE 01APR25 ********
+******* Last update 18JUL25 *******
+******** EFFECTIVE 07AUG25 ********
 
 
 * This file was created on behalf of Aeroklub Ceske Republiky, it is free to use.
@@ -59,16 +59,6 @@ AG Lipa RADIO
 AH FL 95
 AL 0 AGL
 V X=50:42:34 N 014:34:00 E
-DC 2 *NM
-
-
-AC Q
-AN DROPZONE Erpuzice 123.490
-AF 123.490
-AG Erpuzice RADIO
-AH FL 95
-AL 0 AGL
-V X=49:48:10 N 013:02:17 E
 DC 2 *NM
 
 
@@ -1033,6 +1023,16 @@ DP 48:49:24 N 16:35:39 E
 DP 48:53:11 N 16:39:05 E
 DP 48:54:07 N 16:36:44 E
 
+
+AC Q
+AN LKD12 LOBODICE
+AL 0 AGL
+AH 500 AGL
+DP 49:24:16 N 17:17:47 E
+DP 49:23:51 N 17:19:11 E
+DP 49:23:35 N 17:18:58 E
+DP 49:24:00 N 17:17:36 E
+DP 49:24:16 N 17:17:47 E
 
 ******* LKAA D (Dangerous Areas) ********
 *****************************************
@@ -10878,17 +10878,16 @@ DP 51:14:51 N 12:21:14 E
 DP 51:14:54 N 12:21:39 E
 
 
-AC G                                 
-AY RMZ
-AN RMZ ALTENBURG
-AH 1000agl
-AL 0agl
-DP 50:56:16 N 12:20:48 E
-DP 51:00:51 N 12:26:48 E
-DP 51:05:29 N 12:32:51 E
-DP 51:01:45 N 12:40:14 E
-DP 50:57:10 N 12:34:14 E
-DP 50:52:27 N 12:28:04 E
+AC RMZ
+AN RMZ EDAC 123.580
+AH 1000 AGL
+AL 0 AGL
+DP 50:56:36 N 012:21:15 E
+DP 51:05:01 N 012:32:12 E
+DP 51:01:12 N 012:39:32 E
+DP 50:52:48 N 012:28:34 E
+DP 50:56:36 N 012:21:15 E
+
 
 AC W
 AN PJE ROITZSCHJORA 128.01

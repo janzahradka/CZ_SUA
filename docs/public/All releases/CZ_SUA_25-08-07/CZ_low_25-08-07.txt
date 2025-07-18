@@ -5,7 +5,7 @@
 **** Notams: regularly published NOTAMs
 
 ****** (c) 2025 Jan Zahradka ******
-******* Last update 10JUL25 *******
+******* Last update 18JUL25 *******
 ******** EFFECTIVE 07AUG25 ********
 
 
@@ -57,16 +57,6 @@ AG Lipa RADIO
 AH FL 95
 AL 0 AGL
 V X=50:42:34 N 014:34:00 E
-DC 2 *NM
-
-
-AC Q
-AN DROPZONE Erpuzice 123.490
-AF 123.490
-AG Erpuzice RADIO
-AH FL 95
-AL 0 AGL
-V X=49:48:10 N 013:02:17 E
 DC 2 *NM
 
 
