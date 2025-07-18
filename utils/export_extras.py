@@ -36,7 +36,7 @@ def export(version, label, filenames, path):
 # version = '-v1'
 
 
-label = 'PMCR2025'
+label = 'PPV2025'
 file_set = [
     'DROPZONES.txt',
     'LKCTR.txt',
@@ -50,7 +50,7 @@ file_set = [
     'extra files/LKTMA MTMA CASLAV PPV.txt',
     'LKTRA.txt',
     'LKTSA all seasons.txt',
-    'LKTSA summer OFF.txt',
+    # 'LKTSA summer OFF.txt',
     'surrounding_AS.txt',
     'NOTAMS.txt',
     'models.txt',
@@ -58,7 +58,7 @@ file_set = [
     'extra files/Engine Test Area LKHB.txt'
     ]
 
-version = '-v3'
+version = '-v1'
 export_path = f'../Export/{label}{version}/'
 
 if os.path.exists(export_path):
