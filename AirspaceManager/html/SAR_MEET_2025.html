@@ -1,0 +1,988 @@
+<!DOCTYPE html>
+<html>
+<head>
+    
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    
+        <script>
+            L_NO_TOUCH = false;
+            L_DISABLE_3D = false;
+        </script>
+    
+    <style>html, body {width: 100%;height: 100%;margin: 0;padding: 0;}</style>
+    <style>#map {position:absolute;top:0;bottom:0;right:0;left:0;}</style>
+    <script src="https://cdn.jsdelivr.net/npm/leaflet@1.9.3/dist/leaflet.js"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.2/leaflet.awesome-markers.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet@1.9.3/dist/leaflet.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap-glyphicons.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.2.0/css/all.min.css"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.2/leaflet.awesome-markers.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/python-visualization/folium/folium/templates/leaflet.awesome.rotate.min.css"/>
+    
+            <meta name="viewport" content="width=device-width,
+                initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+            <style>
+                #map_beead2fc18b36a73733d83333138f52f {
+                    position: relative;
+                    width: 100.0%;
+                    height: 100.0%;
+                    left: 0.0%;
+                    top: 0.0%;
+                }
+                .leaflet-container { font-size: 1rem; }
+            </style>
+        
+    
+                    <style>
+                        .foliumpopup {
+                            margin: auto;
+                        }
+                       .foliumpopup table{
+                            margin: auto;
+                        }
+                        .foliumpopup tr{
+                            text-align: left;
+                        }
+                        .foliumpopup th{
+                            padding: 2px; padding-right: 8px;
+                        }
+                    </style>
+            
+    
+                    <style>
+                        .foliumpopup {
+                            margin: auto;
+                        }
+                       .foliumpopup table{
+                            margin: auto;
+                        }
+                        .foliumpopup tr{
+                            text-align: left;
+                        }
+                        .foliumpopup th{
+                            padding: 2px; padding-right: 8px;
+                        }
+                    </style>
+            
+    
+                    <style>
+                        .foliumpopup {
+                            margin: auto;
+                        }
+                       .foliumpopup table{
+                            margin: auto;
+                        }
+                        .foliumpopup tr{
+                            text-align: left;
+                        }
+                        .foliumpopup th{
+                            padding: 2px; padding-right: 8px;
+                        }
+                    </style>
+            
+    
+                    <style>
+                        .foliumpopup {
+                            margin: auto;
+                        }
+                       .foliumpopup table{
+                            margin: auto;
+                        }
+                        .foliumpopup tr{
+                            text-align: left;
+                        }
+                        .foliumpopup th{
+                            padding: 2px; padding-right: 8px;
+                        }
+                    </style>
+            
+    
+                    <style>
+                        .foliumpopup {
+                            margin: auto;
+                        }
+                       .foliumpopup table{
+                            margin: auto;
+                        }
+                        .foliumpopup tr{
+                            text-align: left;
+                        }
+                        .foliumpopup th{
+                            padding: 2px; padding-right: 8px;
+                        }
+                    </style>
+            
+    
+                    <style>
+                        .foliumpopup {
+                            margin: auto;
+                        }
+                       .foliumpopup table{
+                            margin: auto;
+                        }
+                        .foliumpopup tr{
+                            text-align: left;
+                        }
+                        .foliumpopup th{
+                            padding: 2px; padding-right: 8px;
+                        }
+                    </style>
+            
+    
+                    <style>
+                        .foliumpopup {
+                            margin: auto;
+                        }
+                       .foliumpopup table{
+                            margin: auto;
+                        }
+                        .foliumpopup tr{
+                            text-align: left;
+                        }
+                        .foliumpopup th{
+                            padding: 2px; padding-right: 8px;
+                        }
+                    </style>
+            
+</head>
+<body>
+    
+    
+        <style>
+             .custom-popup {
+                 background-color: white;
+                 border: 1px solid gray;
+                 padding: 10px;
+                 font-size: 14px;
+                 border-radius: 5px;
+                 box-shadow: 2px 2px 5px rgba(0,0,0,0.3);
+                 max-height: 200px;
+                 max-width: 300px;
+                 overflow-y: auto;
+             }
+            
+             .leaflet-popup {
+                 bottom: 30px !important;
+             }
+            
+              #titleBox {
+                  position: fixed;
+                  top: 10px;                 /* Umístění nahoře */
+                  right: 10px;               /* Umístění vpravo */
+                  width: 300px;              /* Šířka panelu */
+                  padding: 10px;             /* Vnitřní odsazení */
+                  background-color: white;   /* Barva pozadí */
+                  border: 1px solid gray;    /* Barva a styl okraje */
+                  z-index: 1000;             /* Zajištění viditelnosti nad ostatními prvky */
+                  font-size: 18px;           /* Velikost písma */
+                  border-radius: 10px;       /* Zaoblené rohy */
+                  box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.5); /* Přidání stínu */
+              }
+            
+              #infoBox {
+                  position: fixed;
+                  top: 70px;                 /* Umístění nahoře */
+                  right: 10px;               /* Umístění vpravo */
+                  width: 300px;              /* Šířka panelu */
+                  padding: 10px;             /* Vnitřní odsazení */
+                  background-color: white;   /* Barva pozadí */
+                  border: 1px solid gray;    /* Barva a styl okraje */
+                  z-index: 1000;             /* Zajištění viditelnosti nad ostatními prvky */
+                  font-size: 14px;           /* Velikost písma */
+                  border-radius: 10px;       /* Zaoblené rohy */
+                  box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.5); /* Přidání stínu */
+              }     
+        </style>
+        
+    
+           <script>
+               document.addEventListener("DOMContentLoaded", function() {
+                   window.map.on("popupopen", function (e) {
+                       var popup = e.popup._container;
+                       if (popup) {
+                           popup.style.bottom = "30px";
+                       }
+                   });
+               });
+           </script>
+           
+    
+            <div id="titleBox">
+               <strong>SAR MEET 2025</strong>
+            </div>
+            
+    
+        <div id="infoBox">
+          <b>Airspace Details</b><br>
+          Hover over an airspace...
+        </div>
+        
+    
+            <div class="folium-map" id="map_beead2fc18b36a73733d83333138f52f" ></div>
+        
+</body>
+<script>
+    
+    
+            var map_beead2fc18b36a73733d83333138f52f = L.map(
+                "map_beead2fc18b36a73733d83333138f52f",
+                {
+                    center: [50.0, 15.0],
+                    crs: L.CRS.EPSG3857,
+                    ...{
+  "zoom": 8,
+  "zoomControl": true,
+  "preferCanvas": false,
+}
+
+                }
+            );
+
+            
+
+        
+    
+            var tile_layer_65e45ea779cae00760b192c9edae3dbd = L.tileLayer(
+                "https://tile.openstreetmap.org/{z}/{x}/{y}.png",
+                {
+  "minZoom": 0,
+  "maxZoom": 19,
+  "maxNativeZoom": 19,
+  "noWrap": false,
+  "attribution": "\u0026copy; \u003ca href=\"https://www.openstreetmap.org/copyright\"\u003eOpenStreetMap\u003c/a\u003e contributors",
+  "subdomains": "abc",
+  "detectRetina": false,
+  "tms": false,
+  "opacity": 1,
+}
+
+            );
+        
+    
+            tile_layer_65e45ea779cae00760b192c9edae3dbd.addTo(map_beead2fc18b36a73733d83333138f52f);
+        
+    
+        function geo_json_92f55b057d41b2dd2f8a41797732b820_styler(feature) {
+            switch(feature.properties.popup) {
+                default:
+                    return {"color": "orange", "fillColor": "orange", "fillOpacity": 0.4, "weight": 2};
+            }
+        }
+        function geo_json_92f55b057d41b2dd2f8a41797732b820_highlighter(feature) {
+            switch(feature.properties.popup) {
+                default:
+                    return {"color": "yellow", "fillColor": "yellow", "fillOpacity": 0.7, "weight": 3};
+            }
+        }
+
+        function geo_json_92f55b057d41b2dd2f8a41797732b820_onEachFeature(feature, layer) {
+            layer.on({
+                mouseout: function(e) {
+                    if(typeof e.target.setStyle === "function"){
+                            geo_json_92f55b057d41b2dd2f8a41797732b820.resetStyle(e.target);
+                    }
+                },
+                mouseover: function(e) {
+                    if(typeof e.target.setStyle === "function"){
+                        const highlightStyle = geo_json_92f55b057d41b2dd2f8a41797732b820_highlighter(e.target.feature)
+                        e.target.setStyle(highlightStyle);
+                    }
+                },
+            });
+        };
+        var geo_json_92f55b057d41b2dd2f8a41797732b820 = L.geoJson(null, {
+                onEachFeature: geo_json_92f55b057d41b2dd2f8a41797732b820_onEachFeature,
+            
+                style: geo_json_92f55b057d41b2dd2f8a41797732b820_styler,
+            ...{
+}
+        });
+
+        function geo_json_92f55b057d41b2dd2f8a41797732b820_add (data) {
+            geo_json_92f55b057d41b2dd2f8a41797732b820
+                .addData(data);
+        }
+            geo_json_92f55b057d41b2dd2f8a41797732b820_add({"features": [{"geometry": {"coordinates": [[[14.127778, 49.8325], [14.678889, 49.806944], [14.648056, 49.790556], [14.613611, 49.757222], [14.605556, 49.719167], [14.62, 49.693056], [14.211111, 49.399722], [13.329722, 49.573333], [13.303056, 49.628889], [13.823611, 49.708333], [13.911111, 49.678333], [13.944444, 49.718056], [14.015556, 49.77], [14.127778, 49.8325]]], "type": "Polygon"}, "properties": {"airspace_class": "R", "defaultColor": "orange", "popup": "Name: \u003cb\u003eLKTRA222 GALI 4\u003c/b\u003e\u003cbr\u003eClass: \u003cb\u003eR\u003c/b\u003e\u003cbr\u003eUpper Limit: \u003cb\u003e4000 MSL\u003c/b\u003e\u003cbr\u003eLower Limit: \u003cb\u003e0 AGL\u003c/b\u003e\u003cbr\u003eArea: \u003cb\u003e2495.50 km\u00b2\u003c/b\u003e\u003cbr\u003e"}, "type": "Feature"}], "type": "FeatureCollection"});
+
+        
+    
+    geo_json_92f55b057d41b2dd2f8a41797732b820.bindPopup(
+    function(layer){
+    let div = L.DomUtil.create('div');
+    
+    let handleObject = feature=>typeof(feature)=='object' ? JSON.stringify(feature) : feature;
+    let fields = ["popup"];
+    let aliases = ["popup"];
+    let table = '<table>' +
+        String(
+        fields.map(
+        (v,i)=>
+        `<tr>
+            <td>${handleObject(layer.feature.properties[v]).toLocaleString()}</td>
+        </tr>`).join(''))
+    +'</table>';
+    div.innerHTML=table;
+    
+    return div
+    }
+    ,{
+  "popupOptions": {
+  "maxWidth": "300",
+  "className": "custom-popup",
+},
+  "className": "foliumpopup",
+});
+                     
+    
+        function onEachFeature(feature, layer) {
+            layer.on('mouseover', function(e) {
+                document.getElementById('infoBox').innerHTML = feature.properties.popup;
+                layer.setStyle({
+                    fillColor: 'yellow',
+                    color: 'yellow',
+                    fillOpacity: 0.7,
+                    weight: 3
+                });
+            });
+            layer.on('mouseout', function(e) {
+                document.getElementById('infoBox').innerHTML = "Hover over an airspace...";
+                layer.setStyle({
+                    fillColor: feature.properties.defaultColor,
+                    color: feature.properties.defaultColor,
+                    fillOpacity: 0.4,
+                    weight: 2
+                });
+            });
+        }
+        geo_json_92f55b057d41b2dd2f8a41797732b820.eachLayer(function(layer) {
+            if(layer.feature){
+                onEachFeature(layer.feature, layer);
+            }
+        });
+        
+    
+            geo_json_92f55b057d41b2dd2f8a41797732b820.addTo(map_beead2fc18b36a73733d83333138f52f);
+        
+    
+        function geo_json_61912f3f9755805ca2e0e187897683aa_styler(feature) {
+            switch(feature.properties.popup) {
+                default:
+                    return {"color": "orange", "fillColor": "orange", "fillOpacity": 0.4, "weight": 2};
+            }
+        }
+        function geo_json_61912f3f9755805ca2e0e187897683aa_highlighter(feature) {
+            switch(feature.properties.popup) {
+                default:
+                    return {"color": "yellow", "fillColor": "yellow", "fillOpacity": 0.7, "weight": 3};
+            }
+        }
+
+        function geo_json_61912f3f9755805ca2e0e187897683aa_onEachFeature(feature, layer) {
+            layer.on({
+                mouseout: function(e) {
+                    if(typeof e.target.setStyle === "function"){
+                            geo_json_61912f3f9755805ca2e0e187897683aa.resetStyle(e.target);
+                    }
+                },
+                mouseover: function(e) {
+                    if(typeof e.target.setStyle === "function"){
+                        const highlightStyle = geo_json_61912f3f9755805ca2e0e187897683aa_highlighter(e.target.feature)
+                        e.target.setStyle(highlightStyle);
+                    }
+                },
+            });
+        };
+        var geo_json_61912f3f9755805ca2e0e187897683aa = L.geoJson(null, {
+                onEachFeature: geo_json_61912f3f9755805ca2e0e187897683aa_onEachFeature,
+            
+                style: geo_json_61912f3f9755805ca2e0e187897683aa_styler,
+            ...{
+}
+        });
+
+        function geo_json_61912f3f9755805ca2e0e187897683aa_add (data) {
+            geo_json_61912f3f9755805ca2e0e187897683aa
+                .addData(data);
+        }
+            geo_json_61912f3f9755805ca2e0e187897683aa_add({"features": [{"geometry": {"coordinates": [[[14.724444, 50.660556], [15.001111, 50.476111], [15.169722, 50.476389], [15.25638900000028, 50.440277999999964], [15.256022977928303, 50.439096873775114], [15.255701816087424, 50.43791046681069], [15.255425698119597, 50.43671946998524], [15.255194781398586, 50.435524576797825], [15.255009196946116, 50.4343264829637], [15.25486904936351, 50.43312588600879], [15.254774416778735, 50.431923484863184], [15.254725350808975, 50.43071997945399], [15.254721876538616, 50.429516070297765], [15.25476399251276, 50.42831245809258], [15.254851670746143, 50.427109843310326], [15.254984856747534, 50.42590892578901], [15.255163469559468, 50.424710404325836], [15.255387401813392, 50.42351497627075], [15.255656519800082, 50.42232333712113], [15.255970663555308, 50.42113618011758], [15.25632964696069, 50.41995419584117], [15.256733257859633, 50.41877807181242], [15.257181258188307, 50.41760849209211], [15.257673384121512, 50.41644613688413], [15.258209346233388, 50.41529168214095], [15.258788829672818, 50.414145799171344], [15.25941149435345, 50.413009154251206], [15.260076975158148, 50.41188240823722], [15.26078488215779, 50.41076621618383], [15.261534800844267, 50.409661226963735], [15.262326292377496, 50.408568082892], [15.26315889384635, 50.40748741935409], [15.264032118543268, 50.40641986443803], [15.264945456252427, 50.405366038570925], [15.265898373551304, 50.40432655415991], [15.266890314125375, 50.40330201523799], [15.267920699095844, 50.40229301711462], [15.268988927360136, 50.40130014603158], [15.27009437594497, 50.40032397882415], [15.27123640037183, 50.39936508258776], [15.272414335034542, 50.39842401435031], [15.273627493588823, 50.39750132075057], [15.274875169353487, 50.396597537722464], [15.276156635723133, 50.39571319018562], [15.277471146592008, 50.39484879174252], [15.278817936788895, 50.394004844382074], [15.280196222522642, 50.39318183819004], [15.281605201838186, 50.392380251066314], [15.283044055082762, 50.39160054844938], [15.28451194538198, 50.390843183048005], [15.286008019125614, 50.39010859458019], [15.28753140646268, 50.38939720951982], [15.289081221805644, 50.38870944085094], [15.290656564343399, 50.38804568782981], [15.292256518562704, 50.387406335754896], [15.2938801547779, 50.38679175574507], [15.29552652966844, 50.38620230452587], [15.297194686824046, 50.38563832422409], [15.298883657297187, 50.38510014217092], [15.300592460162452, 50.384588070713505], [15.30232010308265, 50.38410240703521], [15.304065582881204, 50.383643432984634], [15.305827886120595, 50.38321141491348], [15.307605989686481, 50.38280660352329], [15.309398861377181, 50.382429233721254], [15.311205460498217, 50.38207952448519], [15.31302473846154, 50.38175767873753], [15.314855639389142, 50.38146388322867], [15.316697100720695, 50.38119830842957], [15.31854805382491, 50.380961108433816], [15.32040742461422, 50.38075242086898], [15.322274134162516, 50.38057236681751], [15.324147099325545, 50.380421050747174], [15.326025233363627, 50.380298560450925], [15.32790744656639, 50.38020496699659], [15.32979264687913, 50.38014032468583], [15.331679740530442, 50.380104671023126], [15.333567632660854, 50.3800980266941], [15.335455227952027, 50.380120395553675], [15.337341431256204, 50.38017176462382], [15.339225148225578, 50.38025210410108], [15.341105285941227, 50.38036136737365], [15.34298075354123, 50.380499491048155], [15.344850462847688, 50.38066639498611], [15.346713328992202, 50.38086198235], [15.348568271039591, 50.38108613965886], [15.35041421260939, 50.38133873685362], [15.352250082494825, 50.38161962737171], [15.354074815278967, 50.38192864823149], [15.355887351947636, 50.3822656201258], [15.357686640498788, 50.38263034752513], [15.35947163654802, 50.38302261879001], [15.361241303929846, 50.383442206292735], [15.362994615294422, 50.38388886654824], [15.364730552699376, 50.384362340354194], [15.366448108196455, 50.384862352940026], [15.368146284412578, 50.38538861412504], [15.36982409512506, 50.38594081848536], [15.371480565830618, 50.38651864552965], [15.37311473430789, 50.38712175988365], [15.374725651173081, 50.38774981148307], [15.37631238042853, 50.38840243577521], [15.37787400000376, 50.38907925392888], [15.387778, 50.385], [15.382222, 50.185833], [15.155, 50.185833], [15.003333, 50.185556], [14.984167, 50.16], [14.808056, 50.133889], [14.828889, 50.151389], [14.872221999999889, 50.242499999999964], [14.871483170762039, 50.24376118158386], [14.870737911634048, 50.245020819669804], [14.869986230014145, 50.24627890089069], [14.869228133370536, 50.247535411894916], [14.868463629241347, 50.248790339346435], [14.867692725234562, 50.25004366992495], [14.866915429027966, 50.25129539032607], [14.866131748369076, 50.25254548726145], [14.86534169107508, 50.2537939474589], [14.864545265032787, 50.2550407576626], [14.863742478198532, 50.256285904633145], [14.862933338598145, 50.2575293751478], [14.862117854326867, 50.258771156000556], [14.861296033549278, 50.26001123400231], [14.860467884499245, 50.26124959598105], [14.859633415479841, 50.26248622878189], [14.858792634863276, 50.26372111926735], [14.857945551090838, 50.264954254317374], [14.857092172672811, 50.26618562082958], [14.856232508188398, 50.26741520571932], [14.855366566285664, 50.26864299591985], [14.854494355681457, 50.26986897838251], [14.853615885161323, 50.27109314007683], [14.852731163579447, 50.272315467990666], [14.851840199858556, 50.273535949130384], [14.850943002989863, 50.27475457052093], [14.850039582032979, 50.275971319206064], [14.849129946115838, 50.27718618224843], [14.848214104434609, 50.278399146729726], [14.84729206625362, 50.27961019975086], [14.846363840905296, 50.28081932843206], [14.845429437790035, 50.28202651991302], [14.844488866376162, 50.283231761353086], [14.843542136199837, 50.28443503993134], [14.842589256864956, 50.285636342846765], [14.841630238043082, 50.2868356573184], [14.840665089473347, 50.28803297058544], [14.83969382096238, 50.28922826990743], [14.838716442384198, 50.290421542564346], [14.837732963680137, 50.29161277585682], [14.836743394858754, 50.292801957106164], [14.835747745995732, 50.293989073654615], [14.834746027233793, 50.29517411286541], [14.833738248782609, 50.29635706212295], [14.832724420918707, 50.29753790883298], [14.831704553985377, 50.298716640422604], [14.830678658392573, 50.29989324434055], [14.82964674461681, 50.30106770805729], [14.82860882320109, 50.302240019065096], [14.827564904754794, 50.30341016487827], [14.82651499995357, 50.30457813303321], [14.825459119539255, 50.30574391108864], [14.824397274319765, 50.30690748662564], [14.823329475168999, 50.308068847247846], [14.822255733026727, 50.30922798058159], [14.821176058898509, 50.31038487427601], [14.820090463855568, 50.31153951600321], [14.818998959034705, 50.31269189345834], [14.81790155563818, 50.31384199435985], [14.816798264933624, 50.31498980644952], [14.815689098253914, 50.316135317492595], [14.814574066997071, 50.31727851527802], [14.813453182626171, 50.318419387618455], [14.812326456669203, 50.3195579223505], [14.811193900718987, 50.32069410733477], [14.810055526433054, 50.321827930456095], [14.808911345533529, 50.32295937962357], [14.807761369807027, 50.32408844277075], [14.806605611104542, 50.3252151078558], [14.80544408134133, 50.326339362861525], [14.80427679249678, 50.32746119579564], [14.803103756614334, 50.328580594690834], [14.801924985801326, 50.32969754760488], [14.800740492228908, 50.3308120426208], [14.799550288131897, 50.331924067847], [14.798354385808686, 50.33303361141741], [14.7971527976211, 50.334140661491595], [14.795945535994294, 50.33524520625486], [14.794732613416615, 50.336347233918474], [14.793514042439504, 50.33744673271969], [14.792289835677341, 50.33854369092196], [14.791060005807354, 50.339638096815], [14.789824565569475, 50.34072993871503], [14.788583527766214, 50.34181920496475], [14.787336905262553, 50.342905883933575], [14.786084710985792, 50.34398996401776], [14.784826957925437, 50.34507143364048], [14.783563659133081, 50.346150281252], [14.78229482772225, 50.347226495329814], [14.781020476868292, 50.34830006437871], [14.779740619808239, 50.349370976930985], [14.77845526984068, 50.35043922154647], [14.777164440325624, 50.35150478681278], [14.775868144684367, 50.35256766134536], [14.77456639639936, 50.353627833787606], [14.773259209014078, 50.35468529281103], [14.771946596132876, 50.355740027115374], [14.77062857142086, 50.356792025428746], [14.769305148603737, 50.357841276507735], [14.605556, 50.390278], [14.311111, 50.391389], [14.296111, 50.437222], [14.0875, 50.501389], [14.263611, 50.592778], [14.724444, 50.660556]]], "type": "Polygon"}, "properties": {"airspace_class": "R", "defaultColor": "orange", "popup": "Name: \u003cb\u003eLKTRA225 GALI 7\u003c/b\u003e\u003cbr\u003eClass: \u003cb\u003eR\u003c/b\u003e\u003cbr\u003eUpper Limit: \u003cb\u003e4000 MSL\u003c/b\u003e\u003cbr\u003eLower Limit: \u003cb\u003e0 AGL\u003c/b\u003e\u003cbr\u003eArea: \u003cb\u003e2461.95 km\u00b2\u003c/b\u003e\u003cbr\u003e"}, "type": "Feature"}], "type": "FeatureCollection"});
+
+        
+    
+    geo_json_61912f3f9755805ca2e0e187897683aa.bindPopup(
+    function(layer){
+    let div = L.DomUtil.create('div');
+    
+    let handleObject = feature=>typeof(feature)=='object' ? JSON.stringify(feature) : feature;
+    let fields = ["popup"];
+    let aliases = ["popup"];
+    let table = '<table>' +
+        String(
+        fields.map(
+        (v,i)=>
+        `<tr>
+            <td>${handleObject(layer.feature.properties[v]).toLocaleString()}</td>
+        </tr>`).join(''))
+    +'</table>';
+    div.innerHTML=table;
+    
+    return div
+    }
+    ,{
+  "popupOptions": {
+  "maxWidth": "300",
+  "className": "custom-popup",
+},
+  "className": "foliumpopup",
+});
+                     
+    
+        function onEachFeature(feature, layer) {
+            layer.on('mouseover', function(e) {
+                document.getElementById('infoBox').innerHTML = feature.properties.popup;
+                layer.setStyle({
+                    fillColor: 'yellow',
+                    color: 'yellow',
+                    fillOpacity: 0.7,
+                    weight: 3
+                });
+            });
+            layer.on('mouseout', function(e) {
+                document.getElementById('infoBox').innerHTML = "Hover over an airspace...";
+                layer.setStyle({
+                    fillColor: feature.properties.defaultColor,
+                    color: feature.properties.defaultColor,
+                    fillOpacity: 0.4,
+                    weight: 2
+                });
+            });
+        }
+        geo_json_61912f3f9755805ca2e0e187897683aa.eachLayer(function(layer) {
+            if(layer.feature){
+                onEachFeature(layer.feature, layer);
+            }
+        });
+        
+    
+            geo_json_61912f3f9755805ca2e0e187897683aa.addTo(map_beead2fc18b36a73733d83333138f52f);
+        
+    
+        function geo_json_5e09508b060ce8734f1480260a0d2841_styler(feature) {
+            switch(feature.properties.popup) {
+                default:
+                    return {"color": "orange", "fillColor": "orange", "fillOpacity": 0.4, "weight": 2};
+            }
+        }
+        function geo_json_5e09508b060ce8734f1480260a0d2841_highlighter(feature) {
+            switch(feature.properties.popup) {
+                default:
+                    return {"color": "yellow", "fillColor": "yellow", "fillOpacity": 0.7, "weight": 3};
+            }
+        }
+
+        function geo_json_5e09508b060ce8734f1480260a0d2841_onEachFeature(feature, layer) {
+            layer.on({
+                mouseout: function(e) {
+                    if(typeof e.target.setStyle === "function"){
+                            geo_json_5e09508b060ce8734f1480260a0d2841.resetStyle(e.target);
+                    }
+                },
+                mouseover: function(e) {
+                    if(typeof e.target.setStyle === "function"){
+                        const highlightStyle = geo_json_5e09508b060ce8734f1480260a0d2841_highlighter(e.target.feature)
+                        e.target.setStyle(highlightStyle);
+                    }
+                },
+            });
+        };
+        var geo_json_5e09508b060ce8734f1480260a0d2841 = L.geoJson(null, {
+                onEachFeature: geo_json_5e09508b060ce8734f1480260a0d2841_onEachFeature,
+            
+                style: geo_json_5e09508b060ce8734f1480260a0d2841_styler,
+            ...{
+}
+        });
+
+        function geo_json_5e09508b060ce8734f1480260a0d2841_add (data) {
+            geo_json_5e09508b060ce8734f1480260a0d2841
+                .addData(data);
+        }
+            geo_json_5e09508b060ce8734f1480260a0d2841_add({"features": [{"geometry": {"coordinates": [[[13.761667, 49.858333], [13.85, 49.762222], [13.823611, 49.708333], [13.30305599999708, 49.62888900000474], [13.300775083079321, 49.62832626298545], [13.29846786467231, 49.62781051847835], [13.29613665016276, 49.62734228164092], [13.293783768695373, 49.626922020162915], [13.291411570864337, 49.62655015380334], [13.289022426384332, 49.626227053974894], [13.28661872174331, 49.62595304337634], [13.284202857839256, 49.62572839567316], [13.281777247603255, 49.62555333522662], [13.279344313611041, 49.62542803687188], [13.276906485685393, 49.625352625744846], [13.274466198491606, 49.62532717715844], [13.27202588912837, 49.625351716527994], [13.269587994716304, 49.625426219346195], [13.26715494998649, 49.62555061120727], [13.264729184871284, 49.62572476788063], [13.26231312209968, 49.625948515433784], [13.25990917479956, 49.62622163040451], [13.257519744109057, 49.626543840021924], [13.255147216799395, 49.62691482247645], [13.252793962911376, 49.627334207238405], [13.250462333407846, 49.62780157542463], [13.248154657844363, 49.62831646021327], [13.245873242060279, 49.62887834730586], [13.243620365892493, 49.62948667543662], [13.241398280914014, 49.630140836928234], [13.239209208199561, 49.6308401782937], [13.237055336120342, 49.63158400088369], [13.23493881817011, 49.63237156157873], [13.23286177082464, 49.63320207352554], [13.230826271436692, 49.634074706916934], [13.228834356168504, 49.63498858981437], [13.226888017963814, 49.63594280901254], [13.224989204561453, 49.636936410944976], [13.223139816552377, 49.637968402629994], [13.221341705482132, 49.63903775265585], [13.219596672000547, 49.6401433922045], [13.217906464060583, 49.64128421611248], [13.216272775168028, 49.64245908396833], [13.214697242683869, 49.64366682124537], [13.213181446181014, 49.64490622046857], [13.211726905857013, 49.646176042414545], [13.210335081004386, 49.64747501734354], [13.209007368540174, 49.648801846262025], [13.207745101596101, 49.65015520221493], [13.20654954817094, 49.651533731606], [13.205421909846372, 49.65293605554516], [13.204363320567717, 49.65436077122154], [13.20337484549086, 49.655806453300706], [13.202457479896504, 49.657271655344964], [13.20161214817301, 49.65875491125503], [13.20083970286885, 49.66025473673202], [13.20014092381573, 49.66176963075793], [13.199516517323394, 49.66329807709345], [13.198967115446914, 49.66483854579159], [13.198493275327408, 49.666389494725316], [13.19809547860688, 49.667949371128316], [13.197774130917896, 49.669516613146556], [13.197529561448722, 49.67108965139989], [13.197362022584473, 49.672666910551555], [13.197271689624735, 49.67424681088435], [13.197258660578086, 49.67582776988173], [13.197322956033817, 49.677408203812476], [13.197464519111115, 49.67898652931693], [13.19768321548587, 49.680561164993804], [13.197978833495213, 49.68213053298535], [13.198351084319807, 49.683693060559776], [13.198799602243776, 49.6852471816891], [13.199323944992228, 49.686791338620765], [13.19992359414602, 49.688323983441784], [13.200597955633603, 49.689843579633354], [13.201346360299445, 49.69134860361474], [13.202168064548653, 49.69283754627476], [13.203062251067207, 49.69430891448922], [13.204028029617193, 49.69576123262282], [13.205064437906357, 49.69719304401413], [13.206170442531159, 49.69860291244182], [13.207344939992508, 49.699989423571004], [13.208586757783202, 49.70135118637792], [13.2098946555461, 49.702686834551685], [13.211267326301869, 49.70399502787154], [13.212703397745225, 49.7052744535584], [13.214201433608334, 49.70652382759888], [13.2157599350901, 49.70774189604108], [13.217377342349963, 49.708927436260105], [13.21905203606469, 49.71007925819256], [13.220782339046675, 49.71119620553842], [13.222566517922106, 49.71227715692919], [13.224402784867356, 49.713321027061035], [13.22628929940183, 49.71432676779182], [13.228224170235514, 49.71529336920084], [13.230205457169259, 49.71621986061016], [13.232231173046038, 49.71710531156652], [13.234299285751014, 49.71794883278277], [13.236407720258502, 49.71874957703785], [13.23855436072368, 49.71950674003436], [13.2407370526169, 49.72021956121288], [13.242953604898426, 49.72088732452216], [13.245201792231326, 49.72150935914433], [13.341389, 49.803056], [13.761667, 49.858333]]], "type": "Polygon"}, "properties": {"airspace_class": "R", "defaultColor": "orange", "popup": "Name: \u003cb\u003eLKTRA220 GALI 2\u003c/b\u003e\u003cbr\u003eClass: \u003cb\u003eR\u003c/b\u003e\u003cbr\u003eUpper Limit: \u003cb\u003e4000 MSL\u003c/b\u003e\u003cbr\u003eLower Limit: \u003cb\u003e0 AGL\u003c/b\u003e\u003cbr\u003eArea: \u003cb\u003e749.02 km\u00b2\u003c/b\u003e\u003cbr\u003e"}, "type": "Feature"}], "type": "FeatureCollection"});
+
+        
+    
+    geo_json_5e09508b060ce8734f1480260a0d2841.bindPopup(
+    function(layer){
+    let div = L.DomUtil.create('div');
+    
+    let handleObject = feature=>typeof(feature)=='object' ? JSON.stringify(feature) : feature;
+    let fields = ["popup"];
+    let aliases = ["popup"];
+    let table = '<table>' +
+        String(
+        fields.map(
+        (v,i)=>
+        `<tr>
+            <td>${handleObject(layer.feature.properties[v]).toLocaleString()}</td>
+        </tr>`).join(''))
+    +'</table>';
+    div.innerHTML=table;
+    
+    return div
+    }
+    ,{
+  "popupOptions": {
+  "maxWidth": "300",
+  "className": "custom-popup",
+},
+  "className": "foliumpopup",
+});
+                     
+    
+        function onEachFeature(feature, layer) {
+            layer.on('mouseover', function(e) {
+                document.getElementById('infoBox').innerHTML = feature.properties.popup;
+                layer.setStyle({
+                    fillColor: 'yellow',
+                    color: 'yellow',
+                    fillOpacity: 0.7,
+                    weight: 3
+                });
+            });
+            layer.on('mouseout', function(e) {
+                document.getElementById('infoBox').innerHTML = "Hover over an airspace...";
+                layer.setStyle({
+                    fillColor: feature.properties.defaultColor,
+                    color: feature.properties.defaultColor,
+                    fillOpacity: 0.4,
+                    weight: 2
+                });
+            });
+        }
+        geo_json_5e09508b060ce8734f1480260a0d2841.eachLayer(function(layer) {
+            if(layer.feature){
+                onEachFeature(layer.feature, layer);
+            }
+        });
+        
+    
+            geo_json_5e09508b060ce8734f1480260a0d2841.addTo(map_beead2fc18b36a73733d83333138f52f);
+        
+    
+        function geo_json_366de6d60580fb281c64ed0569d2af03_styler(feature) {
+            switch(feature.properties.popup) {
+                default:
+                    return {"color": "orange", "fillColor": "orange", "fillOpacity": 0.4, "weight": 2};
+            }
+        }
+        function geo_json_366de6d60580fb281c64ed0569d2af03_highlighter(feature) {
+            switch(feature.properties.popup) {
+                default:
+                    return {"color": "yellow", "fillColor": "yellow", "fillOpacity": 0.7, "weight": 3};
+            }
+        }
+
+        function geo_json_366de6d60580fb281c64ed0569d2af03_onEachFeature(feature, layer) {
+            layer.on({
+                mouseout: function(e) {
+                    if(typeof e.target.setStyle === "function"){
+                            geo_json_366de6d60580fb281c64ed0569d2af03.resetStyle(e.target);
+                    }
+                },
+                mouseover: function(e) {
+                    if(typeof e.target.setStyle === "function"){
+                        const highlightStyle = geo_json_366de6d60580fb281c64ed0569d2af03_highlighter(e.target.feature)
+                        e.target.setStyle(highlightStyle);
+                    }
+                },
+            });
+        };
+        var geo_json_366de6d60580fb281c64ed0569d2af03 = L.geoJson(null, {
+                onEachFeature: geo_json_366de6d60580fb281c64ed0569d2af03_onEachFeature,
+            
+                style: geo_json_366de6d60580fb281c64ed0569d2af03_styler,
+            ...{
+}
+        });
+
+        function geo_json_366de6d60580fb281c64ed0569d2af03_add (data) {
+            geo_json_366de6d60580fb281c64ed0569d2af03
+                .addData(data);
+        }
+            geo_json_366de6d60580fb281c64ed0569d2af03_add({"features": [{"geometry": {"coordinates": [[[14.605556, 50.390278], [14.769722000000792, 50.35805600000042], [14.771046508673818, 50.35700588070039], [14.772365614702748, 50.35595301191218], [14.773679304350729, 50.35489740488867], [14.774987563941568, 50.35383907091121], [14.776290379859878, 50.352778021289595], [14.777587738551212, 50.3517142673618], [14.7788796265222, 50.35064782049397], [14.780166030340666, 50.34957869208024], [14.7814469366358, 50.34850689354263], [14.782722332098245, 50.34743243633084], [14.783992203480274, 50.346355331922275], [14.785256537595883, 50.34527559182176], [14.786515321320952, 50.3441932275615], [14.78776854159335, 50.34310825070094], [14.789016185413093, 50.34202067282662], [14.790258239842437, 50.34093050555204], [14.791494692006042, 50.33983776051753], [14.792725529091074, 50.338742449390175], [14.793950738347332, 50.3376445838636], [14.795170307087393, 50.336544175657906], [14.796384222686713, 50.335441236519486], [14.797592472583764, 50.33433577822094], [14.798795044280155, 50.33322781256094], [14.799991925340748, 50.33211735136407], [14.801183103393791, 50.33100440648068], [14.802368566131019, 50.329888989786824], [14.803548301307794, 50.328771113184075], [14.804722296743213, 50.327650788599406], [14.80589054032023, 50.32652802798503], [14.80705301998577, 50.32540284331832], [14.808209723750837, 50.32427524660165], [14.80936063969065, 50.32314524986223], [14.810505755944739, 50.32201286515204], [14.81164506071707, 50.32087810454763], [14.812778542276153, 50.319740980150016], [14.813906188955148, 50.31860150408455], [14.815027989151995, 50.31745968850079], [14.8161439313295, 50.31631554557233], [14.817254004015458, 50.315169087496685], [14.818358195802773, 50.31402032649522], [14.819456495349543, 50.31286927481286], [14.820548891379177, 50.31171594471813], [14.821635372680511, 50.310560348502904], [14.822715928107895, 50.30940249848228], [14.82379054658131, 50.308242406994495], [14.824859217086475, 50.30708008640076], [14.825921928674934, 50.30591554908511], [14.826978670464175, 50.30474880745429], [14.828029431637722, 50.303579873937586], [14.829074201445238, 50.30240876098672], [14.830112969202627, 50.301235481075736], [14.83114572429213, 50.30006004670076], [14.832172456162414, 50.298882470379965], [14.833193154328697, 50.29770276465341], [14.83420780837281, 50.29652094208286], [14.835216407943314, 50.29533701525168], [14.83621894275559, 50.29415099676472], [14.83721540259193, 50.29296289924811], [14.83820577730163, 50.29177273534916], [14.839190056801094, 50.290580517736274], [14.8401682310739, 50.28938625909866], [14.841140290170918, 50.28818997214638], [14.842106224210385, 50.28699166961006], [14.843066023377988, 50.28579136424081], [14.84401967792697, 50.28458906881009], [14.84496717817821, 50.28338479610956], [14.84590851452029, 50.28217855895091], [14.846843677409616, 50.28097037016579], [14.84777265737047, 50.2797602426056], [14.848695444995116, 50.27854818914134], [14.849612030943872, 50.277334222663576], [14.85052240594519, 50.27611835608218], [14.851426560795755, 50.27490060232622], [14.852324486360535, 50.27368097434386], [14.853216173572891, 50.27245948510218], [14.854101613434633, 50.27123614758704], [14.854980797016115, 50.27001097480292], [14.855853715456307, 50.26878397977284], [14.856720359962857, 50.267555175538156], [14.857580721812191, 50.2663245751584], [14.858434792349565, 50.26509219171124], [14.859282562989154, 50.263858038292206], [14.86012402521412, 50.262622128014634], [14.86095917057668, 50.261384474009525], [14.861787990698186, 50.260145089425315], [14.862610477269186, 50.25890398742785], [14.863426622049495, 50.25766118120015], [14.864236416868279, 50.256416683942305], [14.865039853624094, 50.25517050887132], [14.865836924284975, 50.25392266922099], [14.866627620888506, 50.25267317824172], [14.867411935541865, 50.25142204920038], [14.8681898604219, 50.250169295380246], [14.868961387775203, 50.248914930080716], [14.869726509918143, 50.247658966617294], [14.870485219236969, 50.24640141832134], [14.871237508187825, 50.24514229854002], [14.871983369296856, 50.24388162063606], [14.872722795160238, 50.242619397987724], [14.828889, 50.151389], [14.795, 50.224722], [14.656111, 50.182778], [14.641111, 50.201111], [14.550278, 50.170556], [14.546389, 50.175556], [14.568889, 50.234722], [14.335278, 50.312778], [14.311111, 50.391389], [14.605556, 50.390278]]], "type": "Polygon"}, "properties": {"airspace_class": "R", "defaultColor": "orange", "popup": "Name: \u003cb\u003eLKTRA224 GALI 6\u003c/b\u003e\u003cbr\u003eClass: \u003cb\u003eR\u003c/b\u003e\u003cbr\u003eUpper Limit: \u003cb\u003e2000 MSL\u003c/b\u003e\u003cbr\u003eLower Limit: \u003cb\u003e0 AGL\u003c/b\u003e\u003cbr\u003eArea: \u003cb\u003e606.68 km\u00b2\u003c/b\u003e\u003cbr\u003e"}, "type": "Feature"}], "type": "FeatureCollection"});
+
+        
+    
+    geo_json_366de6d60580fb281c64ed0569d2af03.bindPopup(
+    function(layer){
+    let div = L.DomUtil.create('div');
+    
+    let handleObject = feature=>typeof(feature)=='object' ? JSON.stringify(feature) : feature;
+    let fields = ["popup"];
+    let aliases = ["popup"];
+    let table = '<table>' +
+        String(
+        fields.map(
+        (v,i)=>
+        `<tr>
+            <td>${handleObject(layer.feature.properties[v]).toLocaleString()}</td>
+        </tr>`).join(''))
+    +'</table>';
+    div.innerHTML=table;
+    
+    return div
+    }
+    ,{
+  "popupOptions": {
+  "maxWidth": "300",
+  "className": "custom-popup",
+},
+  "className": "foliumpopup",
+});
+                     
+    
+        function onEachFeature(feature, layer) {
+            layer.on('mouseover', function(e) {
+                document.getElementById('infoBox').innerHTML = feature.properties.popup;
+                layer.setStyle({
+                    fillColor: 'yellow',
+                    color: 'yellow',
+                    fillOpacity: 0.7,
+                    weight: 3
+                });
+            });
+            layer.on('mouseout', function(e) {
+                document.getElementById('infoBox').innerHTML = "Hover over an airspace...";
+                layer.setStyle({
+                    fillColor: feature.properties.defaultColor,
+                    color: feature.properties.defaultColor,
+                    fillOpacity: 0.4,
+                    weight: 2
+                });
+            });
+        }
+        geo_json_366de6d60580fb281c64ed0569d2af03.eachLayer(function(layer) {
+            if(layer.feature){
+                onEachFeature(layer.feature, layer);
+            }
+        });
+        
+    
+            geo_json_366de6d60580fb281c64ed0569d2af03.addTo(map_beead2fc18b36a73733d83333138f52f);
+        
+    
+        function geo_json_a3865a0ce0a78571ddee98a73c814bac_styler(feature) {
+            switch(feature.properties.popup) {
+                default:
+                    return {"color": "orange", "fillColor": "orange", "fillOpacity": 0.4, "weight": 2};
+            }
+        }
+        function geo_json_a3865a0ce0a78571ddee98a73c814bac_highlighter(feature) {
+            switch(feature.properties.popup) {
+                default:
+                    return {"color": "yellow", "fillColor": "yellow", "fillOpacity": 0.7, "weight": 3};
+            }
+        }
+
+        function geo_json_a3865a0ce0a78571ddee98a73c814bac_onEachFeature(feature, layer) {
+            layer.on({
+                mouseout: function(e) {
+                    if(typeof e.target.setStyle === "function"){
+                            geo_json_a3865a0ce0a78571ddee98a73c814bac.resetStyle(e.target);
+                    }
+                },
+                mouseover: function(e) {
+                    if(typeof e.target.setStyle === "function"){
+                        const highlightStyle = geo_json_a3865a0ce0a78571ddee98a73c814bac_highlighter(e.target.feature)
+                        e.target.setStyle(highlightStyle);
+                    }
+                },
+            });
+        };
+        var geo_json_a3865a0ce0a78571ddee98a73c814bac = L.geoJson(null, {
+                onEachFeature: geo_json_a3865a0ce0a78571ddee98a73c814bac_onEachFeature,
+            
+                style: geo_json_a3865a0ce0a78571ddee98a73c814bac_styler,
+            ...{
+}
+        });
+
+        function geo_json_a3865a0ce0a78571ddee98a73c814bac_add (data) {
+            geo_json_a3865a0ce0a78571ddee98a73c814bac
+                .addData(data);
+        }
+            geo_json_a3865a0ce0a78571ddee98a73c814bac_add({"features": [{"geometry": {"coordinates": [[[14.550278, 50.016111], [14.708889, 49.938611], [14.678889, 49.806944], [14.127778, 49.8325], [14.353611, 49.9575], [14.473055999999216, 49.94722200000056], [14.474055743334723, 49.94780002232246], [14.475051610125147, 49.948380817487674], [14.476043581714158, 49.948964374697425], [14.47703163951583, 49.94955068310115], [14.478015765014984, 49.95013973179675], [14.478995939767554, 49.950731509830824], [14.479972145400907, 49.951326006198734], [14.480944363614215, 49.951923209844956], [14.48191257617876, 49.95252310966317], [14.4828767649383, 49.953125694496514], [14.483836911809407, 49.953730953137764], [14.484792998781808, 49.95433887432957], [14.485745007918696, 49.95494944676463], [14.4866929213571, 49.95556265908587], [14.487636721308203, 49.956178499886704], [14.488576390057668, 49.95679695771123], [14.48951190996599, 49.957418021054394], [14.490443263468816, 49.958041678362264], [14.49137043307727, 49.95866791803216], [14.492293401378296, 49.959296728412966], [14.493212151034967, 49.959928097805204], [14.494126664786833, 49.96056201446142], [14.495036925450231, 49.961198466586225], [14.4959429159186, 49.96183744233663], [14.496844619162845, 49.9624789298222], [14.497742018231598, 49.96312291710528], [14.49863509625159, 49.963769392201236], [14.49952383642794, 49.96441834307865], [14.500408222044483, 49.965069757659535], [14.501288236464093, 49.965723623819564], [14.50216386312898, 49.96637992938831], [14.50303508556102, 49.967038662149406], [14.50390188736206, 49.967699809840845], [14.504764252214226, 49.96836336015513], [14.505622163880245, 49.96902930073957], [14.506475606203741, 49.96969761919642], [14.507324563109545, 49.97036830308318], [14.508169018604006, 49.9710413399128], [14.50900895677529, 49.97171671715388], [14.509844361793686, 49.972394422230934], [14.510675217911906, 49.973074442524606], [14.511501509465393, 49.97375676537186], [14.512323220872604, 49.97444137806628], [14.513140336635315, 49.97512826785827], [14.513952841338932, 49.97581742195527], [14.514760719652768, 49.976508827522], [14.515563956330336, 49.97720247168071], [14.51636253620966, 49.97789834151138], [14.51715644421354, 49.97859642405199], [14.517945665349863, 49.97929670629876], [14.518730184711881, 49.97999917520632], [14.519509987478497, 49.98070381768804], [14.520285058914554, 49.9814106206162], [14.52105538437112, 49.98211957082226], [14.52182094928576, 49.982830655097096], [14.522581739182835, 49.983543860191254], [14.523337739673764, 49.98425917281515], [14.524088936457307, 49.984976579639344], [14.524835315319859, 49.985696067294796], [14.525576862135681, 49.98641762237306], [14.526313562867232, 49.98714123142658], [14.527045403565397, 49.98786688096892], [14.527772370369771, 49.98859455747501], [14.52849444950894, 49.98932424738135], [14.529211627300725, 49.990055937086346], [14.529923890152476, 49.99078961295049], [14.530631224561308, 49.99152526129661], [14.531333617114388, 49.99226286841015], [14.532031054489192, 49.993002420539405], [14.532723523453743, 49.99374390389581], [14.533411010866907, 49.9944873046541], [14.53409350367862, 49.99523260895266], [14.534770988930157, 49.99597980289374], [14.535443453754382, 49.996728872543656], [14.536110885376008, 49.997479803933174], [14.536773271111837, 49.998232583057636], [14.53743059837101, 49.99898719587726], [14.538082854655274, 49.99974362831746], [14.538730027559204, 50.000501866269005], [14.539372104770456, 50.001261895588335], [14.540009074070017, 50.002023702097816], [14.540640923332443, 50.002787271585966], [14.5412676405261, 50.003552589807754], [14.54188921371339, 50.00431964248486], [14.542505631051005, 50.005088415305885], [14.543116880790162, 50.005858893926685], [14.543722951276822, 50.006631063970616], [14.544323830951933, 50.00740491102873], [14.544919508351654, 50.008180420660125], [14.545509972107595, 50.008957578392184], [14.546095210947039, 50.00973636972081], [14.54667521369315, 50.01051678011072], [14.547249969265238, 50.011298794995724], [14.547819466678929, 50.01208239977897], [14.548383695046425, 50.01286757983317], [14.54894264357672, 50.013654320501004], [14.549496301575791, 50.01444260709523], [14.550044658446849, 50.01523242489907], [14.550587703690514, 50.016023759166394], [14.550278, 50.016111]]], "type": "Polygon"}, "properties": {"airspace_class": "R", "defaultColor": "orange", "popup": "Name: \u003cb\u003eLKTRA223 GALI 5\u003c/b\u003e\u003cbr\u003eClass: \u003cb\u003eR\u003c/b\u003e\u003cbr\u003eUpper Limit: \u003cb\u003e2500 MSL\u003c/b\u003e\u003cbr\u003eLower Limit: \u003cb\u003e0 AGL\u003c/b\u003e\u003cbr\u003eArea: \u003cb\u003e545.09 km\u00b2\u003c/b\u003e\u003cbr\u003e"}, "type": "Feature"}], "type": "FeatureCollection"});
+
+        
+    
+    geo_json_a3865a0ce0a78571ddee98a73c814bac.bindPopup(
+    function(layer){
+    let div = L.DomUtil.create('div');
+    
+    let handleObject = feature=>typeof(feature)=='object' ? JSON.stringify(feature) : feature;
+    let fields = ["popup"];
+    let aliases = ["popup"];
+    let table = '<table>' +
+        String(
+        fields.map(
+        (v,i)=>
+        `<tr>
+            <td>${handleObject(layer.feature.properties[v]).toLocaleString()}</td>
+        </tr>`).join(''))
+    +'</table>';
+    div.innerHTML=table;
+    
+    return div
+    }
+    ,{
+  "popupOptions": {
+  "maxWidth": "300",
+  "className": "custom-popup",
+},
+  "className": "foliumpopup",
+});
+                     
+    
+        function onEachFeature(feature, layer) {
+            layer.on('mouseover', function(e) {
+                document.getElementById('infoBox').innerHTML = feature.properties.popup;
+                layer.setStyle({
+                    fillColor: 'yellow',
+                    color: 'yellow',
+                    fillOpacity: 0.7,
+                    weight: 3
+                });
+            });
+            layer.on('mouseout', function(e) {
+                document.getElementById('infoBox').innerHTML = "Hover over an airspace...";
+                layer.setStyle({
+                    fillColor: feature.properties.defaultColor,
+                    color: feature.properties.defaultColor,
+                    fillOpacity: 0.4,
+                    weight: 2
+                });
+            });
+        }
+        geo_json_a3865a0ce0a78571ddee98a73c814bac.eachLayer(function(layer) {
+            if(layer.feature){
+                onEachFeature(layer.feature, layer);
+            }
+        });
+        
+    
+            geo_json_a3865a0ce0a78571ddee98a73c814bac.addTo(map_beead2fc18b36a73733d83333138f52f);
+        
+    
+        function geo_json_d192319a0118d937b44ebcf7c9b8e454_styler(feature) {
+            switch(feature.properties.popup) {
+                default:
+                    return {"color": "orange", "fillColor": "orange", "fillOpacity": 0.4, "weight": 2};
+            }
+        }
+        function geo_json_d192319a0118d937b44ebcf7c9b8e454_highlighter(feature) {
+            switch(feature.properties.popup) {
+                default:
+                    return {"color": "yellow", "fillColor": "yellow", "fillOpacity": 0.7, "weight": 3};
+            }
+        }
+
+        function geo_json_d192319a0118d937b44ebcf7c9b8e454_onEachFeature(feature, layer) {
+            layer.on({
+                mouseout: function(e) {
+                    if(typeof e.target.setStyle === "function"){
+                            geo_json_d192319a0118d937b44ebcf7c9b8e454.resetStyle(e.target);
+                    }
+                },
+                mouseover: function(e) {
+                    if(typeof e.target.setStyle === "function"){
+                        const highlightStyle = geo_json_d192319a0118d937b44ebcf7c9b8e454_highlighter(e.target.feature)
+                        e.target.setStyle(highlightStyle);
+                    }
+                },
+            });
+        };
+        var geo_json_d192319a0118d937b44ebcf7c9b8e454 = L.geoJson(null, {
+                onEachFeature: geo_json_d192319a0118d937b44ebcf7c9b8e454_onEachFeature,
+            
+                style: geo_json_d192319a0118d937b44ebcf7c9b8e454_styler,
+            ...{
+}
+        });
+
+        function geo_json_d192319a0118d937b44ebcf7c9b8e454_add (data) {
+            geo_json_d192319a0118d937b44ebcf7c9b8e454
+                .addData(data);
+        }
+            geo_json_d192319a0118d937b44ebcf7c9b8e454_add({"features": [{"geometry": {"coordinates": [[[13.867778, 49.914722], [14.221944, 49.884444], [14.015556, 49.77], [13.963889, 49.808889], [13.938056, 49.828333], [13.866667, 49.795556], [13.85, 49.762222], [13.761667, 49.858333], [13.867778, 49.914722]]], "type": "Polygon"}, "properties": {"airspace_class": "R", "defaultColor": "orange", "popup": "Name: \u003cb\u003eLKTRA221 GALI 3\u003c/b\u003e\u003cbr\u003eClass: \u003cb\u003eR\u003c/b\u003e\u003cbr\u003eUpper Limit: \u003cb\u003e3500 MSL\u003c/b\u003e\u003cbr\u003eLower Limit: \u003cb\u003e0 AGL\u003c/b\u003e\u003cbr\u003eArea: \u003cb\u003e299.79 km\u00b2\u003c/b\u003e\u003cbr\u003e"}, "type": "Feature"}], "type": "FeatureCollection"});
+
+        
+    
+    geo_json_d192319a0118d937b44ebcf7c9b8e454.bindPopup(
+    function(layer){
+    let div = L.DomUtil.create('div');
+    
+    let handleObject = feature=>typeof(feature)=='object' ? JSON.stringify(feature) : feature;
+    let fields = ["popup"];
+    let aliases = ["popup"];
+    let table = '<table>' +
+        String(
+        fields.map(
+        (v,i)=>
+        `<tr>
+            <td>${handleObject(layer.feature.properties[v]).toLocaleString()}</td>
+        </tr>`).join(''))
+    +'</table>';
+    div.innerHTML=table;
+    
+    return div
+    }
+    ,{
+  "popupOptions": {
+  "maxWidth": "300",
+  "className": "custom-popup",
+},
+  "className": "foliumpopup",
+});
+                     
+    
+        function onEachFeature(feature, layer) {
+            layer.on('mouseover', function(e) {
+                document.getElementById('infoBox').innerHTML = feature.properties.popup;
+                layer.setStyle({
+                    fillColor: 'yellow',
+                    color: 'yellow',
+                    fillOpacity: 0.7,
+                    weight: 3
+                });
+            });
+            layer.on('mouseout', function(e) {
+                document.getElementById('infoBox').innerHTML = "Hover over an airspace...";
+                layer.setStyle({
+                    fillColor: feature.properties.defaultColor,
+                    color: feature.properties.defaultColor,
+                    fillOpacity: 0.4,
+                    weight: 2
+                });
+            });
+        }
+        geo_json_d192319a0118d937b44ebcf7c9b8e454.eachLayer(function(layer) {
+            if(layer.feature){
+                onEachFeature(layer.feature, layer);
+            }
+        });
+        
+    
+            geo_json_d192319a0118d937b44ebcf7c9b8e454.addTo(map_beead2fc18b36a73733d83333138f52f);
+        
+    
+        function geo_json_045287a9705854d19adc9f39937ad5a7_styler(feature) {
+            switch(feature.properties.popup) {
+                default:
+                    return {"color": "orange", "fillColor": "orange", "fillOpacity": 0.4, "weight": 2};
+            }
+        }
+        function geo_json_045287a9705854d19adc9f39937ad5a7_highlighter(feature) {
+            switch(feature.properties.popup) {
+                default:
+                    return {"color": "yellow", "fillColor": "yellow", "fillOpacity": 0.7, "weight": 3};
+            }
+        }
+
+        function geo_json_045287a9705854d19adc9f39937ad5a7_onEachFeature(feature, layer) {
+            layer.on({
+                mouseout: function(e) {
+                    if(typeof e.target.setStyle === "function"){
+                            geo_json_045287a9705854d19adc9f39937ad5a7.resetStyle(e.target);
+                    }
+                },
+                mouseover: function(e) {
+                    if(typeof e.target.setStyle === "function"){
+                        const highlightStyle = geo_json_045287a9705854d19adc9f39937ad5a7_highlighter(e.target.feature)
+                        e.target.setStyle(highlightStyle);
+                    }
+                },
+            });
+        };
+        var geo_json_045287a9705854d19adc9f39937ad5a7 = L.geoJson(null, {
+                onEachFeature: geo_json_045287a9705854d19adc9f39937ad5a7_onEachFeature,
+            
+                style: geo_json_045287a9705854d19adc9f39937ad5a7_styler,
+            ...{
+}
+        });
+
+        function geo_json_045287a9705854d19adc9f39937ad5a7_add (data) {
+            geo_json_045287a9705854d19adc9f39937ad5a7
+                .addData(data);
+        }
+            geo_json_045287a9705854d19adc9f39937ad5a7_add({"features": [{"geometry": {"coordinates": [[[13.274444, 49.7251881688825], [13.284110544838187, 49.724794612293415], [13.29362464248976, 49.72362014914867], [13.302836249951312, 49.72168330143366], [13.311600094670421, 49.71901461439385], [13.319777965580604, 49.715656174818065], [13.327240892772382, 49.711660947304644], [13.333871181425804, 49.70709193897812], [13.339564267928065, 49.70202120582917], [13.344230368904137, 49.69652871634868], [13.347795897154235, 49.69070109037681], [13.35020462216791, 49.684630233056396], [13.351418556912797, 49.678411885433924], [13.351418556912797, 49.67214411456607], [13.35020462216791, 49.6659257669436], [13.347795897154235, 49.659854909623185], [13.344230368904137, 49.65402728365132], [13.339564267928065, 49.64853479417083], [13.333871181425804, 49.64346406102188], [13.327240892772382, 49.638895052695354], [13.319777965580604, 49.63489982518193], [13.311600094670421, 49.63154138560615], [13.302836249951312, 49.62887269856634], [13.29362464248976, 49.626935850851325], [13.284110544838187, 49.62576138770658], [13.274444, 49.6253678311175], [13.264777455161815, 49.62576138770658], [13.255263357510241, 49.626935850851325], [13.24605175004869, 49.62887269856634], [13.23728790532958, 49.63154138560615], [13.229110034419397, 49.63489982518193], [13.22164710722762, 49.638895052695354], [13.215016818574197, 49.64346406102188], [13.209323732071937, 49.64853479417083], [13.204657631095865, 49.65402728365132], [13.201092102845767, 49.659854909623185], [13.198683377832092, 49.6659257669436], [13.197469443087204, 49.67214411456607], [13.197469443087204, 49.678411885433924], [13.198683377832092, 49.684630233056396], [13.201092102845767, 49.69070109037681], [13.204657631095865, 49.69652871634868], [13.209323732071937, 49.70202120582917], [13.215016818574197, 49.70709193897812], [13.22164710722762, 49.711660947304644], [13.229110034419397, 49.715656174818065], [13.23728790532958, 49.71901461439385], [13.24605175004869, 49.72168330143366], [13.255263357510241, 49.72362014914867], [13.264777455161815, 49.724794612293415], [13.274444, 49.7251881688825]]], "type": "Polygon"}, "properties": {"airspace_class": "R", "defaultColor": "orange", "popup": "Name: \u003cb\u003eLKTRA219 GALI 1\u003c/b\u003e\u003cbr\u003eClass: \u003cb\u003eR\u003c/b\u003e\u003cbr\u003eUpper Limit: \u003cb\u003e4000 MSL\u003c/b\u003e\u003cbr\u003eLower Limit: \u003cb\u003e0 AGL\u003c/b\u003e\u003cbr\u003eArea: \u003cb\u003e96.79 km\u00b2\u003c/b\u003e\u003cbr\u003e"}, "type": "Feature"}], "type": "FeatureCollection"});
+
+        
+    
+    geo_json_045287a9705854d19adc9f39937ad5a7.bindPopup(
+    function(layer){
+    let div = L.DomUtil.create('div');
+    
+    let handleObject = feature=>typeof(feature)=='object' ? JSON.stringify(feature) : feature;
+    let fields = ["popup"];
+    let aliases = ["popup"];
+    let table = '<table>' +
+        String(
+        fields.map(
+        (v,i)=>
+        `<tr>
+            <td>${handleObject(layer.feature.properties[v]).toLocaleString()}</td>
+        </tr>`).join(''))
+    +'</table>';
+    div.innerHTML=table;
+    
+    return div
+    }
+    ,{
+  "popupOptions": {
+  "maxWidth": "300",
+  "className": "custom-popup",
+},
+  "className": "foliumpopup",
+});
+                     
+    
+        function onEachFeature(feature, layer) {
+            layer.on('mouseover', function(e) {
+                document.getElementById('infoBox').innerHTML = feature.properties.popup;
+                layer.setStyle({
+                    fillColor: 'yellow',
+                    color: 'yellow',
+                    fillOpacity: 0.7,
+                    weight: 3
+                });
+            });
+            layer.on('mouseout', function(e) {
+                document.getElementById('infoBox').innerHTML = "Hover over an airspace...";
+                layer.setStyle({
+                    fillColor: feature.properties.defaultColor,
+                    color: feature.properties.defaultColor,
+                    fillOpacity: 0.4,
+                    weight: 2
+                });
+            });
+        }
+        geo_json_045287a9705854d19adc9f39937ad5a7.eachLayer(function(layer) {
+            if(layer.feature){
+                onEachFeature(layer.feature, layer);
+            }
+        });
+        
+    
+            geo_json_045287a9705854d19adc9f39937ad5a7.addTo(map_beead2fc18b36a73733d83333138f52f);
+        
+    
+            map_beead2fc18b36a73733d83333138f52f.fitBounds(
+                [[49.399722, 13.197258660578086], [50.660556, 15.387778]],
+                {}
+            );
+        
+</script>
+</html>
