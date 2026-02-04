@@ -1,5 +1,8 @@
 
 ***** Changes History *****
+* 22JAN26 added: LKTSA86, LKTSA86A, LKTSA86B, LKD15
+* 30OCT25 LKTSA81, LKTSA82 added
+* 30OCT25 Pisek Notams (AKA TSA60) removed
 * 18JUL25 deleted Dropzone Erpuzice
 * 18JUL25 added LKD12 LOBODICE
 * 01APR25 updated notams for 2025, added LKTSA80
