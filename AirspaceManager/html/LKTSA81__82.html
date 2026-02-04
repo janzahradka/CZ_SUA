@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html>
+<head>
+    
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    
+        <script>
+            L_NO_TOUCH = false;
+            L_DISABLE_3D = false;
+        </script>
+    
+    <style>html, body {width: 100%;height: 100%;margin: 0;padding: 0;}</style>
+    <style>#map {position:absolute;top:0;bottom:0;right:0;left:0;}</style>
+    <script src="https://cdn.jsdelivr.net/npm/leaflet@1.9.3/dist/leaflet.js"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.2/leaflet.awesome-markers.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet@1.9.3/dist/leaflet.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap-glyphicons.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.2.0/css/all.min.css"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.2/leaflet.awesome-markers.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/python-visualization/folium/folium/templates/leaflet.awesome.rotate.min.css"/>
+    
+            <meta name="viewport" content="width=device-width,
+                initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+            <style>
+                #map_f07884bff03a3cdb2adf81357e91bb6a {
+                    position: relative;
+                    width: 100.0%;
+                    height: 100.0%;
+                    left: 0.0%;
+                    top: 0.0%;
+                }
+                .leaflet-container { font-size: 1rem; }
+            </style>
+        
+    
+                    <style>
+                        .foliumpopup {
+                            margin: auto;
+                        }
+                       .foliumpopup table{
+                            margin: auto;
+                        }
+                        .foliumpopup tr{
+                            text-align: left;
+                        }
+                        .foliumpopup th{
+                            padding: 2px; padding-right: 8px;
+                        }
+                    </style>
+            
+    
+                    <style>
+                        .foliumpopup {
+                            margin: auto;
+                        }
+                       .foliumpopup table{
+                            margin: auto;
+                        }
+                        .foliumpopup tr{
+                            text-align: left;
+                        }
+                        .foliumpopup th{
+                            padding: 2px; padding-right: 8px;
+                        }
+                    </style>
+            
+</head>
+<body>
+    
+    
+        <style>
+             .custom-popup {
+                 background-color: white;
+                 border: 1px solid gray;
+                 padding: 10px;
+                 font-size: 14px;
+                 border-radius: 5px;
+                 box-shadow: 2px 2px 5px rgba(0,0,0,0.3);
+                 max-height: 200px;
+                 max-width: 300px;
+                 overflow-y: auto;
+             }
+            
+             .leaflet-popup {
+                 bottom: 30px !important;
+             }
+            
+              #titleBox {
+                  position: fixed;
+                  top: 10px;                 /* Umístění nahoře */
+                  right: 10px;               /* Umístění vpravo */
+                  width: 300px;              /* Šířka panelu */
+                  padding: 10px;             /* Vnitřní odsazení */
+                  background-color: white;   /* Barva pozadí */
+                  border: 1px solid gray;    /* Barva a styl okraje */
+                  z-index: 1000;             /* Zajištění viditelnosti nad ostatními prvky */
+                  font-size: 18px;           /* Velikost písma */
+                  border-radius: 10px;       /* Zaoblené rohy */
+                  box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.5); /* Přidání stínu */
+              }
+            
+              #infoBox {
+                  position: fixed;
+                  top: 70px;                 /* Umístění nahoře */
+                  right: 10px;               /* Umístění vpravo */
+                  width: 300px;              /* Šířka panelu */
+                  padding: 10px;             /* Vnitřní odsazení */
+                  background-color: white;   /* Barva pozadí */
+                  border: 1px solid gray;    /* Barva a styl okraje */
+                  z-index: 1000;             /* Zajištění viditelnosti nad ostatními prvky */
+                  font-size: 14px;           /* Velikost písma */
+                  border-radius: 10px;       /* Zaoblené rohy */
+                  box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.5); /* Přidání stínu */
+              }     
+        </style>
+        
+    
+           <script>
+               document.addEventListener("DOMContentLoaded", function() {
+                   window.map.on("popupopen", function (e) {
+                       var popup = e.popup._container;
+                       if (popup) {
+                           popup.style.bottom = "30px";
+                       }
+                   });
+               });
+           </script>
+           
+    
+            <div id="titleBox">
+               <strong>LKTSA81, 82</strong>
+            </div>
+            
+    
+        <div id="infoBox">
+          <b>Airspace Details</b><br>
+          Hover over an airspace...
+        </div>
+        
+    
+            <div class="folium-map" id="map_f07884bff03a3cdb2adf81357e91bb6a" ></div>
+        
+</body>
+<script>
+    
+    
+            var map_f07884bff03a3cdb2adf81357e91bb6a = L.map(
+                "map_f07884bff03a3cdb2adf81357e91bb6a",
+                {
+                    center: [50.0, 15.0],
+                    crs: L.CRS.EPSG3857,
+                    ...{
+  "zoom": 8,
+  "zoomControl": true,
+  "preferCanvas": false,
+}
+
+                }
+            );
+
+            
+
+        
+    
+            var tile_layer_c8d7ac957f24cf1e2c629ed7c34f7fb2 = L.tileLayer(
+                "https://tile.openstreetmap.org/{z}/{x}/{y}.png",
+                {
+  "minZoom": 0,
+  "maxZoom": 19,
+  "maxNativeZoom": 19,
+  "noWrap": false,
+  "attribution": "\u0026copy; \u003ca href=\"https://www.openstreetmap.org/copyright\"\u003eOpenStreetMap\u003c/a\u003e contributors",
+  "subdomains": "abc",
+  "detectRetina": false,
+  "tms": false,
+  "opacity": 1,
+}
+
+            );
+        
+    
+            tile_layer_c8d7ac957f24cf1e2c629ed7c34f7fb2.addTo(map_f07884bff03a3cdb2adf81357e91bb6a);
+        
+    
+        function geo_json_8ad69ce0690b4f3d5f1a29ec267b14fc_styler(feature) {
+            switch(feature.properties.popup) {
+                default:
+                    return {"color": "orange", "fillColor": "orange", "fillOpacity": 0.4, "weight": 2};
+            }
+        }
+        function geo_json_8ad69ce0690b4f3d5f1a29ec267b14fc_highlighter(feature) {
+            switch(feature.properties.popup) {
+                default:
+                    return {"color": "yellow", "fillColor": "yellow", "fillOpacity": 0.7, "weight": 3};
+            }
+        }
+
+        function geo_json_8ad69ce0690b4f3d5f1a29ec267b14fc_onEachFeature(feature, layer) {
+            layer.on({
+                mouseout: function(e) {
+                    if(typeof e.target.setStyle === "function"){
+                            geo_json_8ad69ce0690b4f3d5f1a29ec267b14fc.resetStyle(e.target);
+                    }
+                },
+                mouseover: function(e) {
+                    if(typeof e.target.setStyle === "function"){
+                        const highlightStyle = geo_json_8ad69ce0690b4f3d5f1a29ec267b14fc_highlighter(e.target.feature)
+                        e.target.setStyle(highlightStyle);
+                    }
+                },
+            });
+        };
+        var geo_json_8ad69ce0690b4f3d5f1a29ec267b14fc = L.geoJson(null, {
+                onEachFeature: geo_json_8ad69ce0690b4f3d5f1a29ec267b14fc_onEachFeature,
+            
+                style: geo_json_8ad69ce0690b4f3d5f1a29ec267b14fc_styler,
+            ...{
+}
+        });
+
+        function geo_json_8ad69ce0690b4f3d5f1a29ec267b14fc_add (data) {
+            geo_json_8ad69ce0690b4f3d5f1a29ec267b14fc
+                .addData(data);
+        }
+            geo_json_8ad69ce0690b4f3d5f1a29ec267b14fc_add({"features": [{"geometry": {"coordinates": [[[14.059167, 49.349722], [14.135, 49.319444], [14.164722, 49.349167], [14.140556, 49.363889], [14.116389, 49.416111], [14.043889, 49.411944], [14.058889, 49.3675], [14.059167, 49.349722]]], "type": "Polygon"}, "properties": {"airspace_class": "R", "defaultColor": "orange", "popup": "Name: \u003cb\u003eLKTSA82 PISEK 126.100\u003c/b\u003e\u003cbr\u003eClass: \u003cb\u003eR\u003c/b\u003e\u003cbr\u003eFrequencies: \u003cb\u003e126.100\u003c/b\u003e\u003cbr\u003eStation: \u003cb\u003ePraha Information (W)\u003c/b\u003e\u003cbr\u003eUpper Limit: \u003cb\u003eFL 95\u003c/b\u003e\u003cbr\u003eLower Limit: \u003cb\u003e0 AGL\u003c/b\u003e\u003cbr\u003eArea: \u003cb\u003e54.92 km\u00b2\u003c/b\u003e\u003cbr\u003e"}, "type": "Feature"}], "type": "FeatureCollection"});
+
+        
+    
+    geo_json_8ad69ce0690b4f3d5f1a29ec267b14fc.bindPopup(
+    function(layer){
+    let div = L.DomUtil.create('div');
+    
+    let handleObject = feature=>typeof(feature)=='object' ? JSON.stringify(feature) : feature;
+    let fields = ["popup"];
+    let aliases = ["popup"];
+    let table = '<table>' +
+        String(
+        fields.map(
+        (v,i)=>
+        `<tr>
+            <td>${handleObject(layer.feature.properties[v]).toLocaleString()}</td>
+        </tr>`).join(''))
+    +'</table>';
+    div.innerHTML=table;
+    
+    return div
+    }
+    ,{
+  "popupOptions": {
+  "maxWidth": "300",
+  "className": "custom-popup",
+},
+  "className": "foliumpopup",
+});
+                     
+    
+        function onEachFeature(feature, layer) {
+            layer.on('mouseover', function(e) {
+                document.getElementById('infoBox').innerHTML = feature.properties.popup;
+                layer.setStyle({
+                    fillColor: 'yellow',
+                    color: 'yellow',
+                    fillOpacity: 0.7,
+                    weight: 3
+                });
+            });
+            layer.on('mouseout', function(e) {
+                document.getElementById('infoBox').innerHTML = "Hover over an airspace...";
+                layer.setStyle({
+                    fillColor: feature.properties.defaultColor,
+                    color: feature.properties.defaultColor,
+                    fillOpacity: 0.4,
+                    weight: 2
+                });
+            });
+        }
+        geo_json_8ad69ce0690b4f3d5f1a29ec267b14fc.eachLayer(function(layer) {
+            if(layer.feature){
+                onEachFeature(layer.feature, layer);
+            }
+        });
+        
+    
+            geo_json_8ad69ce0690b4f3d5f1a29ec267b14fc.addTo(map_f07884bff03a3cdb2adf81357e91bb6a);
+        
+    
+        function geo_json_6573e5c4930425eb0ab15ebe3dfd008b_styler(feature) {
+            switch(feature.properties.popup) {
+                default:
+                    return {"color": "orange", "fillColor": "orange", "fillOpacity": 0.4, "weight": 2};
+            }
+        }
+        function geo_json_6573e5c4930425eb0ab15ebe3dfd008b_highlighter(feature) {
+            switch(feature.properties.popup) {
+                default:
+                    return {"color": "yellow", "fillColor": "yellow", "fillOpacity": 0.7, "weight": 3};
+            }
+        }
+
+        function geo_json_6573e5c4930425eb0ab15ebe3dfd008b_onEachFeature(feature, layer) {
+            layer.on({
+                mouseout: function(e) {
+                    if(typeof e.target.setStyle === "function"){
+                            geo_json_6573e5c4930425eb0ab15ebe3dfd008b.resetStyle(e.target);
+                    }
+                },
+                mouseover: function(e) {
+                    if(typeof e.target.setStyle === "function"){
+                        const highlightStyle = geo_json_6573e5c4930425eb0ab15ebe3dfd008b_highlighter(e.target.feature)
+                        e.target.setStyle(highlightStyle);
+                    }
+                },
+            });
+        };
+        var geo_json_6573e5c4930425eb0ab15ebe3dfd008b = L.geoJson(null, {
+                onEachFeature: geo_json_6573e5c4930425eb0ab15ebe3dfd008b_onEachFeature,
+            
+                style: geo_json_6573e5c4930425eb0ab15ebe3dfd008b_styler,
+            ...{
+}
+        });
+
+        function geo_json_6573e5c4930425eb0ab15ebe3dfd008b_add (data) {
+            geo_json_6573e5c4930425eb0ab15ebe3dfd008b
+                .addData(data);
+        }
+            geo_json_6573e5c4930425eb0ab15ebe3dfd008b_add({"features": [{"geometry": {"coordinates": [[[14.058889, 49.3675], [14.059167, 49.349722], [14.135, 49.319444], [14.164722, 49.349167], [14.140556, 49.363889], [14.058889, 49.3675]]], "type": "Polygon"}, "properties": {"airspace_class": "R", "defaultColor": "orange", "popup": "Name: \u003cb\u003eLKTSA81 PISEK 126.100\u003c/b\u003e\u003cbr\u003eClass: \u003cb\u003eR\u003c/b\u003e\u003cbr\u003eFrequencies: \u003cb\u003e126.100\u003c/b\u003e\u003cbr\u003eStation: \u003cb\u003ePraha Information (W)\u003c/b\u003e\u003cbr\u003eUpper Limit: \u003cb\u003e1000 AGL\u003c/b\u003e\u003cbr\u003eLower Limit: \u003cb\u003e0 AGL\u003c/b\u003e\u003cbr\u003eArea: \u003cb\u003e24.81 km\u00b2\u003c/b\u003e\u003cbr\u003e"}, "type": "Feature"}], "type": "FeatureCollection"});
+
+        
+    
+    geo_json_6573e5c4930425eb0ab15ebe3dfd008b.bindPopup(
+    function(layer){
+    let div = L.DomUtil.create('div');
+    
+    let handleObject = feature=>typeof(feature)=='object' ? JSON.stringify(feature) : feature;
+    let fields = ["popup"];
+    let aliases = ["popup"];
+    let table = '<table>' +
+        String(
+        fields.map(
+        (v,i)=>
+        `<tr>
+            <td>${handleObject(layer.feature.properties[v]).toLocaleString()}</td>
+        </tr>`).join(''))
+    +'</table>';
+    div.innerHTML=table;
+    
+    return div
+    }
+    ,{
+  "popupOptions": {
+  "maxWidth": "300",
+  "className": "custom-popup",
+},
+  "className": "foliumpopup",
+});
+                     
+    
+        function onEachFeature(feature, layer) {
+            layer.on('mouseover', function(e) {
+                document.getElementById('infoBox').innerHTML = feature.properties.popup;
+                layer.setStyle({
+                    fillColor: 'yellow',
+                    color: 'yellow',
+                    fillOpacity: 0.7,
+                    weight: 3
+                });
+            });
+            layer.on('mouseout', function(e) {
+                document.getElementById('infoBox').innerHTML = "Hover over an airspace...";
+                layer.setStyle({
+                    fillColor: feature.properties.defaultColor,
+                    color: feature.properties.defaultColor,
+                    fillOpacity: 0.4,
+                    weight: 2
+                });
+            });
+        }
+        geo_json_6573e5c4930425eb0ab15ebe3dfd008b.eachLayer(function(layer) {
+            if(layer.feature){
+                onEachFeature(layer.feature, layer);
+            }
+        });
+        
+    
+            geo_json_6573e5c4930425eb0ab15ebe3dfd008b.addTo(map_f07884bff03a3cdb2adf81357e91bb6a);
+        
+    
+            map_f07884bff03a3cdb2adf81357e91bb6a.fitBounds(
+                [[49.319444, 14.043889], [49.416111, 14.164722]],
+                {}
+            );
+        
+</script>
+</html>

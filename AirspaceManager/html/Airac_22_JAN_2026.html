@@ -1,0 +1,634 @@
+<!DOCTYPE html>
+<html>
+<head>
+    
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    
+        <script>
+            L_NO_TOUCH = false;
+            L_DISABLE_3D = false;
+        </script>
+    
+    <style>html, body {width: 100%;height: 100%;margin: 0;padding: 0;}</style>
+    <style>#map {position:absolute;top:0;bottom:0;right:0;left:0;}</style>
+    <script src="https://cdn.jsdelivr.net/npm/leaflet@1.9.3/dist/leaflet.js"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.2/leaflet.awesome-markers.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet@1.9.3/dist/leaflet.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap-glyphicons.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.2.0/css/all.min.css"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.2/leaflet.awesome-markers.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/python-visualization/folium/folium/templates/leaflet.awesome.rotate.min.css"/>
+    
+            <meta name="viewport" content="width=device-width,
+                initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+            <style>
+                #map_8215458697a26ee9a41d0e1f9ecc6f1f {
+                    position: relative;
+                    width: 100.0%;
+                    height: 100.0%;
+                    left: 0.0%;
+                    top: 0.0%;
+                }
+                .leaflet-container { font-size: 1rem; }
+            </style>
+        
+    
+                    <style>
+                        .foliumpopup {
+                            margin: auto;
+                        }
+                       .foliumpopup table{
+                            margin: auto;
+                        }
+                        .foliumpopup tr{
+                            text-align: left;
+                        }
+                        .foliumpopup th{
+                            padding: 2px; padding-right: 8px;
+                        }
+                    </style>
+            
+    
+                    <style>
+                        .foliumpopup {
+                            margin: auto;
+                        }
+                       .foliumpopup table{
+                            margin: auto;
+                        }
+                        .foliumpopup tr{
+                            text-align: left;
+                        }
+                        .foliumpopup th{
+                            padding: 2px; padding-right: 8px;
+                        }
+                    </style>
+            
+    
+                    <style>
+                        .foliumpopup {
+                            margin: auto;
+                        }
+                       .foliumpopup table{
+                            margin: auto;
+                        }
+                        .foliumpopup tr{
+                            text-align: left;
+                        }
+                        .foliumpopup th{
+                            padding: 2px; padding-right: 8px;
+                        }
+                    </style>
+            
+    
+                    <style>
+                        .foliumpopup {
+                            margin: auto;
+                        }
+                       .foliumpopup table{
+                            margin: auto;
+                        }
+                        .foliumpopup tr{
+                            text-align: left;
+                        }
+                        .foliumpopup th{
+                            padding: 2px; padding-right: 8px;
+                        }
+                    </style>
+            
+</head>
+<body>
+    
+    
+        <style>
+             .custom-popup {
+                 background-color: white;
+                 border: 1px solid gray;
+                 padding: 10px;
+                 font-size: 14px;
+                 border-radius: 5px;
+                 box-shadow: 2px 2px 5px rgba(0,0,0,0.3);
+                 max-height: 200px;
+                 max-width: 300px;
+                 overflow-y: auto;
+             }
+            
+             .leaflet-popup {
+                 bottom: 30px !important;
+             }
+            
+              #titleBox {
+                  position: fixed;
+                  top: 10px;                 /* Umístění nahoře */
+                  right: 10px;               /* Umístění vpravo */
+                  width: 300px;              /* Šířka panelu */
+                  padding: 10px;             /* Vnitřní odsazení */
+                  background-color: white;   /* Barva pozadí */
+                  border: 1px solid gray;    /* Barva a styl okraje */
+                  z-index: 1000;             /* Zajištění viditelnosti nad ostatními prvky */
+                  font-size: 18px;           /* Velikost písma */
+                  border-radius: 10px;       /* Zaoblené rohy */
+                  box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.5); /* Přidání stínu */
+              }
+            
+              #infoBox {
+                  position: fixed;
+                  top: 70px;                 /* Umístění nahoře */
+                  right: 10px;               /* Umístění vpravo */
+                  width: 300px;              /* Šířka panelu */
+                  padding: 10px;             /* Vnitřní odsazení */
+                  background-color: white;   /* Barva pozadí */
+                  border: 1px solid gray;    /* Barva a styl okraje */
+                  z-index: 1000;             /* Zajištění viditelnosti nad ostatními prvky */
+                  font-size: 14px;           /* Velikost písma */
+                  border-radius: 10px;       /* Zaoblené rohy */
+                  box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.5); /* Přidání stínu */
+              }     
+        </style>
+        
+    
+           <script>
+               document.addEventListener("DOMContentLoaded", function() {
+                   window.map.on("popupopen", function (e) {
+                       var popup = e.popup._container;
+                       if (popup) {
+                           popup.style.bottom = "30px";
+                       }
+                   });
+               });
+           </script>
+           
+    
+            <div id="titleBox">
+               <strong>Airac 22 JAN 2026</strong>
+            </div>
+            
+    
+        <div id="infoBox">
+          <b>Airspace Details</b><br>
+          Hover over an airspace...
+        </div>
+        
+    
+            <div class="folium-map" id="map_8215458697a26ee9a41d0e1f9ecc6f1f" ></div>
+        
+</body>
+<script>
+    
+    
+            var map_8215458697a26ee9a41d0e1f9ecc6f1f = L.map(
+                "map_8215458697a26ee9a41d0e1f9ecc6f1f",
+                {
+                    center: [50.0, 15.0],
+                    crs: L.CRS.EPSG3857,
+                    ...{
+  "zoom": 8,
+  "zoomControl": true,
+  "preferCanvas": false,
+}
+
+                }
+            );
+
+            
+
+        
+    
+            var tile_layer_3861044145b9fee4c00d77ec8b2164d8 = L.tileLayer(
+                "https://tile.openstreetmap.org/{z}/{x}/{y}.png",
+                {
+  "minZoom": 0,
+  "maxZoom": 19,
+  "maxNativeZoom": 19,
+  "noWrap": false,
+  "attribution": "\u0026copy; \u003ca href=\"https://www.openstreetmap.org/copyright\"\u003eOpenStreetMap\u003c/a\u003e contributors",
+  "subdomains": "abc",
+  "detectRetina": false,
+  "tms": false,
+  "opacity": 1,
+}
+
+            );
+        
+    
+            tile_layer_3861044145b9fee4c00d77ec8b2164d8.addTo(map_8215458697a26ee9a41d0e1f9ecc6f1f);
+        
+    
+        function geo_json_1df95be14a1c583f13a3bf835cc927eb_styler(feature) {
+            switch(feature.properties.popup) {
+                default:
+                    return {"color": "orange", "fillColor": "orange", "fillOpacity": 0.4, "weight": 2};
+            }
+        }
+        function geo_json_1df95be14a1c583f13a3bf835cc927eb_highlighter(feature) {
+            switch(feature.properties.popup) {
+                default:
+                    return {"color": "yellow", "fillColor": "yellow", "fillOpacity": 0.7, "weight": 3};
+            }
+        }
+
+        function geo_json_1df95be14a1c583f13a3bf835cc927eb_onEachFeature(feature, layer) {
+            layer.on({
+                mouseout: function(e) {
+                    if(typeof e.target.setStyle === "function"){
+                            geo_json_1df95be14a1c583f13a3bf835cc927eb.resetStyle(e.target);
+                    }
+                },
+                mouseover: function(e) {
+                    if(typeof e.target.setStyle === "function"){
+                        const highlightStyle = geo_json_1df95be14a1c583f13a3bf835cc927eb_highlighter(e.target.feature)
+                        e.target.setStyle(highlightStyle);
+                    }
+                },
+            });
+        };
+        var geo_json_1df95be14a1c583f13a3bf835cc927eb = L.geoJson(null, {
+                onEachFeature: geo_json_1df95be14a1c583f13a3bf835cc927eb_onEachFeature,
+            
+                style: geo_json_1df95be14a1c583f13a3bf835cc927eb_styler,
+            ...{
+}
+        });
+
+        function geo_json_1df95be14a1c583f13a3bf835cc927eb_add (data) {
+            geo_json_1df95be14a1c583f13a3bf835cc927eb
+                .addData(data);
+        }
+            geo_json_1df95be14a1c583f13a3bf835cc927eb_add({"features": [{"geometry": {"coordinates": [[[12.715, 50.234444], [12.745278, 50.219167], [12.745278, 50.204167], [12.673056, 50.191111], [12.643611, 50.186111], [12.624167, 50.198056], [12.640833, 50.217778], [12.662222, 50.226667], [12.715, 50.234444]]], "type": "Polygon"}, "properties": {"airspace_class": "R", "defaultColor": "orange", "popup": "Name: \u003cb\u003eLKTSA86 SOKOLOV 126.100\u003c/b\u003e\u003cbr\u003eClass: \u003cb\u003eR\u003c/b\u003e\u003cbr\u003eFrequencies: \u003cb\u003e126.100\u003c/b\u003e\u003cbr\u003eStation: \u003cb\u003ePraha Information (W)\u003c/b\u003e\u003cbr\u003eUpper Limit: \u003cb\u003e2200 MSL\u003c/b\u003e\u003cbr\u003eLower Limit: \u003cb\u003e0 AGL\u003c/b\u003e\u003cbr\u003eArea: \u003cb\u003e29.30 km\u00b2\u003c/b\u003e\u003cbr\u003e"}, "type": "Feature"}], "type": "FeatureCollection"});
+
+        
+    
+    geo_json_1df95be14a1c583f13a3bf835cc927eb.bindPopup(
+    function(layer){
+    let div = L.DomUtil.create('div');
+    
+    let handleObject = feature=>typeof(feature)=='object' ? JSON.stringify(feature) : feature;
+    let fields = ["popup"];
+    let aliases = ["popup"];
+    let table = '<table>' +
+        String(
+        fields.map(
+        (v,i)=>
+        `<tr>
+            <td>${handleObject(layer.feature.properties[v]).toLocaleString()}</td>
+        </tr>`).join(''))
+    +'</table>';
+    div.innerHTML=table;
+    
+    return div
+    }
+    ,{
+  "popupOptions": {
+  "maxWidth": "300",
+  "className": "custom-popup",
+},
+  "className": "foliumpopup",
+});
+                     
+    
+        function onEachFeature(feature, layer) {
+            layer.on('mouseover', function(e) {
+                document.getElementById('infoBox').innerHTML = feature.properties.popup;
+                layer.setStyle({
+                    fillColor: 'yellow',
+                    color: 'yellow',
+                    fillOpacity: 0.7,
+                    weight: 3
+                });
+            });
+            layer.on('mouseout', function(e) {
+                document.getElementById('infoBox').innerHTML = "Hover over an airspace...";
+                layer.setStyle({
+                    fillColor: feature.properties.defaultColor,
+                    color: feature.properties.defaultColor,
+                    fillOpacity: 0.4,
+                    weight: 2
+                });
+            });
+        }
+        geo_json_1df95be14a1c583f13a3bf835cc927eb.eachLayer(function(layer) {
+            if(layer.feature){
+                onEachFeature(layer.feature, layer);
+            }
+        });
+        
+    
+            geo_json_1df95be14a1c583f13a3bf835cc927eb.addTo(map_8215458697a26ee9a41d0e1f9ecc6f1f);
+        
+    
+        function geo_json_30abb8765fd54dc2a86baff26ef04c09_styler(feature) {
+            switch(feature.properties.popup) {
+                default:
+                    return {"color": "orange", "fillColor": "orange", "fillOpacity": 0.4, "weight": 2};
+            }
+        }
+        function geo_json_30abb8765fd54dc2a86baff26ef04c09_highlighter(feature) {
+            switch(feature.properties.popup) {
+                default:
+                    return {"color": "yellow", "fillColor": "yellow", "fillOpacity": 0.7, "weight": 3};
+            }
+        }
+
+        function geo_json_30abb8765fd54dc2a86baff26ef04c09_onEachFeature(feature, layer) {
+            layer.on({
+                mouseout: function(e) {
+                    if(typeof e.target.setStyle === "function"){
+                            geo_json_30abb8765fd54dc2a86baff26ef04c09.resetStyle(e.target);
+                    }
+                },
+                mouseover: function(e) {
+                    if(typeof e.target.setStyle === "function"){
+                        const highlightStyle = geo_json_30abb8765fd54dc2a86baff26ef04c09_highlighter(e.target.feature)
+                        e.target.setStyle(highlightStyle);
+                    }
+                },
+            });
+        };
+        var geo_json_30abb8765fd54dc2a86baff26ef04c09 = L.geoJson(null, {
+                onEachFeature: geo_json_30abb8765fd54dc2a86baff26ef04c09_onEachFeature,
+            
+                style: geo_json_30abb8765fd54dc2a86baff26ef04c09_styler,
+            ...{
+}
+        });
+
+        function geo_json_30abb8765fd54dc2a86baff26ef04c09_add (data) {
+            geo_json_30abb8765fd54dc2a86baff26ef04c09
+                .addData(data);
+        }
+            geo_json_30abb8765fd54dc2a86baff26ef04c09_add({"features": [{"geometry": {"coordinates": [[[12.662222, 50.226667], [12.745278, 50.204167], [12.673056, 50.191111], [12.643611, 50.186111], [12.624167, 50.198056], [12.640833, 50.217778], [12.662222, 50.226667]]], "type": "Polygon"}, "properties": {"airspace_class": "R", "defaultColor": "orange", "popup": "Name: \u003cb\u003eLKTSA86A SOKOLOV 126.100\u003c/b\u003e\u003cbr\u003eClass: \u003cb\u003eR\u003c/b\u003e\u003cbr\u003eFrequencies: \u003cb\u003e126.100\u003c/b\u003e\u003cbr\u003eStation: \u003cb\u003ePraha Information (W)\u003c/b\u003e\u003cbr\u003eUpper Limit: \u003cb\u003e2200 MSL\u003c/b\u003e\u003cbr\u003eLower Limit: \u003cb\u003e0 AGL\u003c/b\u003e\u003cbr\u003eArea: \u003cb\u003e20.23 km\u00b2\u003c/b\u003e\u003cbr\u003e"}, "type": "Feature"}], "type": "FeatureCollection"});
+
+        
+    
+    geo_json_30abb8765fd54dc2a86baff26ef04c09.bindPopup(
+    function(layer){
+    let div = L.DomUtil.create('div');
+    
+    let handleObject = feature=>typeof(feature)=='object' ? JSON.stringify(feature) : feature;
+    let fields = ["popup"];
+    let aliases = ["popup"];
+    let table = '<table>' +
+        String(
+        fields.map(
+        (v,i)=>
+        `<tr>
+            <td>${handleObject(layer.feature.properties[v]).toLocaleString()}</td>
+        </tr>`).join(''))
+    +'</table>';
+    div.innerHTML=table;
+    
+    return div
+    }
+    ,{
+  "popupOptions": {
+  "maxWidth": "300",
+  "className": "custom-popup",
+},
+  "className": "foliumpopup",
+});
+                     
+    
+        function onEachFeature(feature, layer) {
+            layer.on('mouseover', function(e) {
+                document.getElementById('infoBox').innerHTML = feature.properties.popup;
+                layer.setStyle({
+                    fillColor: 'yellow',
+                    color: 'yellow',
+                    fillOpacity: 0.7,
+                    weight: 3
+                });
+            });
+            layer.on('mouseout', function(e) {
+                document.getElementById('infoBox').innerHTML = "Hover over an airspace...";
+                layer.setStyle({
+                    fillColor: feature.properties.defaultColor,
+                    color: feature.properties.defaultColor,
+                    fillOpacity: 0.4,
+                    weight: 2
+                });
+            });
+        }
+        geo_json_30abb8765fd54dc2a86baff26ef04c09.eachLayer(function(layer) {
+            if(layer.feature){
+                onEachFeature(layer.feature, layer);
+            }
+        });
+        
+    
+            geo_json_30abb8765fd54dc2a86baff26ef04c09.addTo(map_8215458697a26ee9a41d0e1f9ecc6f1f);
+        
+    
+        function geo_json_a7941499d02f0ea3673b682354576f73_styler(feature) {
+            switch(feature.properties.popup) {
+                default:
+                    return {"color": "orange", "fillColor": "orange", "fillOpacity": 0.4, "weight": 2};
+            }
+        }
+        function geo_json_a7941499d02f0ea3673b682354576f73_highlighter(feature) {
+            switch(feature.properties.popup) {
+                default:
+                    return {"color": "yellow", "fillColor": "yellow", "fillOpacity": 0.7, "weight": 3};
+            }
+        }
+
+        function geo_json_a7941499d02f0ea3673b682354576f73_onEachFeature(feature, layer) {
+            layer.on({
+                mouseout: function(e) {
+                    if(typeof e.target.setStyle === "function"){
+                            geo_json_a7941499d02f0ea3673b682354576f73.resetStyle(e.target);
+                    }
+                },
+                mouseover: function(e) {
+                    if(typeof e.target.setStyle === "function"){
+                        const highlightStyle = geo_json_a7941499d02f0ea3673b682354576f73_highlighter(e.target.feature)
+                        e.target.setStyle(highlightStyle);
+                    }
+                },
+            });
+        };
+        var geo_json_a7941499d02f0ea3673b682354576f73 = L.geoJson(null, {
+                onEachFeature: geo_json_a7941499d02f0ea3673b682354576f73_onEachFeature,
+            
+                style: geo_json_a7941499d02f0ea3673b682354576f73_styler,
+            ...{
+}
+        });
+
+        function geo_json_a7941499d02f0ea3673b682354576f73_add (data) {
+            geo_json_a7941499d02f0ea3673b682354576f73
+                .addData(data);
+        }
+            geo_json_a7941499d02f0ea3673b682354576f73_add({"features": [{"geometry": {"coordinates": [[[12.715, 50.234444], [12.745278, 50.219167], [12.745278, 50.204167], [12.662222, 50.226667], [12.715, 50.234444]]], "type": "Polygon"}, "properties": {"airspace_class": "R", "defaultColor": "orange", "popup": "Name: \u003cb\u003eLKTSA86B SOKOLOV 126.100\u003c/b\u003e\u003cbr\u003eClass: \u003cb\u003eR\u003c/b\u003e\u003cbr\u003eFrequencies: \u003cb\u003e126.100\u003c/b\u003e\u003cbr\u003eStation: \u003cb\u003ePraha Information (W)\u003c/b\u003e\u003cbr\u003eUpper Limit: \u003cb\u003e2200 MSL\u003c/b\u003e\u003cbr\u003eLower Limit: \u003cb\u003e0 AGL\u003c/b\u003e\u003cbr\u003eArea: \u003cb\u003e9.08 km\u00b2\u003c/b\u003e\u003cbr\u003e"}, "type": "Feature"}], "type": "FeatureCollection"});
+
+        
+    
+    geo_json_a7941499d02f0ea3673b682354576f73.bindPopup(
+    function(layer){
+    let div = L.DomUtil.create('div');
+    
+    let handleObject = feature=>typeof(feature)=='object' ? JSON.stringify(feature) : feature;
+    let fields = ["popup"];
+    let aliases = ["popup"];
+    let table = '<table>' +
+        String(
+        fields.map(
+        (v,i)=>
+        `<tr>
+            <td>${handleObject(layer.feature.properties[v]).toLocaleString()}</td>
+        </tr>`).join(''))
+    +'</table>';
+    div.innerHTML=table;
+    
+    return div
+    }
+    ,{
+  "popupOptions": {
+  "maxWidth": "300",
+  "className": "custom-popup",
+},
+  "className": "foliumpopup",
+});
+                     
+    
+        function onEachFeature(feature, layer) {
+            layer.on('mouseover', function(e) {
+                document.getElementById('infoBox').innerHTML = feature.properties.popup;
+                layer.setStyle({
+                    fillColor: 'yellow',
+                    color: 'yellow',
+                    fillOpacity: 0.7,
+                    weight: 3
+                });
+            });
+            layer.on('mouseout', function(e) {
+                document.getElementById('infoBox').innerHTML = "Hover over an airspace...";
+                layer.setStyle({
+                    fillColor: feature.properties.defaultColor,
+                    color: feature.properties.defaultColor,
+                    fillOpacity: 0.4,
+                    weight: 2
+                });
+            });
+        }
+        geo_json_a7941499d02f0ea3673b682354576f73.eachLayer(function(layer) {
+            if(layer.feature){
+                onEachFeature(layer.feature, layer);
+            }
+        });
+        
+    
+            geo_json_a7941499d02f0ea3673b682354576f73.addTo(map_8215458697a26ee9a41d0e1f9ecc6f1f);
+        
+    
+        function geo_json_fccd683b2d485ec57538b8fd4c4e9771_styler(feature) {
+            switch(feature.properties.popup) {
+                default:
+                    return {"color": "brown", "fillColor": "brown", "fillOpacity": 0.4, "weight": 2};
+            }
+        }
+        function geo_json_fccd683b2d485ec57538b8fd4c4e9771_highlighter(feature) {
+            switch(feature.properties.popup) {
+                default:
+                    return {"color": "yellow", "fillColor": "yellow", "fillOpacity": 0.7, "weight": 3};
+            }
+        }
+
+        function geo_json_fccd683b2d485ec57538b8fd4c4e9771_onEachFeature(feature, layer) {
+            layer.on({
+                mouseout: function(e) {
+                    if(typeof e.target.setStyle === "function"){
+                            geo_json_fccd683b2d485ec57538b8fd4c4e9771.resetStyle(e.target);
+                    }
+                },
+                mouseover: function(e) {
+                    if(typeof e.target.setStyle === "function"){
+                        const highlightStyle = geo_json_fccd683b2d485ec57538b8fd4c4e9771_highlighter(e.target.feature)
+                        e.target.setStyle(highlightStyle);
+                    }
+                },
+            });
+        };
+        var geo_json_fccd683b2d485ec57538b8fd4c4e9771 = L.geoJson(null, {
+                onEachFeature: geo_json_fccd683b2d485ec57538b8fd4c4e9771_onEachFeature,
+            
+                style: geo_json_fccd683b2d485ec57538b8fd4c4e9771_styler,
+            ...{
+}
+        });
+
+        function geo_json_fccd683b2d485ec57538b8fd4c4e9771_add (data) {
+            geo_json_fccd683b2d485ec57538b8fd4c4e9771
+                .addData(data);
+        }
+            geo_json_fccd683b2d485ec57538b8fd4c4e9771_add({"features": [{"geometry": {"coordinates": [[[16.905278, 49.054722], [16.9175, 49.061111], [16.945, 49.038611], [16.932778, 49.032222], [16.905278, 49.054722]]], "type": "Polygon"}, "properties": {"airspace_class": "Q", "defaultColor": "brown", "popup": "Name: \u003cb\u003eLKD15 DAMBORICE\u003c/b\u003e\u003cbr\u003eClass: \u003cb\u003eQ\u003c/b\u003e\u003cbr\u003eFrequencies: \u003cb\u003e136.175\u003c/b\u003e\u003cbr\u003eStation: \u003cb\u003ePraha Information (E)\u003c/b\u003e\u003cbr\u003eUpper Limit: \u003cb\u003e2000 MSL\u003c/b\u003e\u003cbr\u003eLower Limit: \u003cb\u003e0 AGL\u003c/b\u003e\u003cbr\u003eArea: \u003cb\u003e3.66 km\u00b2\u003c/b\u003e\u003cbr\u003e"}, "type": "Feature"}], "type": "FeatureCollection"});
+
+        
+    
+    geo_json_fccd683b2d485ec57538b8fd4c4e9771.bindPopup(
+    function(layer){
+    let div = L.DomUtil.create('div');
+    
+    let handleObject = feature=>typeof(feature)=='object' ? JSON.stringify(feature) : feature;
+    let fields = ["popup"];
+    let aliases = ["popup"];
+    let table = '<table>' +
+        String(
+        fields.map(
+        (v,i)=>
+        `<tr>
+            <td>${handleObject(layer.feature.properties[v]).toLocaleString()}</td>
+        </tr>`).join(''))
+    +'</table>';
+    div.innerHTML=table;
+    
+    return div
+    }
+    ,{
+  "popupOptions": {
+  "maxWidth": "300",
+  "className": "custom-popup",
+},
+  "className": "foliumpopup",
+});
+                     
+    
+        function onEachFeature(feature, layer) {
+            layer.on('mouseover', function(e) {
+                document.getElementById('infoBox').innerHTML = feature.properties.popup;
+                layer.setStyle({
+                    fillColor: 'yellow',
+                    color: 'yellow',
+                    fillOpacity: 0.7,
+                    weight: 3
+                });
+            });
+            layer.on('mouseout', function(e) {
+                document.getElementById('infoBox').innerHTML = "Hover over an airspace...";
+                layer.setStyle({
+                    fillColor: feature.properties.defaultColor,
+                    color: feature.properties.defaultColor,
+                    fillOpacity: 0.4,
+                    weight: 2
+                });
+            });
+        }
+        geo_json_fccd683b2d485ec57538b8fd4c4e9771.eachLayer(function(layer) {
+            if(layer.feature){
+                onEachFeature(layer.feature, layer);
+            }
+        });
+        
+    
+            geo_json_fccd683b2d485ec57538b8fd4c4e9771.addTo(map_8215458697a26ee9a41d0e1f9ecc6f1f);
+        
+    
+            map_8215458697a26ee9a41d0e1f9ecc6f1f.fitBounds(
+                [[49.032222, 12.624167], [50.234444, 16.945]],
+                {}
+            );
+        
+</script>
+</html>
