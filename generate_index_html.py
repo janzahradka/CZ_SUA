@@ -19,7 +19,9 @@ def extract_date_from_name(name: str) -> datetime:
     :return: Nalezené datum jako objekt datetime.date nebo None, pokud nenalezeno
     """
     # Regulární výraz pro formát yy-mm-dd
-    match = re.search(r"\b(\d{2}-\d{2}-\d{2})\b", name)
+    # Nepoužívej \b (word boundary), protože "_" je "word char" a vzor by pak
+    # nefungoval pro názvy jako "CZ_low_26-03-19.txt".
+    match = re.search(r"(\d{2}-\d{2}-\d{2})", name)
 
     if match:
         date_str = match.group(1)  # Extrahovaný textový řetězec s datem
@@ -36,7 +38,7 @@ def extract_last_changes(content_root_directory, relative_path_from_content_root
     readme_path = os.path.join(content_root_directory, relative_path_from_content_root, "ReadMe.md")
 
     if not os.path.exists(readme_path):
-        return ""
+        return "", None
 
     # Pokus o robustní otevření souboru, detekce kódování
     try:
@@ -54,7 +56,7 @@ def extract_last_changes(content_root_directory, relative_path_from_content_root
             break
 
     if changes_start is None:
-        return ""
+        return "", None
 
     # Najdi poslední záznam změn
     changes = []
@@ -72,7 +74,7 @@ def extract_last_changes(content_root_directory, relative_path_from_content_root
                 break
 
     if not changes:
-        return ""
+        return "", None
 
     changes_html = "<ul>"
     for change in changes:
@@ -80,7 +82,24 @@ def extract_last_changes(content_root_directory, relative_path_from_content_root
         changes_html += f"<li>{change.strip()}</li>"
     changes_html += "</ul>"
 
-    return changes_html
+    return changes_html, last_date
+
+
+def extract_effective_date_from_files(files):
+    """
+    Zkusí odhadnout 'effective date' podle názvů standardních souborů (CZ_low/CZ_low_plus_CE/CZ_all).
+    Vrací datetime.date nebo None.
+    """
+    if not files:
+        return None
+
+    dates = []
+    for file in files:
+        if re.match(r"^(CZ_low|CZ_low_plus_CE|CZ_all)_\d{2}-\d{2}-\d{2}.*\.txt$", file):
+            dt = extract_date_from_name(file)
+            if dt:
+                dates.append(dt)
+    return max(dates) if dates else None
 
 
 
@@ -333,11 +352,24 @@ footer a:hover { color: #01395f; text-decoration: underline; }
         {breadcrumb}
     </div>
 """
-    # Změny z README.md
-    changes_html = extract_last_changes(content_root_directory, relative_path_from_content_root=relative_path_from_content_root)
-    if changes_html:
+    # Změny z README.md + doplnění effective date z názvů souborů
+    changes_html, last_change_date = extract_last_changes(
+        content_root_directory,
+        relative_path_from_content_root=relative_path_from_content_root,
+    )
+
+    effective_date = None
+    if relative_path_from_content_root == "":
+        effective_date = extract_effective_date_from_files(files)
+
+    if effective_date or changes_html:
         html_content += "<h3>Last updates</h3>"
-        html_content += changes_html
+        if effective_date:
+            effective_str = effective_date.strftime("%d%b%y").upper()
+            html_content += f"<p><strong>Effective date:</strong> {effective_str}</p>"
+
+        if changes_html:
+            html_content += changes_html
 
     # Detekce speciálních souborů
     special_files = []

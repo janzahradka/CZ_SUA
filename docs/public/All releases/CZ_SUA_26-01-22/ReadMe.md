@@ -1,8 +1,5 @@
 
 ***** Changes History *****
-* 19MAR26 AIRAC 2/26 added: LKTSA83, LKTSA84, LKTSA85
-* 19MAR26 AIRAC 2/26 added: LKRMZ2 Vodochody
-* 19MAR26 AIRAC 2/26 modified:LKD4
 * 22JAN26 added: LKTSA86, LKTSA86A, LKTSA86B, LKD15
 * 30OCT25 LKTSA81, LKTSA82 added
 * 30OCT25 Pisek Notams (AKA TSA60) removed
