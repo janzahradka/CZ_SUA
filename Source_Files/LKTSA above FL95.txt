@@ -477,5 +477,13 @@ DP 50:09:53 N 17:26:23 E
 DP 50:15:11 N 17:26:43 E
 
 
+AC R
+AN LKTSA85 PISEK
+AL FL95
+AH FL135
+V X=49:20:22 N 14:06:50 E
+DC 5.5 *NM
+
+
 ***** LKAA TSA (Temporary Segregated Areas) above FL95 *****
 ************************************************************
