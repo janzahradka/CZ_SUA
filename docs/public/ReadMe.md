@@ -1,5 +1,6 @@
 
 ***** Changes History *****
+* 20MAR26 004046-26-701 NOOP added: LKR11 CHOTUSICE
 * 19MAR26 AIRAC 2/26 added: LKTSA83, LKTSA84, LKTSA85
 * 19MAR26 AIRAC 2/26 added: LKRMZ2 Vodochody
 * 19MAR26 AIRAC 2/26 modified:LKD4
@@ -113,5 +114,3 @@ B, C); change of remarks for LKTSA1, LKTSA3, LKTSA4, LKTRA37, LKTRA57; new airsp
 * CZ_low contains export of CZ SUA airspaces up to FL95*
 * CZ_all contains export of all CZ SUA*
 * CZ_low_plus_CE contains export of all CZ SUA combined surrounding DE, AT, SK, PL Airpace
-
-*File CZ_CE.cub contains export of CZ SUA airspaces. Actual files of surrounding countries from openflightmaps.org were used.
