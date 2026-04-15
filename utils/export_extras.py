@@ -85,7 +85,7 @@ def export(version, label, filenames, path):
 #     'extra files/Engine Test Area LKHB.txt'
 #     ]
 
-label = 'AZCup2026'
+label = 'AZcup2026'
 file_set = [
     'DROPZONES.txt',
     'LKCTR.txt',
