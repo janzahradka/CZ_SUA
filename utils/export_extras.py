@@ -1,7 +1,7 @@
-from AirspaceManager.renderer import Renderer
-from AirspaceManager.controller import airspace_from_openair, split_openair_blocks
 import os
 import shutil
+
+from export_workflow import generate_html_maps, prompt_yes_no, publish_directory_to_docs
 
 
 def export(version, label, filenames, path):
@@ -13,48 +13,6 @@ def export(version, label, filenames, path):
                 for line in infile:
                     outfile.write(line)
     return export_file_path
-
-
-def generate_html_maps(export_files, export_path):
-    """
-    Vytvoří HTML mapy pro exportované OpenAir soubory a uloží je do složky html.
-    """
-    print("Generating HTML maps for exported files...")
-
-    html_dir = os.path.join(export_path, "html")
-    if not os.path.exists(html_dir):
-        os.makedirs(html_dir)
-
-    for export_file in export_files:
-        try:
-            with open(export_file, 'r', encoding='utf-8') as f:
-                airspace_data = f.read()
-
-            airspaces = []
-            blocks = split_openair_blocks(airspace_data)
-            for block in blocks:
-                block = block.strip()
-                if not block:
-                    continue
-                try:
-                    airspace_obj = airspace_from_openair(block)
-                    airspaces.append(airspace_obj)
-                except Exception as e:
-                    print(f"Skipping invalid block: {e}")
-
-            if not airspaces:
-                print(f"No valid airspaces found in {export_file}, map skipped.")
-                continue
-
-            map_title = os.path.splitext(os.path.basename(export_file))[0]
-            map_filename = f"{map_title}.html"
-
-            renderer = Renderer(airspaces)
-            renderer.render_map(title=map_title, filename=map_filename, output_dir=html_dir)
-
-            print(f"Map '{map_filename}' generated successfully.")
-        except Exception as e:
-            print(f"Error generating map for {export_file}: {e}")
 
 
 # label = 'WWGC2025'
@@ -152,8 +110,17 @@ file_set = [
 version = '-v1'
 export_path = f'../Export/{label}{version}/'
 
+# Cílová podsložka v docs/public. Příklady:
+# "Competitions/AZ cup", "Competitions/PMRG", "Specials/2025 SAR MEET"
+docs_relative_dir = 'Competitions/AZ cup'
+
 if os.path.exists(export_path):
     shutil.rmtree(export_path)
 os.mkdir(export_path)
 export_file = export(version, label, file_set, export_path)
 generate_html_maps([export_file], export_path)
+
+publish_target = f"{docs_relative_dir}/{label}{version}"
+if prompt_yes_no(f"Publikovat export do docs/public/{publish_target}?", default=False):
+    publish_directory_to_docs(export_path, docs_relative_dir)
+    print(f"Publikace dokoncena: docs/public/{publish_target}")

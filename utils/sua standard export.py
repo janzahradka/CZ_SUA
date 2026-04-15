@@ -1,10 +1,10 @@
-from AirspaceManager.renderer import Renderer
-from AirspaceManager.controller import airspace_from_openair, split_openair_blocks
 import os
 import re
 import shutil
 import chardet
 from datetime import datetime
+
+from export_workflow import generate_html_maps, prompt_yes_no, publish_standard_release
 
 
 
@@ -128,56 +128,6 @@ def export(effective, label, filenames, path):
             except Exception as e:
                 print(f"Error reading file '{file_path}' with encoding '{encoding}': {e}")
     return export_file_path  # Vrací cestu k výslednému exportnímu souboru
-
-
-def generate_html_maps(export_files, export_path):
-    """
-    Vytvoří HTML mapy pro každý exportní soubor a uloží je do exportního adresáře.
-
-    :param export_files: Seznam cest k exportním souborům.
-    :param export_path: Cesta do exportní složky.
-    """
-    print("Generating HTML maps for exported files...")
-
-    # Adresář pro ukládání HTML map
-    html_dir = os.path.join(export_path, "html")
-    if not os.path.exists(html_dir):
-        os.makedirs(html_dir)  # Pokud složka neexistuje, vytvoříme ji
-
-    for export_file in export_files:
-        try:
-            with open(export_file, 'r', encoding='utf-8') as f:
-                airspace_data = f.read()
-
-            # Zpracování bloků do Airspace objektů
-            airspaces = []
-            blocks = split_openair_blocks(airspace_data)
-            for block in blocks:
-                block = block.strip()
-                if block:
-                    try:
-                        airspace_obj = airspace_from_openair(block)
-                        airspaces.append(airspace_obj)
-                    except Exception as e:
-                        print(f"Skipping invalid block: {e}")
-
-            if not airspaces:
-                print(f"No valid airspaces found in {export_file}, map skipped.")
-                continue
-
-            # Název HTML souboru
-            map_title = os.path.splitext(os.path.basename(export_file))[0]  # Název souboru bez přípony
-            map_filename = f"{map_title}.html"
-
-            # Generování mapy pomocí Renderer
-            renderer = Renderer(airspaces)
-            renderer.render_map(title=map_title, filename=map_filename, output_dir=html_dir)
-
-            print(f"Map '{map_filename}' generated successfully.")
-        except Exception as e:
-            print(f"Error generating map for {export_file}: {e}")
-
-
 def get_effective_date(file_path):
     try:
         # Otevřít soubor a přečíst obsah
@@ -236,4 +186,8 @@ if __name__ == "__main__":
 
     # Generování HTML map pro všechny exportní soubory
     generate_html_maps(export_files, export_path)
+
+    if prompt_yes_no("Publikovat novy standardni release do docs/public?", default=False):
+        publish_standard_release(export_path)
+        print("Publikace dokoncena.")
 
