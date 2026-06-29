@@ -39,28 +39,28 @@ def export(version, label, filenames, path):
 #
 # version = '-v1'
 
-#
-# label = 'PPV2025'
-# file_set = [
-#     'DROPZONES.txt',
-#     'LKCTR.txt',
-#     'LKD.txt',
-#     'LKP.txt',
-#     'LKPGZ.txt',
-#     'LKR.txt',
-#     # 'LKR-NP.txt',
-#     'LKRMZ.txt',
-#     'LKTMA.txt',
-#     'extra files/LKTMA MTMA CASLAV PPV.txt',
-#     'LKTRA.txt',
-#     'LKTSA all seasons.txt',
-#     # 'LKTSA summer OFF.txt',
-#     'surrounding_AS.txt',
-#     'NOTAMS.txt',
-#     'models.txt',
-#     # 'extra files/competition_area.txt',
-#     'extra files/Engine Test Area LKHB.txt'
-#     ]
+
+label = 'PPV2026'
+file_set = [
+    'DROPZONES.txt',
+    'LKCTR.txt',
+    'LKD.txt',
+    'LKP.txt',
+    'LKPGZ.txt',
+    'LKR.txt',
+    # 'LKR-NP.txt',
+    'LKRMZ.txt',
+    'LKTMA.txt',
+    'extra files/LKTMA MTMA CASLAV PPV.txt',
+    'LKTRA.txt',
+    'LKTSA all seasons.txt',
+    # 'LKTSA summer OFF.txt',
+    'surrounding_AS.txt',
+    # 'NOTAMS.txt',
+    'models.txt',
+    # 'extra files/competition_area.txt',
+    'extra files/Engine Test Area LKHB.txt'
+    ]
 
 # label = 'PMRG2025'
 # file_set = [
@@ -85,27 +85,27 @@ def export(version, label, filenames, path):
 #     'extra files/Engine Test Area LKHB.txt'
 #     ]
 
-label = 'AZcup2026'
-file_set = [
-    'DROPZONES.txt',
-    'LKCTR.txt',
-    'LKD.txt',
-    'LKP.txt',
-    'LKPGZ.txt',
-    'LKR.txt',
-    # 'LKR-NP.txt',
-    'LKRMZ.txt',
-    'LKTMA.txt',
-    'extra files/AZ cup LKTMA.txt',
-    # 'extra files/AZ cup LKTRAGA.txt',
-    'LKTRA.txt',
-    'LKTSA all seasons.txt',
-    'LKTSA summer OFF.txt',
-    'surrounding_AS.txt',
-    'NOTAMS.txt',
-    'extra files/competition_area.txt',
-    'extra files/Engine Test Area LKZB.txt'
-]
+# label = 'AZcup2026'
+# file_set = [
+#     'DROPZONES.txt',
+#     'LKCTR.txt',
+#     'LKD.txt',
+#     'LKP.txt',
+#     'LKPGZ.txt',
+#     'LKR.txt',
+#     # 'LKR-NP.txt',
+#     'LKRMZ.txt',
+#     'LKTMA.txt',
+#     'extra files/AZ cup LKTMA.txt',
+#     # 'extra files/AZ cup LKTRAGA.txt',
+#     'LKTRA.txt',
+#     'LKTSA all seasons.txt',
+#     'LKTSA summer OFF.txt',
+#     'surrounding_AS.txt',
+#     'NOTAMS.txt',
+#     'extra files/competition_area.txt',
+#     'extra files/Engine Test Area LKZB.txt'
+# ]
 
 version = '-v1'
 export_path = f'../Export/{label}{version}/'
